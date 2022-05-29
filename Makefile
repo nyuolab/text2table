@@ -22,12 +22,11 @@ endif
 
 ## Install Python Dependencies
 requirements: test_environment
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Make Dataset
 data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
+	$(PYTHON_INTERPRETER) Text2Table/data/make_dataset.py data/raw data/processed
 
 ## Delete all compiled Python files
 clean:
@@ -36,7 +35,11 @@ clean:
 
 ## Lint using flake8
 lint:
-	flake8 src
+	flake8 Text2Table
+
+format:
+	isort Text2Table
+	autopep8 Text2Table --recursive --in-place --pep8-passes 2000
 
 ## Upload Data to S3
 sync_data_to_s3:
