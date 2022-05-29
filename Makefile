@@ -7,7 +7,7 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
-PROJECT_NAME = Text2Table
+PROJECT_NAME = text2table
 PYTHON_INTERPRETER = python3
 
 ifeq (,$(shell which conda))
@@ -26,7 +26,7 @@ requirements: test_environment
 
 ## Make Dataset
 data: requirements
-	$(PYTHON_INTERPRETER) Text2Table/data/make_dataset.py data/raw data/processed
+	$(PYTHON_INTERPRETER) text2Table/data/make_dataset.py data/raw data/processed
 
 ## Delete all compiled Python files
 clean:
@@ -35,11 +35,11 @@ clean:
 
 ## Lint using flake8
 lint:
-	flake8 Text2Table
+	flake8 text2table
 
 format:
-	isort Text2Table
-	autopep8 Text2Table --recursive --in-place --pep8-passes 2000
+	isort .
+	autopep8 text2table --recursive --in-place --pep8-passes 2000
 
 ## Upload Data to S3
 sync_data_to_s3:
