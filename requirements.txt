@@ -1,7 +1,21 @@
-# local package
+# Local package
 -e .
 
-# external requirements
+# ML packages
+--extra-index-url https://download.pytorch.org/whl/cu113
+torch
+torchvision
+torchaudio
+pytorch-lightning
+wandb
+matplotlib
+ipykernel
+
+# Linters and formatters
+autopep8
+isort
+
+# External requirements
 click
 Sphinx
 coverage
