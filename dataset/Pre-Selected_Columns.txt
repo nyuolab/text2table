@@ -1,0 +1,116 @@
+Target Columns (Output Categories for Text2Table Task)
+	Input text can be found in the same directory (Five sample patients data in the format of text) >>> Extracted from the 'NOTEEVNETS' Table
+
+
+>> MIMIC-III Dataset (26 Tables) ## Documentation can be accessed at: https://mimic.mit.edu/docs/iii/tutorials/intro-to-mimic-iii-bq/
+
+Dataset is arranged according to the following entries:
+
+- Individual Patient is represented with unique ‘Subject_ID’ (Unique Patient)
+
+- Individual Patient is admitted to specific hospital with unique “HADM_ID’
+	(single patient can be admitted to one hositpal mutiple times, given unique ID each time >> represents by duplicated ‘Subect_ID’ in one table’)
+
+- Individual Patient was admitted to specific ICU with unique “ICUSTAY_ID”
+	(same logic applies here >> admitted to one ICU multiple times, given unique ID each time)
+
+- ITEM_ID >> Specific Test taken in the hospital
+	(contains in LABEVENTS, INPUTEVENTS, OUTEVENTS, CHARTEVENTS)
+
+
+
+The following are pre-selected columns (as of 06/03/2022):
+
+##### BASIC INFORMATION #####
+
+1. DOB
+
+2. SEX
+
+3. ADMITTIME >> Adunimission Date
+
+4. DISCHTIME >> Discharge Date
+
+5. DEATHTIME >> Date of Death
+	DOD_HOSP >> Date of Death in Hospital
+	DOD_SSN >> Date of Death in Social Security Database
+	## Note: which date of death should be used among above 3?
+
+6. ADMISSION_TYPE >> type of admission
+
+7. EDREGTIME/EDOUTTIME >> Register/Discharge from the emergency department
+
+8. DISCHARGE_LOCATION >> location where the patient was discharged
+
+9. CREATETIME >> the time and date that the cell out was initiated
+
+10. UPDATETIME >> the last time at which the cell out event was updated
+
+
+##### ICU RELATED INFO #####
+
+11. ICU (TRANSFER & ICUSTAYS Tables): ICU Related information (4 Columns)
+	CURR_CAREUNIT >> the last care unit in which the patient was cared for
+	INTIME >> Time and data the patient was transformed into the current care unit
+	OUTTIME >> the data and time that the patient was transformed out of the current care unit
+	LOS >> the Length of Stay for the patient for the given ICU stay, which may include one or more ICU units. The length of stay is measured in fractional days
+
+
+##### TYPE OF SERVICE #####
+
+12. SERVICES: describes the service that a patient was admitted under (3 Columns)
+	PREV_SERVICE >> previous type of service that patient resides under
+	CURR_SERVICE >> current type of service that patient resides under
+	TRANSFERTIME >> the time at which the patient moved from previous service to current service
+
+
+##### ENTRENCE LAB TEST #####
+
+13. D_LABITEMS, LABEVENTS Tables: contains information regarding laboratory based measurements (6 Columns)
+	ITEMID >> unique id identifying lab measurements
+	VALUE, VALUENUM >> VALUE contains the value measured for the concept identified by the ITEMID. If this value is numeric, then VALUENUM contains the same data in a numeric format (different representation of the VALUE)
+	FLAG >> indicates whether the laboratory value is considered abnormal or not, using pre-defined thresholds
+	FLUID >> substance on which the measurement was made
+	CATEGORY >> higher level information as to the type of measurement
+
+
+##### TYPE OF TREATMENT #####
+
+14. CPT_CD >> contains the original CPT code, which is for billing for procedures
+
+15. CPT_SUFFIX >> contains the text suffix when the CPT_CD contains non-numeric characters
+
+16. ICD9_CODE >> contains the actual code corresponding to the diagnosis assigned to the patient
+
+17. SEQ_NUM >> provides the order in which the ICD diagnoses relate to the patient. ICD diagnoses are ordered by priority - and the order does have an impact on the reimbursement for treatment
+
+
+##### DRAGS #####
+
+18. DRG_TYPE >> provides the type of DRG code in the entry
+
+19. DRG_CODE >> contains a code which represents the diagnosis billed for by the hospital
+
+
+#### TESTS UNDER THE STAYS #####
+
+20. CHARTEVENTS: contains all the charted data available for a patient.
+	ITEMID >> Identifier for a single measurement type in the database (eg. heart-rate)
+	VALUE, VALUENUM >> VALUE contains the value measured for the concept identified by the ITEMID. If this value is numeric, then VALUENUM contains the same data in a numeric format (different representation of the VALUE)
+	CATEGORY >> the type of data the ITEMID corresponds to
+
+21. INPUTEVENTS:  Inputs are any fluids which have been administered to the patient
+	ITEMID >> Identifier for a single measurement type in the database
+	AMOUNT/AMONTUOM >> the amount of drug or substance administered to the patient
+	RATE/RATEUOM >> the rate at which the drug or substance was administered to the patient 
+	ORDERID >> links multiple items contained in the same solution together
+
+22. OUTPUTEVENTS: outputs are fluids which have either been excreted by the patient or extracted from the patient
+	VALUE, VALUENUM >>  the amount of drug or substance excrete from the patient
+
+	## Note: CHARTEVENTS, INPUTEVENTS, and OUTPUTEVENTS may contain duplicated information. Which one to use?
+
+
+
+TOTAL NUMBERS OF COLUMNS: 37 (including unsure columns)
+
