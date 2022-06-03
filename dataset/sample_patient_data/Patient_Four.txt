@@ -1,0 +1,939 @@
+################################Discharge summary################################
+
+Admission Date:  [**2155-6-6**]              Discharge Date:   [**2155-6-10**]
+
+Date of Birth:  [**2075-8-25**]             Sex:   M
+
+Service: CARDIOTHORACIC
+
+Allergies:
+Patient recorded as having No Known Allergies to Drugs
+
+Attending:[**First Name3 (LF) 922**]
+Chief Complaint:
+Dyspnea on exertion
+
+Major Surgical or Invasive Procedure:
+[**2155-6-6**] Coronary Artery Bypas Graft x 3 (Left internal mammary
+artery to left anterior descending, Saphenous vein graft to
+obtuse marginal, Saphenous vein graft to posterior descending
+artery)
+
+History of Present Illness:
+79 year old with known coronary artery disease and prior
+myocardial infarction who presents with increased dyspnea on
+exertion over last year. Recent stress test was positive and
+cardiac cath revealed severe three vessel coronary artery
+disease.
+
+Past Medical History:
+Coronary Artery Disease, history of Myocardial Infarction [**2124**]
+Hypertension
+Hyperlipidemia
+Chronic renal insufficiency
+Reactive airway disease
+Osteoarthritis
+Carotid Disease
+Benign Prosatic Hypertrophy
+Head Injury secondary to Motor vehicle accident
+
+Social History:
+Retired. 40 pack year smoking history. Denies alcohol use.
+
+Family History:
+Non-contributory
+
+Physical Exam:
+Vitals: 80 16 131/71
+General: Elderly male in no acute distress
+Skin: Warm, dry, +Vitiligo
+HEENT: Unremarkable
+Neck: Supple, full range of motion
+Chest: Clear to auscultation bilaterally
+Heart: Regular rate and rhythm with no murmurs
+Abd: Soft, non-tender, non-distended, +bowel sounds
+Ext: Warm, well-perfused, -edema
+Neuro: Grossly intact
+
+Pertinent Results:
+                      UreaN Creat    K
+[**2155-6-10**] 05:45AM      31* 1.7*   4.9
+
+[**6-6**] Echo: PRE-BYPASS: 1. No mass/thrombus is seen in the left
+atrium or left atrial appendage. 2. No atrial septal defect is
+seen by 2D or color Doppler. 3. There is mild regional
+anteroseptal, septal, inferoseptal, and apical wall hypokinesis,
+in the presence of global left ventricular hypokinesis (LVEF =
+40-45 %). 4. Right ventricular chamber size and free wall motion
+are normal. 5. The diameters of aorta at the sinus, ascending
+and arch levels are normal. 6. There are simple atheroma in the
+ascending aorta. There are simple atheroma in the aortic arch.
+There are complex (>4mm) atheroma in the descending thoracic
+aorta. 7. The aortic valve leaflets (3) appear structurally
+normal with good leaflet excursion and no aortic regurgitation.
+There is no aortic valve stenosis. The mitral valve leaflets are
+mildly thickened. Mild to moderate ([**2-14**]+) mitral regurgitation
+is seen. POST-BYPASS: 1. For the post-bypass study, the patient
+was receiving vasoactive infusions including phenylephrine. AV
+pacing initially. 2. Preserved biventricular systolic function
+from pre cpb. Inferior hypokinesis. LVEF is now 45%. 3. Aortic
+contour is normal post decannulation.
+
+Brief Hospital Course:
+Mr. [**Known lastname **]. [**Known lastname 17862**] was a same day admit after undergoing
+preoperative work-up prior to admission. On [**6-6**] he was brought
+to the operating room where he underwent a coronary artery
+bypass graft x 3. Please see operative report for surgical
+details. Following surgery he was transferred to the CVICU for
+invasive monitoring in stable condition. Within 24 hours he was
+weaned from sedation, awoke neurologically intact and extubated.
+On post-operative day one he was transferred to the telemetry
+floor for further care. He had a short run of atrial
+fibrillation which converted to sinus rhythm with beta blockers.
+Chest tubes and epicardial pacing wires were removed per
+protocol. He continued to slowly improve and worked with
+physical therapy for strength and mobility. Mr. [**Known lastname **]. [**Known lastname 17862**] did
+c/o difficulty swallowing- a speech and swallow consult and
+video swallow was done and no abnormality was detected. He had
+no further complaints of swallowing difficulty. On
+post-operative day #4 he was discharged to home with VNA.
+
+Medications on Admission:
+Simvastatin 40mg daily, Benicar 20mg daily, Aspirin 81mg daily,
+Metoprolol 25mg daily, Avodart 0.5mg daily, Advair 250/50mg [**Hospital1 **],
+Methotrexate 10 every sunday, Alendronate 70 every wekk,
+Calcium, Folate
+
+Discharge Medications:
+1. Docusate Sodium 100 mg Capsule Sig: One (1) Capsule PO BID (2
+times a day).
+2. Fluticasone-Salmeterol 250-50 mcg/Dose Disk with Device Sig:
+One (1) Disk with Device Inhalation [**Hospital1 **] (2 times a day).
+3. Aspirin 81 mg Tablet, Delayed Release (E.C.) Sig: One (1)
+Tablet, Delayed Release (E.C.) PO DAILY (Daily).
+4. Oxycodone-Acetaminophen 5-325 mg Tablet Sig: 1-2 Tablets PO
+Q4H (every 4 hours) as needed for pain.
+Disp:*65 Tablet(s)* Refills:*0*
+5. Simvastatin 40 mg Tablet Sig: One (1) Tablet PO DAILY
+(Daily).
+Disp:*30 Tablet(s)* Refills:*2*
+6. Avodart 0.5 mg Capsule Sig: One (1) Capsule PO daily ().
+7. Folic Acid 1 mg Tablet Sig: One (1) Tablet PO DAILY (Daily).
+
+8. Metoprolol Tartrate 25 mg Tablet Sig: One (1) Tablet PO BID
+(2 times a day).
+Disp:*60 Tablet(s)* Refills:*2*
+9. Furosemide 20 mg Tablet Sig: One (1) Tablet PO DAILY (Daily)
+for 7 days.
+Disp:*7 Tablet(s)* Refills:*0*
+10. Potassium Chloride 20 mEq Tab Sust.Rel. Particle/Crystal
+Sig: One (1) Tab Sust.Rel. Particle/Crystal PO DAILY (Daily) for
+7 days.
+Disp:*7 Tab Sust.Rel. Particle/Crystal(s)* Refills:*0*
+11. Amiodarone 200 mg Tablet Sig: Two (2) Tablet PO DAILY
+(Daily) for 7 days.
+Disp:*14 Tablet(s)* Refills:*0*
+12. Amiodarone 200 mg Tablet Sig: One (1) Tablet PO once a day:
+start on [**2155-6-18**].
+Disp:*30 Tablet(s)* Refills:*2*
+13. methotrexate
+
+
+Discharge Disposition:
+Home With Service
+
+Facility:
+Home Health and Hospice [**Location (un) 8117**], NH
+
+Discharge Diagnosis:
+Coronary Artery Disease
+Hypertension
+Hyperlipidemia
+Chronic renal insufficiency
+Reactive airway disease
+Osteoarthritis
+Carotid Disease
+Benign Prosatic Hypertrophy
+Head Injury secondary to Motor vehicle accident
+
+Discharge Condition:
+Good
+
+Discharge Instructions:
+Please shower daily including washing incisions, no baths or
+swimming
+Monitor wounds for infection - redness, drainage, or increased
+pain
+Report any fever greater than 101
+Report any weight gain of greater than 2 pounds in 24 hours or 5
+pounds in a week
+No creams, lotions, powders, or ointments to incisions
+No driving for approximately one month, and while taking
+narcotics
+No lifting more than 10 pounds for 10 weeks
+Please call with any questions or concerns [**Telephone/Fax (1) 170**]
+
+Followup Instructions:
+Dr. [**Last Name (STitle) 914**] in 2 weeks
+Dr. [**Last Name (STitle) 31087**] in [**2-14**] weeks
+Dr. [**Last Name (STitle) 82599**] in 2 weeks
+
+
+
+Completed by:[**2155-6-10**]
+
+
+################################Echo################################
+
+PATIENT/TEST INFORMATION:
+Indication: Abnormal ECG. Coronary artery disease. Left ventricular function. Intraop TEE for elective CABG.
+Height: (in) 61
+Weight (lb): 135
+BSA (m2): 1.60 m2
+BP (mm Hg): 123/55
+HR (bpm): 70
+Status: Inpatient
+Date/Time: [**2155-6-6**] at 13:26
+Test: TEE (Complete)
+Doppler: Full Doppler and color Doppler
+Contrast: None
+Technical Quality: Adequate
+
+
+INTERPRETATION:
+
+Findings:
+
+LEFT ATRIUM: No mass/thrombus in the [**Name Prefix (Prefixes) 4**] [**Last Name (Prefixes) 5**] LAA. Good (>20 cm/s) LAA ejection
+velocity.
+
+RIGHT ATRIUM/INTERATRIAL SEPTUM: Normal interatrial septum. No ASD by 2D or
+color Doppler.
+
+LEFT VENTRICLE: Mild global LV hypokinesis. Mildly depressed LVEF.
+
+RIGHT VENTRICLE: Normal RV chamber size and free wall motion. Paradoxic septal
+motion consistent with conduction abnormality/ventricular pacing.
+
+AORTA: Normal diameter of aorta at the sinus, ascending and arch levels.
+Simple atheroma in ascending aorta. Simple atheroma in aortic arch. Complex
+(>4mm) atheroma in the descending thoracic aorta.
+
+AORTIC VALVE: No AS. No AR.
+
+MITRAL VALVE: Mildly thickened mitral valve leaflets. Calcified tips of
+papillary muscles. No MS. Mild to moderate ([**2-14**]+) MR.
+
+TRICUSPID VALVE: Physiologic TR.
+
+PULMONIC VALVE/PULMONARY ARTERY: Physiologic (normal) PR.
+
+GENERAL COMMENTS: A TEE was performed in the location listed above. I certify
+I was present in compliance with HCFA regulations. The patient was under
+general anesthesia throughout the procedure. No TEE related complications.
+Houseofficer caring for the patient was notified of the results by e-mail. See
+Conclusions for post-bypass data The post-bypass study was performed while the
+patient was receiving vasoactive infusions (see Conclusions for listing of
+medications).
+
+Conclusions:
+PRE-BYPASS:
+1. No mass/thrombus is seen in the left atrium or left atrial appendage.
+2. No atrial septal defect is seen by 2D or color Doppler.
+3. There is mild regional anteroseptal, septal, inferoseptal, and apical wall
+hypokinesis, in the presence of global left ventricular hypokinesis (LVEF =
+40-45 %).
+4. Right ventricular chamber size and free wall motion are normal.
+5. The diameters of aorta at the sinus, ascending and arch levels are normal.
+6. There are simple atheroma in the ascending aorta. There are simple atheroma
+in the aortic arch. There are complex (>4mm) atheroma in the descending
+thoracic aorta.
+7. The aortic valve leaflets (3) appear structurally normal with good leaflet
+excursion and no aortic regurgitation. There is no aortic valve stenosis.
+The mitral valve leaflets are mildly thickened. Mild to moderate ([**2-14**]+) mitral
+regurgitation is seen.
+
+POST-BYPASS:
+
+1. For the post-bypass study, the patient was receiving vasoactive infusions
+including phenylephrine. AV pacing initially..
+2. Preserved biventricular systolic function from pre cpb. Inferior
+hypokinesis. LVEF is now 45%.
+3. Aortic contour is normal post decannulation.
+
+Attending surgeon notified of findings intraoperatively.
+
+
+
+
+
+################################ECG################################
+
+Sinus rhythm with premature atrial contractions.  Indeterminate frontal plane
+QRS axis.  Right bundle-branch block.  Generalized low QRS voltage.  Compared
+to the previous tracing of [**2155-5-27**] generalized low voltage is seen on the
+current tracing.  Clinical correlation is suggested.
+
+
+Sinus rhythm with atrial premature beat. Right bundle-branch block. Low limb
+lead QRS voltage is non-specific. Consider prior infero-posterior myocardial
+infarction. Clinical correlation is suggested. No previous tracing available
+for comparison.
+
+
+
+################################Nursing################################
+
+.H/O coronary artery bypass graft (CABG)
+   Assessment:
+   POD #1 from CABG, post op course uneventful. Pt extubated first noc
+   (2am)-off all drips- delined. Oob to chair
+CT d/c. 1 perocoet  given
+   for pt- pt tol well
+   Action:
+   [**Name (NI) **] pt. start pt on po Lopressor and lasix. Oob to chair-spirocare
+   .CT d/c
+   Response:
+   Pt tol po lopressor, diuresed well with lasix.
+   Plan:
+   Transfer pt to [**Hospital Ward Name **] 6 when bed avail. Progress diet and activity as
+   tol. PT to see pt POD #2.
+   Demographics
+   Attending MD:
+   [**Doctor Last Name 1106**] [**Doctor First Name 139**] C.
+   Admit diagnosis:
+   CORONARY ARTERY DISEASE CORONARY ARTERY BYPASS GRAFT /SDA
+   Code status:
+   Height:
+   61 Inch
+   Admission weight:
+   58.6 kg
+   Daily weight:
+   67.5 kg
+   Allergies/Reactions:
+   No Known Drug Allergies
+   Precautions:
+   PMH:
+   CV-PMH:
+   Additional history: htn,dyslipidemia,viteiligo,cri-baseline creat.  ~
+   1.7,rheumatoid arthritis,bph,reactive airway disease/copd,carotid
+   disease 50-68% [**Doctor First Name **] lesion,known cad-s/p mi [**2133**],now with increased
+   doe. + ett,cath->severe 3vd,ef 40%.hbA1c 5.9%
+   Surgery / Procedure and date: [**6-6**] c x 3 lima->lad,vg->om,pda
+   difficult arterial access->radial & femporal a lines. received prbc x 1
+   otherwise uneventful.vein from both legs used.
+   Latest Vital Signs and I/O
+   Non-invasive BP:
+   S:94
+   D:48
+   Temperature:
+   98.8
+   Arterial BP:
+   S:115
+   D:54
+   Respiratory rate:
+   18 insp/min
+   Heart Rate:
+   81 bpm
+   Heart rhythm:
+   SR (Sinus Rhythm)
+   O2 delivery device:
+   Nasal cannula
+   O2 saturation:
+   97% %
+   O2 flow:
+   2 L/min
+   FiO2 set:
+   35% %
+   24h total in:
+   548 mL
+   24h total out:
+   1,830 mL
+   Pacer Data
+   Temporary pacemaker type:
+   Epicardial Wires
+   Temporary pacemaker mode:
+   Atrial demand
+   Temporary pacemaker rate:
+   50 bpm
+   Temporary atrial sensitivity:
+   Yes
+   Temporary atrial sensitivity threshold:
+   0.7 mV
+   Temporary atrial sensitivity setting:
+   0.4 mV
+   Temporary atrial stimulation threshold :
+   10 mA
+   Temporary atrial stimulation setting:
+   14 mA
+   Temporary ventricular sensitivity:
+   Yes
+   Temporary ventricular sensitivity threshold:
+   6 mV
+   Temporary ventricular sensitivity setting:
+   3 mV
+   Temporary ventricular stimulation threshold :
+   3 mA
+   Temporary pacemaker wire condition:
+   Attached-Pacer
+   Temporary pacemaker wires atrial:
+   2
+   Temporary pacemaker wires ventricular:
+   2
+   Pertinent Lab Results:
+   Sodium:
+   139 mEq/L
+   [**2155-6-7**] 12:36 AM
+   Potassium:
+   3.5 mEq/L
+   [**2155-6-7**] 09:46 AM
+   Chloride:
+   110 mEq/L
+   [**2155-6-7**] 12:36 AM
+   CO2:
+   25 mEq/L
+   [**2155-6-7**] 12:36 AM
+   BUN:
+   16 mg/dL
+   [**2155-6-7**] 12:36 AM
+   Creatinine:
+   1.3 mg/dL
+   [**2155-6-7**] 12:36 AM
+   Glucose:
+   75 mg/dL
+   [**2155-6-7**] 09:46 AM
+   Hematocrit:
+   29.2 %
+   [**2155-6-7**] 12:36 AM
+   Finger Stick Glucose:
+   80
+   [**2155-6-7**] 12:00 PM
+   Valuables / Signature
+   Patient valuables:
+   Other valuables:
+   Clothes:  Sent home with:
+   Wallet / Money:
+   No money / wallet
+   Cash / Credit cards sent home with:
+   Jewelry:
+   Transferred from: [**Hospital **]
+   Transferred to: [**Wardname **]
+   Date & time of Transfer:  [**2155-6-7**]
+
+.H/O coronary artery bypass graft (CABG)  NEURO PT  ALERT SEEMS TO
+   UNDERSTAND MAE WAKING AND WEANING REMAINS INTUBATED
+   RESP VENTED WEANING ON CPAP/PEEP SMALL AMOUNT OF SPUTUM  CLEAR [**Hospital1 **] LAT
+   BREATH SOUNDS  TOL  CPT WELL
+   HEART S1S2 DISTANT TONES PULSES POS 3 THRU OUT  A/PACED TO NSR RATE OF
+   67 PR .18 QRS .08 QT WNL  VSS  EDEMA REMAINS 3 PLUS THRU OUT
+    GI POS B/S NO N/V SOFT NON DISTENDED  ABD N/G IN PLACE SCANT REMAINS
+     CHEST TUBES SCANT DRAINAGE NOTED
+      PLAN FOLLOW CARE PLAN
+   Assessment:
+   Action:
+   Response:
+   Plan:
+
+labile bp with brisk huo,low filling pressures treated with volume,neo
+   titration & a pacing with effect. Propofol off,shivering observed &
+   treated with Demerol with resolution. Remains lethargic,intermittently
+   following commands at this time. Hope to extubate when more
+   awake.breath sounds decreased bilat.,no wheezes.advair resumed for post
+   extubation,combivent added while intubated. Family in,questions
+   answered.son is designated spokesperson & received visitor guidelines.,
+
+.H/O coronary artery bypass graft (CABG)
+   Assessment:
+   POD #1 from CABG, post op course uneventful. Pt extubated first noc
+   (2am)-off all drips- delined. Oob to chair
+CT d/c. 1 perocoet  given
+   for pt- pt tol well
+   Action:
+   [**Name (NI) **] pt. start pt on po Lopressor and lasix. Oob to chair-spirocare
+   .CT d/c
+   Response:
+   Pt tol po lopressor, diuresed well with lasix.
+   Plan:
+   Transfer pt to [**Hospital Ward Name **] 6 when bed avail. Progress diet and activity as
+   tol. PT to see pt POD #2.
+   Demographics
+   Attending MD:
+   [**Doctor Last Name 1106**] [**Doctor First Name 139**] C.
+   Admit diagnosis:
+   CORONARY ARTERY DISEASE CORONARY ARTERY BYPASS GRAFT /SDA
+   Code status:
+   Height:
+   61 Inch
+   Admission weight:
+   58.6 kg
+   Daily weight:
+   67.5 kg
+   Allergies/Reactions:
+   No Known Drug Allergies
+   Precautions:
+   PMH:
+   CV-PMH:
+   Additional history: htn,dyslipidemia,viteiligo,cri-baseline creat.  ~
+   1.7,rheumatoid arthritis,bph,reactive airway disease/copd,carotid
+   disease 50-68% [**Doctor First Name **] lesion,known cad-s/p mi [**2133**],now with increased
+   doe. + ett,cath->severe 3vd,ef 40%.hbA1c 5.9%
+   Surgery / Procedure and date: [**6-6**] c x 3 lima->lad,vg->om,pda
+   difficult arterial access->radial & femporal a lines. received prbc x 1
+   otherwise uneventful.vein from both legs used.
+   Latest Vital Signs and I/O
+   Non-invasive BP:
+   S:94
+   D:48
+   Temperature:
+   98.8
+   Arterial BP:
+   S:115
+   D:54
+   Respiratory rate:
+   18 insp/min
+   Heart Rate:
+   81 bpm
+   Heart rhythm:
+   SR (Sinus Rhythm)
+   O2 delivery device:
+   Nasal cannula
+   O2 saturation:
+   97% %
+   O2 flow:
+   2 L/min
+   FiO2 set:
+   35% %
+   24h total in:
+   548 mL
+   24h total out:
+   1,830 mL
+   Pacer Data
+   Temporary pacemaker type:
+   Epicardial Wires
+   Temporary pacemaker mode:
+   Atrial demand
+   Temporary pacemaker rate:
+   50 bpm
+   Temporary atrial sensitivity:
+   Yes
+   Temporary atrial sensitivity threshold:
+   0.7 mV
+   Temporary atrial sensitivity setting:
+   0.4 mV
+   Temporary atrial stimulation threshold :
+   10 mA
+   Temporary atrial stimulation setting:
+   14 mA
+   Temporary ventricular sensitivity:
+   Yes
+   Temporary ventricular sensitivity threshold:
+   6 mV
+   Temporary ventricular sensitivity setting:
+   3 mV
+   Temporary ventricular stimulation threshold :
+   3 mA
+   Temporary pacemaker wire condition:
+   Attached-Pacer
+   Temporary pacemaker wires atrial:
+   2
+   Temporary pacemaker wires ventricular:
+   2
+   Pertinent Lab Results:
+   Sodium:
+   139 mEq/L
+   [**2155-6-7**] 12:36 AM
+   Potassium:
+   3.5 mEq/L
+   [**2155-6-7**] 09:46 AM
+   Chloride:
+   110 mEq/L
+   [**2155-6-7**] 12:36 AM
+   CO2:
+   25 mEq/L
+   [**2155-6-7**] 12:36 AM
+   BUN:
+   16 mg/dL
+   [**2155-6-7**] 12:36 AM
+   Creatinine:
+   1.3 mg/dL
+   [**2155-6-7**] 12:36 AM
+   Glucose:
+   75 mg/dL
+   [**2155-6-7**] 09:46 AM
+   Hematocrit:
+   29.2 %
+   [**2155-6-7**] 12:36 AM
+   Finger Stick Glucose:
+   80
+   [**2155-6-7**] 12:00 PM
+   Valuables / Signature
+   Patient valuables:
+   Other valuables:
+   Clothes:  Sent home with:
+   Wallet / Money:
+   No money / wallet
+   Cash / Credit cards sent home with:
+   Jewelry:
+   Transferred from: [**Hospital **]
+   Transferred to: [**Wardname **]
+   Date & time of Transfer:  [**2155-6-7**]
+
+
+################################Physician ################################
+
+CVICU
+   HPI:
+   HD2
+   [**6-7**] POD 1
+   s/p CABG (LIMA to LAD, SVG to OM, SVG to PDA) [**6-6**]
+   Wt 62 Cre 1.7 HgbA1c 5.9 EF 45
+   PMHx:CAD,MI,HTN,hyperlipidemia,CKD,Cerebrovascular dz,BPH,Asthma,OA
+   [**Last Name (un) 508**]: Advair 250/50 [**Hospital1 **], Avodart 0.5mg/D, Simvastatin 40mg/D, Benicar
+   20mg/D,ASA 81mg/D,Lopressor 25mg/D,Methotrexate 10mgQ
+   Sunday,Alendronate 70mcg/wk,Folate 1mg/D, Calcium
+   Chief complaint:
+   PMHx:
+   Current medications:
+   Acetaminophen, Albuterol 0.083% Neb Soln, Aspirin EC, Avodart,
+   CefazoLIN, Docusate Sodium, Fluticasone-Salmeterol Diskus (250/50),
+   FoLIC Acid, Furosemide, Insulin, Metoprolol Tartrate, Morphine Sulfate,
+   Oxycodone-Acetaminophen, Ranitidine, Simvastatin
+   24 Hour Events:
+   Received from OR requiring fluid and pressors for hemodynamic
+   management
+   weaned from sedation and extubated
+ NASAL SWAB - At [**2155-6-6**] 04:50 PM
+ OR RECEIVED - At [**2155-6-6**] 04:50 PM
+ INVASIVE VENTILATION - START [**2155-6-6**] 04:50 PM
+ INTUBATION - At [**2155-6-6**] 05:00 PM
+ ARTERIAL LINE - START [**2155-6-6**] 06:03 PM
+ PA CATHETER - START [**2155-6-6**] 06:04 PM
+ ARTERIAL LINE - START [**2155-6-6**] 06:04 PM
+ CORDIS/INTRODUCER - START [**2155-6-6**] 06:05 PM
+ URINE CULTURE - At [**2155-6-6**] 06:36 PM
+ INVASIVE VENTILATION - STOP [**2155-6-7**] 02:31 AM
+ ARTERIAL LINE - STOP [**2155-6-7**] 06:45 AM
+ PA CATHETER - STOP [**2155-6-7**] 06:51 AM
+   Allergies:
+   No Known Drug Allergies
+   Last dose of Antibiotics:
+   Cefazolin - [**2155-6-7**] 08:36 AM
+   Infusions:
+   Other ICU medications:
+   Meperidine (Demerol) - [**2155-6-6**] 09:12 PM
+   Insulin - Regular - [**2155-6-6**] 10:33 PM
+   Ranitidine (Prophylaxis) - [**2155-6-7**] 08:54 AM
+   Other medications:
+   Flowsheet Data as of  [**2155-6-7**] 10:09 AM
+   Vital signs
+   Hemodynamic monitoring
+   Fluid balance
+                                                                  24 hours
+                                                             Since [**58**] a.m.
+   Tmax: 37.5
+C (99.5
+   T current: 37.2
+C (98.9
+   HR: 87 (69 - 99) bpm
+   BP: 111/40(58) {111/40(58) - 111/40(58)} mmHg
+   RR: 18 (9 - 22) insp/min
+   SPO2: 98%
+   Heart rhythm: SR (Sinus Rhythm)
+   Wgt (current): 67.5 kg (admission): 58.6 kg
+   Height: 61 Inch
+   CVP: 10 (7 - 19) mmHg
+   PAP: (26 mmHg) / (15 mmHg)
+   CO/CI (Thermodilution): (6.05 L/min) / (3.9 L/min/m2)
+   SVR: 912 dynes*sec/cm5
+   SV: 67 mL
+   SVI: 43 mL/m2
+   Total In:
+                                                                  3,246 mL
+                                                                    261 mL
+   PO:
+                                                                    120 mL
+   Tube feeding:
+   IV Fluid:
+                                                                  3,246 mL
+                                                                    141 mL
+   Blood products:
+   Total out:
+                                                                  1,165 mL
+                                                                    860 mL
+   Urine:
+                                                                  1,020 mL
+                                                                    795 mL
+   NG:
+   Stool:
+   Drains:
+   Balance:
+                                                                  2,081 mL
+                                                                   -599 mL
+   Respiratory support
+   O2 Delivery Device: Nasal cannula
+   Ventilator mode: CPAP/PPS
+   Vt (Set): 600 (600 - 600) mL
+   RR (Set): 12
+   RR (Spontaneous): 0
+   PEEP: 8 cmH2O
+   FiO2: 35%
+   PIP: 20 cmH2O
+   Plateau: 21 cmH2O
+   SPO2: 98%
+   ABG: 7.42/35/96.[**Numeric Identifier 274**]/25/0
+   Ve: 7.9 L/min
+   PaO2 / FiO2: 242
+   Physical Examination
+   General Appearance: No acute distress
+   HEENT: PERRL
+   Cardiovascular: (Rhythm: Regular)
+   Respiratory / Chest: (Expansion: Symmetric), (Breath Sounds: CTA
+   bilateral : ), (Sternum: Stable )
+   Abdominal: Soft, Non-distended, Non-tender, Bowel sounds present,
+   hypoactive
+   Left Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Right Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Skin: (Incision: Clean / Dry / Intact), bilateral lower extremities
+   Neurologic: (Awake / Alert / Oriented: x 3), Follows simple commands,
+   Moves all extremities
+   Labs / Radiology
+   388 K/uL
+   10.1 g/dL
+   75 mg/dL
+   1.3 mg/dL
+   25 mEq/L
+    3.5 mEq/L
+   16 mg/dL
+   110 mEq/L
+   139 mEq/L
+   29.2 %
+   11.4 K/uL
+        [image002.jpg]
+                             [**2155-6-6**]  02:21 PM
+                             [**2155-6-6**]  03:00 PM
+                             [**2155-6-6**]  05:29 PM
+                             [**2155-6-6**]  05:36 PM
+                             [**2155-6-6**]  09:19 PM
+                             [**2155-6-7**]  12:36 AM
+                             [**2155-6-7**]  12:55 AM
+                             [**2155-6-7**]  01:52 AM
+                             [**2155-6-7**]  09:46 AM
+   WBC
+   13.2
+   11.4
+   Hct
+   20
+   23
+   29.0
+   29.3
+   29.2
+   Plt
+   355
+   388
+   Creatinine
+   1.3
+   1.3
+   TCO2
+   28
+   26
+   27
+   28
+   23
+   Glucose
+   114
+   128
+   112
+   79
+   75
+   Other labs: PT / PTT / INR:15.3/38.6/1.4, Lactic Acid:1.5 mmol/L
+   Imaging: cxr sm bilat effusion
+   Microbiology: MRSA and urine pending
+   Assessment and Plan
+   .H/O CORONARY ARTERY BYPASS GRAFT (CABG)
+   Assessment and Plan:
+   Neurologic: Neuro checks Q: 4 hr, Pain controlled, percocet prn
+   Cardiovascular: Aspirin, Beta-blocker, Statins, Discontinue PA monitor
+   Pulmonary: IS, Discontinue chest tube(s), cough and deep breath, oob to
+   chair
+   Gastrointestinal / Abdomen: bowel regimen
+   Nutrition: Clear liquids, Advance diet as tolerated
+   Renal: Foley, Adequate UO, start lasix for diuresis with goal 1000 ml
+   negative for 24 hours, Cr 1.3 with baseline 1.7
+   Hematology: stable anemia
+   Endocrine: RISS, goal BG < 150
+   Infectious Disease: cefazolin periop antibiotics, wbc down no evidence
+   of infection
+   Lines / Tubes / Drains: Foley, Chest tube - pleural , Chest tube -
+   mediastinal, Pacing wires
+   Wounds: Dry dressings
+   Consults: P.T., Nutrition
+   ICU Care
+   Nutrition:
+   Glycemic Control:  Regular insulin sliding scale
+   Lines:
+   Arterial Line - [**2155-6-6**] 06:03 PM
+   Cordis/Introducer - [**2155-6-6**] 06:05 PM
+   16 Gauge - [**2155-6-6**] 06:05 PM
+   20 Gauge - [**2155-6-6**] 06:09 PM
+   Prophylaxis:
+   DVT:
+   Stress ulcer: H2 blocker
+   VAP bundle:
+   Comments:
+   Communication: Patient discussed on interdisciplinary rounds , ICU
+   Code status: Full code
+   Disposition: Transfer to floor
+
+
+
+################################Respiratory ################################
+
+Demographics
+   Day of intubation: [**2155-6-6**]
+   Day of mechanical ventilation: 0
+   Ideal body weight: 50.8
+   Ideal tidal volume: 203.2 / 304.8 / 406.4 mL/kg
+   Airway
+   Airway Placement Data
+   Known difficult intubation: No
+   Tube Type
+   ETT:
+                   Position:21cm at teeth
+                   Route: oral
+                   Type: Standard
+                   Size: 7.5mm
+   Lung sounds
+   RLL Lung Sounds: Crackles
+   RUL Lung Sounds: Clear
+   LUL Lung Sounds: Clear
+   LLL Lung Sounds: Crackles
+   Secretions
+   Sputum source/amount: Suctioned / None
+   Ventilation Assessment
+   Level of breathing assistance:
+   Visual assessment of breathing pattern: Normal quiet breathing
+   Trigger work assessment: Triggering synchronously
+   :
+   Plan
+   Next 24-48 hours: wean to extubate tonight
+   Comments: Pt presents orally Intubated on full ventilatory support.
+   Placed on PSV early in shift
+no spontaneous respirations Pt became
+   more awake after midnight tolerated PSV very well. Continued to wean
+   pressure support, positive cuff leak, @ 0130 extubated to .35 cool
+   aerosol face tent, Advaire given with good technique rinsed mouth. Post
+   extubation: strong phonation, breath sounds clear bilaterally, no
+   stridor noted at this time. Pt stated that he only takes Advaire 250 at
+   home with good effect.
+
+
+
+################################Radiology################################
+
+[**2155-5-27**] 2:27 PM
+ CHEST (PRE-OP PA & LAT)                                         Clip # [**Clip Number (Radiology) 73807**]
+ Reason: CORNORAY ARTERY BYPASS GRAFT.  CORONARY ARTERY DISEASE.
+ ______________________________________________________________________________
+                                 FINAL REPORT
+
+ CHEST PA AND LATERAL
+
+ REASON FOR EXAM:  Pre-CABG.
+
+ No prior study for comparison.
+
+ Biapical scarring is symmetrical.  Hyperinflation is moderate.  Linear
+ scarring or atelectasis is in the mid lung, projecting over the heart on the
+ lateral view.  Lungs are otherwise clear.  The cardiomediastinal silhouette
+ and hilar contours are otherwise normal.  There is no pleural effusion.
+
+
+[**2155-6-7**] 1:48 PM
+ CHEST (PORTABLE AP)                                             Clip # [**Clip Number (Radiology) 73808**]
+ Reason: ? ptx s/p ct removal
+ Admitting Diagnosis: CORONARY ARTERY DISEASE\CORONARY ARTERY BYPASS GRAFT /SDA
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+  79 year old man with s/p cabg
+ REASON FOR THIS EXAMINATION:
+  ? ptx s/p ct removal
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ STUDY:  AP chest [**2155-6-7**].
+
+ HISTORY:  Evaluate for pneumothorax status post chest tube removal.
+
+ FINDINGS:  The left sided chest tube has been removed.  No pneumothoraces are
+ seen on either side.  Lungs are relatively clear.  Cardiac silhouette,
+ mediastinum is within normal limits.
+
+
+
+[**2155-6-6**] 5:09 PM
+ CHEST PORT. LINE PLACEMENT                                      Clip # [**Clip Number (Radiology) 74465**]
+ Reason: r/o PTX/Effusion
+ Admitting Diagnosis: CORONARY ARTERY DISEASE\CORONARY ARTERY BYPASS GRAFT /SDA
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+  79 year old man with CAD s/p CABG. Please [**First Name8 (NamePattern2) 43**] [**First Name8 (NamePattern2) 238**] [**Last Name (NamePattern1) 239**] at [**Numeric Identifier 240**] with
+  abnormalities.
+ REASON FOR THIS EXAMINATION:
+  r/o PTX/Effusion
+ ______________________________________________________________________________
+ WET READ: PXDb FRI [**2155-6-6**] 8:18 PM
+  Expected post-op appearance of the mediastinum with lines and catheters in
+  standard location. The ET tube is terminating at the thoracic inlet. Small
+  bilateral pleural effusions. Lucency at the right lung base, can not exclude
+  an anterobasal Pneumothorax, Attention on short term follow-up. (DW
+  Dr.[**Last Name (STitle) 1172**])
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ INDICATION:  Status post CABG, evaluate for pneumothorax or effusion.
+
+ SINGLE AP PORTABLE CHEST:  Compared to [**2155-5-27**].  The patient is status post
+ cardiac surgery with median sternotomy wires intact and in good position.  The
+ endotracheal tube appears well positioned 4 cm above the carina.  NG tube is
+ seen in the proximal stomach.  Several midline drains are in place. Right-
+ sided Swan-Ganz catheter terminates in the pulmonary outflow tract and appears
+ well positioned.  Mediastinal and hilar contours are within normal limits for
+ a post-surgical patient.  No significant pneumothorax is appreciated.  There
+ is mildly bibasilar opacification within normal limits for postoperative
+ patient, likely representing a combination of atelectasis and small pleural
+ effusions.  No evidence of significant CHF.
+
+
+
+[**2155-6-10**] 9:17 AM
+ VIDEO OROPHARYNGEAL SWALLOW                                     Clip # [**Clip Number (Radiology) 74466**]
+ Reason: assess swallow
+ Admitting Diagnosis: CORONARY ARTERY DISEASE\CORONARY ARTERY BYPASS GRAFT /SDA
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+  79 year old man s/p cabgx3
+ REASON FOR THIS EXAMINATION:
+  assess swallow
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ INDICATION:  79-year-old man status post CABG x3.  Please assess swallowing.
+
+ TECHNIQUE:  Oropharyngeal video fluoroscopic swallowing evaluation.
+
+ FINDINGS:  An oral and pharyngeal swallowing videofluoroscopy was performed
+ today in collaboration with speech and swallow pathology.
+
+ The oral phase was significant for mildly reduced bolus formation.  In
+ addition, oral transit time was moderately increased for solids such as a
+ cookie.
+
+ The pharyngeal phase demonstrated mildly delayed laryngeal valve closure and
+ epiglottic deflection but these did follow completion while swallowing.
+
+ There was an episode of flash penetration with thin liquids.  No deep
+ penetration or aspiration was seen.
+
+ IMPRESSION:  Mild oropharyngeal dysphagia with slightly reduced bolus control
+ for thin liquids.  Episode of flash penetration of thin liquids.  No
+ aspiration seen.  For further details, please refer to the speech and swallow
+ pathologist's note of the same day.
