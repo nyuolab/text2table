@@ -1,0 +1,1453 @@
+################################Discharge summary################################
+
+Admission Date:  [**2181-3-5**]              Discharge Date:   [**2181-3-12**]
+
+Date of Birth:  [**2119-5-23**]             Sex:   F
+
+Service: CARDIOTHORACIC
+
+Allergies:
+Vancomycin
+
+Attending:[**First Name3 (LF) 922**]
+Chief Complaint:
+Breast pain
+
+Major Surgical or Invasive Procedure:
+evacuation of right breast hematoma [**2181-3-8**]
+
+
+History of Present Illness:
+The patient is a 61 year old female with history of atrial
+fibrillation refractory to lopressor, amiodarone, felxanide and
+cardioversion who was recently admitted to the cardiothoracic
+surgery service from [**2181-2-13**] to [**2181-2-18**] for MINI MAZE procedure.
+On [**2181-2-14**] the patient underwent minimally invasive bilateral
+thoracoscopic
+epicardial pulmonary vein isolation with resection of left
+atrial appendage and autonomic ganglia stimulation and ablation.
+The patient's procedure was reported to have been
+non-complicated. There was noted to be difficulty surrounding
+pain control for which narcotics and toradol were required, the
+patient ultimately required a paravertebral block finally with
+good effect. The patient was noted to develop rapid afib x 1 and
+was treated w/ IV lopressor and
+amiodarone with subsequent conversion to sinus rhythm. The
+patient was discharged to home on coumadin.
+    The patient reports she was doing generally well
+post-discharge although she did notice some nausea and
+intolerance ot pain meds. 2 days ago the patient reports she was
+doing some routine cleaning around her home without difficulty
+using her right arm, later in the day she reports sneezing and
+coughing frequently with sense of sharp pain in her right breast
+during this. The patient noted some ongoing pain, took a
+percocet and attempted to go to sleep. She woke up at 2:00a.m.
+with ongoing pain and noted a palpable lump on her breast over
+area of pain. The patient presented to the ED yesterday a.m. Her
+care was discussed with CT surgery with impression she may have
+some local bruising related to procedure and recommended
+outpatient follow up with pain control. Apparently the patient
+represented because of onogoing pain.
+.
+ED Course: Vitals 97.3, 131/73, 70, 20, 100% RA. In the ED the
+patient had an ultrasound performed with wet read revealing for
+5.5 x 8.5 x 10 cm heterogeneous collection at 10 o'clock, 7 cm
+deep, medial to patient's incision concerning for a post-op
+seroma although super-infection not excluded. This was noted not
+fluid filled, thereby may be difficult to drain. Additionally,
+more diffusely, centered at 2 oclock, there is a large
+hypoechoic region approximately 12 x 13 cm, concerning for
+intra-mammary hematoma. In the ED the patient was seen by CT
+surgery team, no note of this encounter is available for review.
+Per ED signout CT surgery did not feel admission was warranted
+and recommended outpatient follow up, holding coumadin until
+therapeutic. ED felt patient's pain was difficult to control and
+recommended admission for this as well as concern for
+fellulitis. I contact[**Name (NI) **] CT surgery team when request was made
+for admission to medicine. I confirmed that CT surgery team was
+not concerned about findings on ultrasound, did not recommend
+any INR reversal beyond holding coumadin.
+
+Past Medical History:
+atrial fibrillation
+s/p mini-maze [**2181-2-14**]
+obesity
+hyperlipidemia
+degenerative disc disease
+pacer [**11-24**] for tacycardia/bradycardia syndrome
+appendectomy
+left and right knee arthroscopy
+uterine polypectomy
+
+Social History:
+The patient currently lives in [**Location 745**], MA with her sisters. She
+is employed as a computer programmer, no children
+Tobacco: None
+ETOH: None
+Illicit drugs: None
+
+Family History:
+father died MI at 52.
+mothr with Afib-died at age 82
+
+Physical Exam:
+Vitals: 99.7, 131/80, 72, 20, 99% RA
+General: Patient is a middle aged female lying in bed, appears
+tired, no acute distress. Affect flat
+HEENT: NCAT, EOMI, sclera anicteric
+OP: MMM
+Neck: JVP not visible, does not appear obviously elevated
+Chest: CTA anterior and posterior
+Right breast: Patient with bilateral axillary incisions. Right
+incision appears clean, dry, without erythema or induration.
+Medial to incision is a very faint area of faint erythema
+congruent with nipple, appears non-blanching, not warm,
+non-tender. Superior and medial to nipple is large area with
+normal overlying skin but deeper induration appreciated with
+firm deep tissue consistent with ultrasound findings of
+hematoma. This area is very tender to palpation, no erythema, no
+fluctuance.
+Cor: Regular, no murmurs
+Abdomen: Obese, soft, non-tender, non-distended
+Ext: No edema, DP 2+ bilaterally
+Skin/Nails: Rash as above
+Neuro:Grossly intact
+
+
+Pertinent Results:
+Labs on admission:
+[**2181-3-4**] 10:05AM BLOOD WBC-9.3 RBC-4.00* Hgb-11.8* Hct-34.8*
+MCV-87 MCH-29.5 MCHC-33.9 RDW-14.9 Plt Ct-295#
+[**2181-3-4**] 10:05AM BLOOD Neuts-82.7* Lymphs-9.2* Monos-4.9 Eos-2.8
+Baso-0.5
+[**2181-3-4**] 10:05AM BLOOD PT-37.3* PTT-40.3* INR(PT)-4.0*
+[**2181-3-4**] 10:05AM BLOOD Glucose-138* UreaN-35* Creat-1.0 Na-139
+K-5.1 Cl-104 HCO3-24 AnGap-16
+[**2181-3-5**] 07:10AM BLOOD ALT-22 AST-19 AlkPhos-85 TotBili-0.5
+.
+Hematocrit trend:
+34.8 --> 31 --> 28.3 --> 27.1 --> **********
+.
+Imaging:
+[**3-4**] Chest x-ray:
+IMPRESSION: No acute cardiopulmonary process.
+.
+[**3-4**] Chest wall ultrasound:
+5.5 x 8.5 x 10 cm heterogeneous collection at 10 o'clock, 7 cm
+deep, medial to patient's incision - concerning for a post-op
+seroma, super-infection not excluded. Not fluid filled, thereby
+may be difficult to drain.
+More diffusely, centered at 2 oclock, there is a large
+hypoechoic region
+approximately 12 x 13 cm, concerning for intra-mammary hematoma
+especially
+given the supra-therapeutic INR.
+
+[**2181-3-12**] 05:25AM BLOOD WBC-5.3 RBC-3.38* Hgb-9.7* Hct-28.8*
+MCV-85 MCH-28.8 MCHC-33.7 RDW-15.0 Plt Ct-276
+[**2181-3-12**] 05:25AM BLOOD PT-13.7* PTT-30.3 INR(PT)-1.2*
+[**2181-3-12**] 05:25AM BLOOD Glucose-107* UreaN-14 Creat-0.8 Na-142
+K-4.4 Cl-108 HCO3-26 AnGap-12
+
+
+Brief Hospital Course:
+The patient is a 61 year old female with history of atrial
+fibrillation status post MINI MAZE who now presents with right
+breast pain with ultrasound revealing for post-op seroma as well
+as large hematoma.  She was transferred to the cardiac surery
+service on [**2181-3-6**].  INR drifted down and the patient was
+brought to the operating room on [**2181-3-8**] for evacuation of right
+breast hematoma.  Overall the patient tolerated the procedure
+well and post-operatively was transferred to the CVICU in good
+condition.  POD 1 found the patient extubated, alert and
+oriented and breathing comfortably.  She was transferred to the
+telemetry floor.  The patient remained in rate controlled atrial
+fibrillation/atrial flutter throughout the hospital course.  She
+was maintained on amiodarone and lopressor.  Coumadin was
+discontinued.  The patient did develop some dizziness and was
+found to have orthostatic hypotension.  This resolved with a
+bolus of albumin and decrease in her beta blockade.  She made
+progress and was discharged home on POD 4.  By the time of
+discharge, the patient was ambulating freely, the wound was
+healing and pain was controlled with oral analgesics.
+
+Medications on Admission:
+Lasix 40mg twice daily until [**2181-2-28**] (completed)
+Amiodarone 400mg twice daily until [**2181-2-25**], once daily until
+[**2181-3-4**], 200mg daily
+Aspirin 81mg daily
+Metoprolol 50mg three times daily
+Pravastatin  40mg daily
+Coumadin 4mg daily
+Docusate 100mg twice daily
+Oxycodone-Acetaminophen 5-325mg: 1-2tables every 4hours PRN
+Colchicine 0.6mg PO daily
+Indomethacin 25mg PO three times daily
+
+Discharge Medications:
+1. Amiodarone 200 mg Tablet Sig: One (1) Tablet PO twice a day:
+200mg 2x/day for 1 week, then 200mg daily until further
+instructed.
+Disp:*45 Tablet(s)* Refills:*2*
+2. Metoprolol Tartrate 50 mg Tablet Sig: One (1) Tablet PO TID
+(3 times a day).
+Disp:*90 Tablet(s)* Refills:*2*
+3. Pravastatin 20 mg Tablet Sig: Two (2) Tablet PO DAILY
+(Daily).
+Disp:*60 Tablet(s)* Refills:*2*
+4. Colchicine 0.6 mg Tablet Sig: One (1) Tablet PO DAILY (Daily)
+for 3 months.
+Disp:*30 Tablet(s)* Refills:*2*
+5. Indomethacin 25 mg Capsule Sig: One (1) Capsule PO TID (3
+times a day) for 3 months.
+Disp:*90 Capsule(s)* Refills:*2*
+6. Acetaminophen 325 mg Tablet Sig: Two (2) Tablet PO Q4H (every
+4 hours) as needed.
+
+
+Discharge Disposition:
+Home With Service
+
+Facility:
+[**Hospital 119**] Homecare
+
+Discharge Diagnosis:
+Chest wall hematoma
+Acute blood loss anemia
+Atrial fibrillation
+hyperlipidemia
+uterine polypectomy
+degenerative disc disease
+appendectomy
+s/p mini-maze [**2181-2-14**]
+
+
+Discharge Condition:
+good
+
+
+Discharge Instructions:
+You were admitted to the hospital with right sided chest wall
+pain and found to have a hematoma, with elevated INR (coumadin)
+level.  You were monitered, and transferred to the CT surgery
+service...
+
+Please take medications as directed.
+
+Please follow up with appointments as directed.
+
+Please contact physician if develop worsening pain,
+lightheadedness/dizziness, fainting, fevers/chills, any other
+questions or concerns.
+
+Followup Instructions:
+Dr. [**Last Name (STitle) 914**] [**Telephone/Fax (1) 170**] 4 weeks
+[**Last Name (LF) 80886**],[**First Name8 (NamePattern2) **] [**Last Name (NamePattern1) **] [**Telephone/Fax (1) 80887**] 2 weeks
+Dr. [**Last Name (STitle) 73**] [**Telephone/Fax (1) 62**]  1 week
+
+
+
+Completed by:[**2181-3-12**]
+
+
+################################ECG################################
+
+Atrial flutter.  Compared to the previous tracing of [**2181-3-8**] no change.
+
+
+Atrial flutter with a rapid ventricular response.  Non-specific ST-T wave
+changes.  Compared to the previous tracing atrial flutter has replaced
+atrial fibrillation.
+TRACING #2
+
+
+Atrial fibrillation with a rapid ventricular response with some evidence of
+atrial organization.  Non-specific ST-T wave changes.  Compared to the previous
+tracing there is no significant change.
+TRACING #1
+
+
+Atrial fibrillation with rapid ventricular response.  Diffuse non-specific
+ST-T wave abnormalities.  Since the previous tracing of [**2181-3-5**] atrial flutter
+and further ST-T wave changes are now present.
+
+
+Sinus rhythm with leftward P wave axis versus ectopic atrial mechanism.
+Compared to the previous tracing of [**2181-3-4**] no diagnostic change with the
+multiple other abnormalities as noted.
+TRACING #2
+
+
+Baseline artifact.  Sinus rhythm with leftward P wave axis versus ectopic
+atrial mechanism.  Mild P-R interval prolongation.  Borderline left QRS axis.
+Non-specific ST-T wave change.  Non-diagnostic prominent R waves in
+leads V1-V2.  Compared to the previous tracing of [**2181-2-14**] atrial pacing is not
+seen.
+TRACING #1
+
+
+
+################################Physician ################################
+
+CVICU
+   HPI:
+   HD5
+   [**3-9**] POD 1
+   s/p evacuation of R breast hematoma [**3-8**]
+   s/p Bilat thoracosopic Mini-MAZE/removal [**Name Prefix (Prefixes) **] [**Last Name (Prefixes) 5517**] [**2-14**]
+   Current medications:
+   Acetaminophen, Amiodarone, Bisacodyl, Colchicine, Docusate Sodium,
+   Furosemide, dilaudid, Indomethacin, Insulin, Metoprolol Tartrate,
+   Morphine Sulfate, Pravastatin, Senna, Vancomycin
+   24 Hour Events:
+   Received from OR intubated due to multiple ET tube changes
+   Weaned from sedation and extubated without complications, continued on
+   cool nebs
+   Required neo for blood pressure management
+ ARTERIAL LINE - START [**2181-3-8**] 10:00 AM
+ NASAL SWAB - At [**2181-3-8**] 10:00 AM
+   MRSA
+ OR RECEIVED - At [**2181-3-8**] 10:00 AM
+ INVASIVE VENTILATION - START [**2181-3-8**] 10:10 AM
+ URINE CULTURE - At [**2181-3-8**] 01:00 PM
+ EKG - At [**2181-3-8**] 02:15 PM
+   post-op
+ INVASIVE VENTILATION - STOP [**2181-3-8**] 02:15 PM
+ EXTUBATION - At [**2181-3-8**] 02:16 PM
+   t extubated w/o incident. Cuff leak noted. no stridor present.
+ ARTERIAL LINE - STOP [**2181-3-9**] 04:06 AM
+   Post operative day:
+   POD#1 - vacuation of right hemotomoy of right chest . Bronchoscop.y
+   Allergies:
+   Vancomycin
+   Hives;
+   Last dose of Antibiotics:
+   Infusions:
+   Other ICU medications:
+   Metoprolol - [**2181-3-9**] 06:14 AM
+   Morphine Sulfate - [**2181-3-9**] 06:15 AM
+   Other medications:
+   Flowsheet Data as of  [**2181-3-9**] 08:44 AM
+   Vital signs
+   Hemodynamic monitoring
+   Fluid balance
+                                                                  24 hours
+                                                             Since [**83**] a.m.
+   Tmax: 37.7
+C (99.8
+   T current: 37.4
+C (99.4
+   HR: 110 (89 - 120) bpm
+   BP: 101/64(72) {76/47(53) - 117/79(86)} mmHg
+   RR: 20 (10 - 40) insp/min
+   SPO2: 97%
+   Heart rhythm: A Flut (Atrial Flutter)
+   Height: 67 Inch
+             Total In:
+                                                                  2,408 mL
+                                                                    302 mL
+   PO:
+             Tube feeding:
+   IV Fluid:
+                                                                  1,943 mL
+                                                                    302 mL
+   Blood products:
+                                                                    375 mL
+   Total out:
+                                                                  2,507 mL
+                                                                    525 mL
+   Urine:
+                                                                  2,372 mL
+                                                                    525 mL
+   NG:
+   Stool:
+   Drains:
+                                                                     50 mL
+   Balance:
+                                                                    -99 mL
+                                                                   -223 mL
+   Respiratory support
+   O2 Delivery Device: Nasal cannula
+   Ventilator mode: CPAP/PSV
+   Vt (Set): 500 (500 - 500) mL
+   Vt (Spontaneous): 493 (493 - 645) mL
+   PS : 5 cmH2O
+   RR (Set): 14
+   RR (Spontaneous): 17
+   PEEP: 5 cmH2O
+   FiO2: 40%
+   PIP: 11 cmH2O
+   Plateau: 23 cmH2O
+   SPO2: 97%
+   ABG: 7.46/35/153/23/2
+   Ve: 9.3 L/min
+   PaO2 / FiO2: 383
+   Physical Examination
+   General Appearance: No acute distress
+   HEENT: PERRL
+   Cardiovascular: (Rhythm: Irregular)
+   Respiratory / Chest: (Expansion: Symmetric), (Breath Sounds: CTA
+   bilateral  ), (Sternum: Stable )
+   Abdominal: Soft, Non-distended, Non-tender hypoactive bowel sounds
+   Left Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Right Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Neurologic: (Awake / Alert / Oriented: x 3), Moves all extremities
+   Labs / Radiology
+   263 K/uL
+   9.8 g/dL
+   110 mg/dL
+   0.7 mg/dL
+   23 mEq/L
+   3.9 mEq/L
+   13 mg/dL
+   109 mEq/L
+   141 mEq/L
+   26.9 %
+   10.1 K/uL
+                             [**2181-3-8**]  09:40 AM
+                             [**2181-3-8**]  10:44 AM
+                             [**2181-3-8**]  10:51 AM
+                             [**2181-3-8**]  01:43 PM
+                             [**2181-3-8**]  04:24 PM
+                             [**2181-3-8**]  04:34 PM
+                             [**2181-3-9**]  02:22 AM
+                             [**2181-3-9**]  02:51 AM
+   WBC
+   6.4
+   10.1
+   Hct
+   29
+   25.0
+   29.1
+   26.9
+   Plt
+   208
+   263
+   Creatinine
+   0.7
+   0.6
+   0.7
+   TCO2
+   23
+   23
+   24
+   25
+   26
+   Glucose
+   144
+   121
+   110
+   Other labs: PT / PTT / INR:14.2/26.7/1.2, Lactic Acid:1.1 mmol/L,
+   Ca:8.5 mg/dL, Mg:2.0 mg/dL, PO4:3.3 mg/dL
+   Assessment and Plan
+   PAIN CONTROL (ACUTE PAIN, CHRONIC PAIN), ATRIAL FIBRILLATION (AFIB)
+   [**3-9**] POD 1
+   s/p evacuation of R breast hematoma [**3-8**]
+   Neurologic: Pain controlled, dilaudid for pain, oral rinse for oral
+   care
+   Cardiovascular: required neo for b/p management, wean for sbp > 90,
+   resume betablockers for rate control of atrial flutter and continue
+   amiodarone
+   Pulmonary: IS, cough and deep breath, cool neb for humidification due
+   to resolving edema
+   Gastrointestinal / Abdomen: bowel regimen
+   Nutrition: Regular diet, Advance diet as tolerated
+   Renal: Foley, Adequate UO, remove foley
+   Hematology: stable anemia, hold anticoagulation per Dr [**Last Name (STitle) **]
+   Endocrine: Regular insulin goal BG < 150
+   nfectious Disease: continue vancomycin for periop antibiotics
+   Lines / Tubes / Drains: Foley, Surgical drains (hemovac, JP), remove
+   foley, keep JP, and maintain pressure dressing on right chest
+   Wounds: Dry dressings
+   Fluids: KVO
+   Consults: PT
+   ICU [**Name (NI) 151**]
+   Nutrition:
+   Comments: regular diet
+   Glycemic Control:  Regular insulin sliding scale
+   Lines:
+   20 Gauge - [**2181-3-8**] 10:00 AM
+   18 Gauge - [**2181-3-8**] 10:00 AM
+   Prophylaxis:
+   DVT: Boots (out of  bed )
+   Stress ulcer:  PPI
+   VAP bundle:
+   Comments:
+   Communication: Patient discussed on interdisciplinary rounds , ICU
+   Code status:
+
+CVICU
+   HPI:
+   HD5
+   [**3-9**] POD 1
+   s/p evacuation of R breast hematoma [**3-8**]
+   s/p Bilat thoracosopic Mini-MAZE/removal [**Name Prefix (Prefixes) **] [**Last Name (Prefixes) 5517**] [**2-14**]
+   Chief complaint:
+   PMHx:
+   Current medications:
+   1. 2. Acetaminophen 3. Amiodarone 4. Amiodarone 5. Bisacodyl 6.
+   Chlorhexidine Gluconate 0.12% Oral Rinse
+   7. Colchicine 8. Docusate Sodium 9. Furosemide 10. HYDROmorphone
+   (Dilaudid) 11. Indomethacin 12. Insulin
+   13. Metoprolol Tartrate 14. Metoprolol Tartrate 15. Milk of Magnesia
+   16. Morphine Sulfate 17. Phenylephrine
+   18. Potassium Chloride 19. Pravastatin 20. Senna 21. Sodium Chloride
+   0.9% Flush 22. Vancomycin
+   23. Warfarin
+   24 Hour Events:
+ ARTERIAL LINE - START [**2181-3-8**] 10:00 AM
+ NASAL SWAB - At [**2181-3-8**] 10:00 AM
+   MRSA
+ OR RECEIVED - At [**2181-3-8**] 10:00 AM
+ INVASIVE VENTILATION - START [**2181-3-8**] 10:10 AM
+ URINE CULTURE - At [**2181-3-8**] 01:00 PM
+ EKG - At [**2181-3-8**] 02:15 PM
+   post-op
+ INVASIVE VENTILATION - STOP [**2181-3-8**] 02:15 PM
+ EXTUBATION - At [**2181-3-8**] 02:16 PM
+   Pt extubated w/o incident. Cuff leak noted. no stridor present.
+ ARTERIAL LINE - STOP [**2181-3-9**] 04:06 AM
+   Post operative day:
+   POD#1 - vacuation of right hemotomoy of right chest . Bronchoscop.y
+   Allergies:
+   Vancomycin
+   Hives;
+   Last dose of Antibiotics:
+   Infusions:
+   Other ICU medications:
+   Metoprolol - [**2181-3-9**] 06:14 AM
+   Morphine Sulfate - [**2181-3-9**] 06:15 AM
+   Other medications:
+   Flowsheet Data as of  [**2181-3-9**] 08:44 AM
+   Vital signs
+   Hemodynamic monitoring
+   Fluid balance
+                                                                  24 hours
+                                                             Since [**83**] a.m.
+   Tmax: 37.7
+C (99.8
+   T current: 37.4
+C (99.4
+   HR: 110 (89 - 120) bpm
+   BP: 101/64(72) {76/47(53) - 117/79(86)} mmHg
+   RR: 20 (10 - 40) insp/min
+   SPO2: 97%
+   Heart rhythm: A Flut (Atrial Flutter)
+   Height: 67 Inch
+             Total In:
+                                                                  2,408 mL
+                                                                    302 mL
+   PO:
+             Tube feeding:
+   IV Fluid:
+                                                                  1,943 mL
+                                                                    302 mL
+   Blood products:
+                                                                    375 mL
+   Total out:
+                                                                  2,507 mL
+                                                                    525 mL
+   Urine:
+                                                                  2,372 mL
+                                                                    525 mL
+   NG:
+   Stool:
+   Drains:
+                                                                     50 mL
+   Balance:
+                                                                    -99 mL
+                                                                   -223 mL
+   Respiratory support
+   O2 Delivery Device: Nasal cannula
+   Ventilator mode: CPAP/PSV
+   Vt (Set): 500 (500 - 500) mL
+   Vt (Spontaneous): 493 (493 - 645) mL
+   PS : 5 cmH2O
+   RR (Set): 14
+   RR (Spontaneous): 17
+   PEEP: 5 cmH2O
+   FiO2: 40%
+   PIP: 11 cmH2O
+   Plateau: 23 cmH2O
+   SPO2: 97%
+   ABG: 7.46/35/153/23/2
+   Ve: 9.3 L/min
+   PaO2 / FiO2: 383
+   Physical Examination
+   General Appearance: No acute distress
+   HEENT: PERRL
+   Cardiovascular: (Rhythm: Irregular)
+   Respiratory / Chest: (Expansion: Symmetric), (Breath Sounds: CTA
+   bilateral : ), (Sternum: Stable )
+   Abdominal: Soft, Non-distended, Non-tender
+   Left Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Right Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Neurologic: (Awake / Alert / Oriented: x 3), Moves all extremities
+   Labs / Radiology
+   263 K/uL
+   9.8 g/dL
+   110 mg/dL
+   0.7 mg/dL
+   23 mEq/L
+   3.9 mEq/L
+   13 mg/dL
+   109 mEq/L
+   141 mEq/L
+   26.9 %
+   10.1 K/uL
+        [image002.jpg]
+                             [**2181-3-8**]  09:40 AM
+                             [**2181-3-8**]  10:44 AM
+                             [**2181-3-8**]  10:51 AM
+                             [**2181-3-8**]  01:43 PM
+                             [**2181-3-8**]  04:24 PM
+                             [**2181-3-8**]  04:34 PM
+                             [**2181-3-9**]  02:22 AM
+                             [**2181-3-9**]  02:51 AM
+   WBC
+   6.4
+   10.1
+   Hct
+   29
+   25.0
+   29.1
+   26.9
+   Plt
+   208
+   263
+   Creatinine
+   0.7
+   0.6
+   0.7
+   TCO2
+   23
+   23
+   24
+   25
+   26
+   Glucose
+   144
+   121
+   110
+   Other labs: PT / PTT / INR:14.2/26.7/1.2, Lactic Acid:1.1 mmol/L,
+   Ca:8.5 mg/dL, Mg:2.0 mg/dL, PO4:3.3 mg/dL
+   Assessment and Plan
+   PAIN CONTROL (ACUTE PAIN, CHRONIC PAIN), ATRIAL FIBRILLATION (AFIB)
+   Assessment and Plan: HD5
+   [**3-9**] POD 1
+   s/p evacuation of R breast hematoma [**3-8**]
+   Neurologic: Pain controlled, dilaudid for pain
+   Cardiovascular: Beta-blocker, Statins, hemodynamically stable
+   Pulmonary: IS
+   Gastrointestinal / Abdomen:
+   Nutrition: Regular diet, Advance diet as tolerated
+   Renal: Foley, Adequate UO, remove foley
+   Hematology: stable
+   Endocrine: Regular insulin
+   Infectious Disease: continue vancomycin
+   Lines / Tubes / Drains: Foley, Surgical drains (hemovac, JP), remove
+   foley, keep JP in
+   Wounds: Dry dressings
+   Imaging:
+   Fluids: KVO
+   Consults: CT surgery
+   Billing Diagnosis: (Respiratory distress: Insufficiency / Post-op)
+   ICU Care
+   Nutrition:
+   Comments: regular diet
+   Glycemic Control:  Regular insulin sliding scale
+   Lines:
+   20 Gauge - [**2181-3-8**] 10:00 AM
+   18 Gauge - [**2181-3-8**] 10:00 AM
+   Prophylaxis:
+   DVT: Boots (out of  bed )
+   Stress ulcer:
+   VAP bundle:
+   Comments:
+   Communication: Patient discussed on interdisciplinary rounds , ICU
+   Code status:
+   Disposition: Transfer to floor
+   Total time spent: 31 minutes
+
+CVICU
+   HPI:
+   HD5
+   [**3-9**] POD 1
+   s/p evacuation of R breast hematoma [**3-8**]
+   s/p Bilat thoracosopic Mini-MAZE/removal [**Name Prefix (Prefixes) **] [**Last Name (Prefixes) 5517**] [**2-14**]
+   Current medications:
+   Acetaminophen, Amiodarone, Bisacodyl, Colchicine, Docusate Sodium,
+   Furosemide, dilaudid, Indomethacin, Insulin, Metoprolol Tartrate,
+   Morphine Sulfate, Pravastatin, Senna, Vancomycin
+   24 Hour Events:
+   Received from OR intubated due to multiple ET tube changes
+   Weaned from sedation and extubated without complications, continued on
+   cool nebs
+   Required neo for blood pressure management
+ ARTERIAL LINE - START [**2181-3-8**] 10:00 AM
+ NASAL SWAB - At [**2181-3-8**] 10:00 AM
+   MRSA
+ OR RECEIVED - At [**2181-3-8**] 10:00 AM
+ INVASIVE VENTILATION - START [**2181-3-8**] 10:10 AM
+ URINE CULTURE - At [**2181-3-8**] 01:00 PM
+ EKG - At [**2181-3-8**] 02:15 PM
+   post-op
+ INVASIVE VENTILATION - STOP [**2181-3-8**] 02:15 PM
+ EXTUBATION - At [**2181-3-8**] 02:16 PM
+   t extubated w/o incident. Cuff leak noted. no stridor present.
+ ARTERIAL LINE - STOP [**2181-3-9**] 04:06 AM
+   Post operative day:
+   POD#1 - vacuation of right hemotomoy of right chest . Bronchoscop.y
+   Allergies:
+   Vancomycin
+   Hives;
+   Last dose of Antibiotics:
+   Infusions:
+   Other ICU medications:
+   Metoprolol - [**2181-3-9**] 06:14 AM
+   Morphine Sulfate - [**2181-3-9**] 06:15 AM
+   Other medications:
+   Flowsheet Data as of  [**2181-3-9**] 08:44 AM
+   Vital signs
+   Hemodynamic monitoring
+   Fluid balance
+                                                                  24 hours
+                                                             Since [**83**] a.m.
+   Tmax: 37.7
+C (99.8
+   T current: 37.4
+C (99.4
+   HR: 110 (89 - 120) bpm
+   BP: 101/64(72) {76/47(53) - 117/79(86)} mmHg
+   RR: 20 (10 - 40) insp/min
+   SPO2: 97%
+   Heart rhythm: A Flut (Atrial Flutter)
+   Height: 67 Inch
+             Total In:
+                                                                  2,408 mL
+                                                                    302 mL
+   PO:
+             Tube feeding:
+   IV Fluid:
+                                                                  1,943 mL
+                                                                    302 mL
+   Blood products:
+                                                                    375 mL
+   Total out:
+                                                                  2,507 mL
+                                                                    525 mL
+   Urine:
+                                                                  2,372 mL
+                                                                    525 mL
+   NG:
+   Stool:
+   Drains:
+                                                                     50 mL
+   Balance:
+                                                                    -99 mL
+                                                                   -223 mL
+   Respiratory support
+   O2 Delivery Device: Nasal cannula
+   Ventilator mode: CPAP/PSV
+   Vt (Set): 500 (500 - 500) mL
+   Vt (Spontaneous): 493 (493 - 645) mL
+   PS : 5 cmH2O
+   RR (Set): 14
+   RR (Spontaneous): 17
+   PEEP: 5 cmH2O
+   FiO2: 40%
+   PIP: 11 cmH2O
+   Plateau: 23 cmH2O
+   SPO2: 97%
+   ABG: 7.46/35/153/23/2
+   Ve: 9.3 L/min
+   PaO2 / FiO2: 383
+   Physical Examination
+   General Appearance: No acute distress
+   HEENT: PERRL
+   Cardiovascular: (Rhythm: Irregular)
+   Respiratory / Chest: (Expansion: Symmetric), (Breath Sounds: CTA
+   bilateral  ), (Sternum: Stable )
+   Abdominal: Soft, Non-distended, Non-tender hypoactive bowel sounds
+   Left Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Right Extremities: (Edema: Trace), (Temperature: Warm), (Pulse -
+   Dorsalis pedis: Present), (Pulse - Posterior tibial: Present)
+   Neurologic: (Awake / Alert / Oriented: x 3), Moves all extremities
+   Labs / Radiology
+   263 K/uL
+   9.8 g/dL
+   110 mg/dL
+   0.7 mg/dL
+   23 mEq/L
+   3.9 mEq/L
+   13 mg/dL
+   109 mEq/L
+   141 mEq/L
+   26.9 %
+   10.1 K/uL
+                             [**2181-3-8**]  09:40 AM
+                             [**2181-3-8**]  10:44 AM
+                             [**2181-3-8**]  10:51 AM
+                             [**2181-3-8**]  01:43 PM
+                             [**2181-3-8**]  04:24 PM
+                             [**2181-3-8**]  04:34 PM
+                             [**2181-3-9**]  02:22 AM
+                             [**2181-3-9**]  02:51 AM
+   WBC
+   6.4
+   10.1
+   Hct
+   29
+   25.0
+   29.1
+   26.9
+   Plt
+   208
+   263
+   Creatinine
+   0.7
+   0.6
+   0.7
+   TCO2
+   23
+   23
+   24
+   25
+   26
+   Glucose
+   144
+   121
+   110
+   Other labs: PT / PTT / INR:14.2/26.7/1.2, Lactic Acid:1.1 mmol/L,
+   Ca:8.5 mg/dL, Mg:2.0 mg/dL, PO4:3.3 mg/dL
+   Assessment and Plan
+   PAIN CONTROL (ACUTE PAIN, CHRONIC PAIN), ATRIAL FIBRILLATION (AFIB)
+   [**3-9**] POD 1
+   s/p evacuation of R breast hematoma [**3-8**]
+   Neurologic: Pain controlled, dilaudid for pain, oral rinse for oral
+   care
+   Cardiovascular: required neo for b/p management, wean for sbp > 90,
+   resume betablockers for rate control of atrial flutter and continue
+   amiodarone
+   Pulmonary: IS, cough and deep breath, cool neb for humidification due
+   to resolving edema
+   Gastrointestinal / Abdomen: bowel regimen
+   Nutrition: Regular diet, Advance diet as tolerated
+   Renal: Foley, Adequate UO, remove foley
+   Hematology: stable anemia, hold anticoagulation per Dr [**Last Name (STitle) **]
+   Endocrine: Regular insulin goal BG < 150
+   nfectious Disease: continue vancomycin for periop antibiotics
+   Lines / Tubes / Drains: Foley, Surgical drains (hemovac, JP), remove
+   foley, keep JP, and maintain pressure dressing on right chest
+   Wounds: Dry dressings
+   Fluids: KVO
+   Consults: PT
+   ICU [**Name (NI) 151**]
+   Nutrition:
+   Comments: regular diet
+   Glycemic Control:  Regular insulin sliding scale
+   Lines:
+   20 Gauge - [**2181-3-8**] 10:00 AM
+   18 Gauge - [**2181-3-8**] 10:00 AM
+   Prophylaxis:
+   DVT: Boots (out of  bed )
+   Stress ulcer:  PPI
+   VAP bundle:
+   Comments:
+   Communication: Patient discussed on interdisciplinary rounds , ICU
+   Code status:
+   ------ Protected Section ------
+   Agree with above note by [**First Name8 (NamePattern2) **] [**Last Name (NamePattern1) 808**].
+   ------ Protected Section Addendum Entered By:[**Name (NI) 768**] [**Last Name (NamePattern1) **], MD
+   on:[**2181-3-9**] 17:04 ------
+
+
+################################Nursing################################
+
+[**2181-3-8**] @ 10:00 am:
+   61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was admitted on [**Hospital Ward Name 2014**] on
+   [**2181-3-5**] with acute right chest pain with
+lump
+ after coughing and
+   sneezing at home. Allergy: Vanco (Red man Syndrome). Was sent home on
+   coumadin.
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Action:
+   Response:
+   Plan:
+   Atrial fibrillation (Afib)
+   Assessment:
+   Action:
+   Response:
+   Plan:
+
+Pain control (acute pain, chronic pain)
+   Assessment:
+   Right chest incisional/drain site with 5/10 pain, left radial arterial
+   line pain [**5-25**] pain, patient describes it
+as if you hit your funny
+   bone
+  Extremely sensitive, with dampened wave and difficult to draw
+   back on.
+   Action:
+   Morphine given for pain 2 mg, discontinued arterial line
+   Response:
+   [**1-23**] pain after interventions, left wrist still tender but patient
+   reports
+it feels much better
+   Plan:
+   Continue to monitor using pain scale and treat accordingly
+   Atrial fibrillation (Afib)/Atrial flutter
+   Assessment:
+   Aflutter HR 110-120, no other ectopy, on low dose Neo SBP 93-111
+   Action:
+   IV lopressor and amio bolus given (instead of PO
+s-patient unable to
+   swallow at that time), titrated Neo for BP
+   Response:
+   HR remains >100 and rhythm remains irregular, able to titrate to .4 of
+   Neo
+   Plan:
+   Continue to monitor, continue with IV meds until able take PO
+   titrate Neo to off as tolerated, transfer to [**Hospital Ward Name **] 6 today??
+
+[**2181-3-8**] @ 10:00 am:
+      61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was originally admitted on [**Hospital Ward Name 2014**]
+   on [**2181-3-5**] with acute right chest pain with
+lump
+ on her chest after
+   coughing and sneezing at home. Had been sent home on coumadin. INR was
+   4 on arrival .
+   Ultrasound and CTScan confirmed hematoma in chest. See Metavision for
+   history. Permanent pacemaker (DDD) for Tachy-Brady syndrome [**2180-11-16**].
+   Baseline AFib and Aflutter.Alleric to Vancomycine (Redmand Syndrome).
+       Arrive Intubated on propofol. OR uneventful except having some
+   difficulty with double lumen ETT placement. Multple attemts. Keep
+   intubated for a few hours post-procedure. Extubated at 14:00. O2 weaned
+   to 2 l N/C. Sat  98-100 %. [**Doctor Last Name **] tube right chest via JP drain. 50 cc
+   of blood out since arrival. Old and new echymotic around incision site
+   and right arm.
+   Started on low dose Neo for BP syst mid 80
+s. 1 unit RBC given for Hct
+   25. Repeat Hct 29.1. Minimal JP drainage (50cc).
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Incisional pain [**4-25**]. Increase with activity and coughing. Throat is
+   also sore. Some difficulty swallowing due to sore throat.
+   Action:
+   Total of 8mg of Morphine IV given. Repositioning.
+   Response:
+   Verbalizes pain decreasing to [**2181-12-19**].
+   Plan:
+   Continue pain management. Assist with turn. Advance diet as tolerated.
+   Atrial fibrillation (Afib)
+   Assessment:
+   Was in SR short period after her mini-maze [**2-14**]. Converted back to Afib
+   and Aflutter. Rate 90-120
+s. No ectopy. Low urine output initially
+   after OR. CXRay did show pulmonary edema [**Name8 (MD) 77**] NP. Sat >95 %. K 3.9
+   Action:
+   Lopressor po restarted low dose. 12.5 mg po given via OG. Got
+   amiodarone this am before OR. Dose due tonight.  Lasix 20 mg IV given
+   after RBC. Neo started for low BP. 20 meq KCL.
+   Response:
+   HR 100-120
+s. Good urine output post lasix.
+   Plan:
+   Monitor heart rate. Monitor electrolytes.
+   Monitor for redman syndrome with Vancomycine. MD aware of allergy. Dose
+   still want IV Vanco. Vanco given in OR. No reaction noted.
+
+[**2181-3-8**] @ 10:00 am:
+   61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was originally admitted on [**Hospital Ward Name 2014**]
+   on [**2181-3-5**] with acute right chest pain with
+lump
+ on her chest after
+   coughing and sneezing at home. Allergy: Vanco (Red man Syndrome). Was
+   sent home on coumadin. INR was 4 . See Metavision for history.
+   Permanent pacemaker (DDD) for Tachy-Brady syndrome [**2180-11-16**]. Baseline
+   AFib and Aflutter. Arrive Intubated on propofol. OR uneventful except
+   having some difficulty with double lumen ETT placement. Extubated at
+   14:00. O2 weaned to 2 l N/C. Black tube right chest via JP drain. 50 cc
+   out since arrival. Old and new echymotic area noted around incision
+   site. Started on low dose Neo for BP syst mid 80
+s. 1 unit RBC given
+   for Hct 25. Repeat Hct 29.1. Minimal JP drainage (50cc).
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Incisional pain [**4-25**]. Increase with activity and coughing. Throat is
+   also sore. Some difficulty swallowing due to sore throat.
+   Action:
+   Total of 8mg of Morphine IV given. Repositioning.
+   Response:
+   Verbalizes pain decreasing to [**2181-12-19**].
+   Plan:
+   Continue pain management. Assist with turn. Advance diet as tolerated.
+   Atrial fibrillation (Afib)
+   Assessment:
+   Was in SR short period after her mini-maze [**2-14**]. Converted back to Afib
+   and Aflutter. Rate 90-120
+s. No ectopy. Low urine output initially
+   after OR. CXRay did show pulmonary edema [**Name8 (MD) 77**] NP. Sat >95 %. K 3.9
+   Action:
+   Lopressor po restarted low dose. 12.5 mg po given via OG. Got
+   amiodarone this am before OR. Dose due tonight.  Lasix 20 mg IV given
+   after RBC. Neo started for low BP. 20 meq KCL.
+   Response:
+   HR 100-120
+s. Good urine output post lasix.
+   Plan:
+   Monitor heart rate. Monitor electrolytes.
+   Monitor for redman syndrome with Vancomycine. MD aware of allergy. Dose
+   still want IV Vanco. Vanco given in OR. No reaction noted.
+
+Pain control (acute pain, chronic pain)
+   Assessment:
+   Right chest incisional/drain site with 5/10 pain, left radial arterial
+   line pain [**5-25**] pain, patient describes it
+as if you hit your funny
+   bone
+  Extremely sensitive, with dampened wave and difficult to draw
+   back on.
+   Action:
+   Morphine given for pain 2 mg, discontinued arterial line
+   Response:
+   [**1-23**] pain after interventions, left wrist still tender but patient
+   reports
+it feels much better
+   Plan:
+   Continue to monitor using pain scale and treat accordingly
+   Atrial fibrillation (Afib)/Atrial flutter
+   Assessment:
+   Aflutter HR 110-120, no other ectopy, on low dose Neo SBP 93-111
+   Action:
+   IV lopressor and amio bolus given (instead of PO
+s-patient unable to
+   swallow at that time)
+   Response:
+   HR remains >100 and rhythm remains irregular
+   Plan:
+   Continue to monitor, continue with IV meds until able take PO
+
+61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was originally admitted on [**Hospital Ward Name 2014**]
+   on [**2181-3-5**] with acute right chest pain with
+lump
+ on her chest after
+   coughing and sneezing at home. Had been sent home on coumadin.Came in
+   with INR was 4 on arrival . Ultrasound and CTScan confirmed hematoma in
+   chest. See Metavision for history. Permanent pacemaker (DDD) for
+   Tachy-Brady syndrome [**2180-11-16**]. Baseline AFib and Aflutter. Allergy to
+   Vancomycin (Redman Syndrome). Has been getting Vanco without incident
+   or reactions. Last dose will be tonight.
+   Had some throat swelling after multiple intubation attempts in OR
+   improved since yesterday. Shovel mask with humidity off/on threw out
+   the day. Does take good po intake.
+   [**Doctor Last Name **] tube to JP right chest. Minimal drainage. Keep pressure dressing
+   intact until medial advice.
+   Atrial fibrillation (Afib)
+   Assessment:
+   Episodes of rapid Atrial Fibrillation rates in the 140-150
+s this am.
+   Np notified [**First Name8 (NamePattern2) **] [**Last Name (NamePattern1) 808**]. Patient denies chest pressure but does feel
+   palpitations. BP 95-110 syst.
+   Action:
+   Lopressor total 10 mg IV. Lopressor 25 mg po. Amiodarone 200mg po.
+   Response:
+   Heart rate decreased 90-120
+s. Alternates from Aflutter and AFib. (not
+   new). BP mid 90
+   Plan:
+   Continue beta-blockers and anti-[**Name6 (MD) 5964**] [**Name8 (MD) 77**] MD.
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Surgical Incision pain [**3-25**] right upper chest.
+   Action:
+   Dilaudid 2mg po po given and anti-inflammatory. OOB to chair.
+   Response:
+   Patient states being pain free after dilaudid
+   Plan:
+   Pain management. Increase activity.
+   Hyperglycemia
+   Assessment:
+   FS 235 at noon. Patient did have some cranberry jus and popsicle not
+   long prior.
+   Action:
+   10 units regular insulin s/c per sliding scale.
+   Response:
+   Recked FS 1 hour after insulin. FS down to 144.
+   Plan:
+   Finger stick every 6 hours pre-meal.
+   Hypokalemia (Low potassium)
+   Assessment:
+   Potassium 3.9 this am.
+   Action:
+   Potassium 20 meq po potassium given.
+   Response:
+   Repeat potassium per orders.
+   Plan:
+   Monitor electrolytes.
+   Foley removed at 8:30 this am. Has not voided yet.
+   Demographics
+   Attending MD:
+   [**Doctor Last Name 819**] [**Doctor First Name **] C.
+   Admit diagnosis:
+   CELLULITIS
+   Code status:
+   Full Code
+   Height:
+   67 Inch
+   Admission weight:
+   127 kg
+   Daily weight:
+   Allergies/Reactions:
+   Vancomycin
+   Hives;
+   Precautions: none
+   PMH:
+   CV-PMH:
+   Additional history: Dyslipidemia, Dysrhythmia
+   (PAF,Tachybrady-syndrome), Permanent Pacemaker([**2180-11-16**]) DDD mode.
+   Appendectomy,Tonsilectomy,Bilateral Knee Arthroscopies,MiniMaze
+   [**2181-2-14**],Obesity, uterine polypectomy
+   Surgery / Procedure and date: [**3-8**] Evacuation of Right Chest wall
+   hematoma s/p Mini-Maze done [**2-14**]. Bronchoscopy done after multiple
+   attempts to place double lumen ETT  which caused some bleeding (5
+   attempts). Some Endotracheal swelling. No Central line. No swan. Aline
+   and preipheral lines. Black tube via JP right chest wall. Urine 85 cc
+   in OR. Fluids 1600 ml. Vented-Slow weaning to extubate. Out on
+   Propofol. Echo (EF 50%,mild AI,moderate Bilateral atrial
+   enlargement,Trace to moderate MR,mild TR)
+   Latest Vital Signs and I/O
+   Non-invasive BP:
+   S:93
+   D:54
+   Temperature:
+   98.5
+   Arterial BP:
+   S:94
+   D:71
+   Respiratory rate:
+   19 insp/min
+   Heart Rate:
+   91 bpm
+   Heart rhythm:
+   AF (Atrial Fibrillation)
+   O2 delivery device:
+   None
+   O2 saturation:
+   100% %
+   O2 flow:
+   R/A
+   FiO2 set:
+   R/A
+   24h total in:
+   687 mL
+   24h total out:
+   625 mL
+   Pacer Data
+   Permanent pacemaker mode:
+   Dual Demand
+   Permanent pacemaker rate:
+   60 /min
+   Pertinent Lab Results:
+   Sodium:
+   141 mEq/L
+   [**2181-3-9**] 02:22 AM
+   Potassium:
+   3.9 mEq/L
+   [**2181-3-9**] 02:22 AM
+   Chloride:
+   109 mEq/L
+   [**2181-3-9**] 02:22 AM
+   CO2:
+   23 mEq/L
+   [**2181-3-9**] 02:22 AM
+   BUN:
+   13 mg/dL
+   [**2181-3-9**] 02:22 AM
+   Creatinine:
+   0.7 mg/dL
+   [**2181-3-9**] 02:22 AM
+   Glucose:
+   110 mg/dL
+   [**2181-3-9**] 02:22 AM
+   Hematocrit:
+   26.9 %
+   [**2181-3-9**] 02:22 AM
+   Finger Stick Glucose:
+   144
+   [**2181-3-9**] 01:00 PM
+   Valuables / Signature
+   Patient valuables: none
+   Other valuables: none
+   Clothes:  Sent home with:
+   Wallet / Money:
+   No money / wallet
+   Cash / Credit cards sent home with:
+   Jewelry: none
+   Transferred from: CVICU-A room #3
+   Transferred to: [**Hospital Ward Name 2014**]
+   Date & time of Transfer:  [**2181-3-9**] @ 14:30
+
+61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was originally admitted on [**Hospital Ward Name 2014**]
+   on [**2181-3-5**] with acute right chest pain with
+lump
+ on her chest after
+   coughing and sneezing at home. Had been sent home on coumadin.Came in
+   with INR was 4 on arrival . Ultrasound and CTScan confirmed hematoma in
+   chest. See Metavision for history. Permanent pacemaker (DDD) for
+   Tachy-Brady syndrome [**2180-11-16**]. Baseline AFib and Aflutter. Allergy to
+   Vancomycin (Redman Syndrome). Has been getting Vanco without incident
+   or reactions. Last dose will be tonight.
+   Had some throat swelling after multiple intubation attempts in OR
+   improved since yesterday. Shovel mask with humidity off/on threw out
+   the day. Does take good po intake.
+   [**Doctor Last Name **] tube to JP right chest. Minimal drainage. Keep pressure dressing
+   intact until medial advice.
+   Atrial fibrillation (Afib)
+   Assessment:
+   Episodes of rapid Atrial Fibrillation rates in the 140-150
+s this am.
+   Np notified [**First Name8 (NamePattern2) **] [**Last Name (NamePattern1) 808**]. Patient denies chest pressure but does feel
+   palpitations. BP 95-110 syst.
+   Action:
+   Lopressor total 10 mg IV. Lopressor 25 mg po. Amiodarone 200mg po.
+   Response:
+   Heart rate decreased 90-120
+s. Alternates from Aflutter and AFib. (not
+   new). BP mid 90
+   Plan:
+   Continue beta-blockers and anti-[**Name6 (MD) 5964**] [**Name8 (MD) 77**] MD.
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Surgical Incision pain [**3-25**] right upper chest.
+   Action:
+   Dilaudid 2mg po po given and anti-inflammatory. OOB to chair.
+   Response:
+   Patient states being pain free after dilaudid
+   Plan:
+   Pain management. Increase activity.
+   Hyperglycemia
+   Assessment:
+   FS 235 at noon. Patient did have some cranberry jus and popsicle not
+   long prior.
+   Action:
+   10 units regular insulin s/c per sliding scale.
+   Response:
+   Recked FS 1 hour after insulin. FS down to 144.
+   Plan:
+   Finger stick every 6 hours pre-meal.
+   Hypokalemia (Low potassium)
+   Assessment:
+   Potassium 3.9 this am.
+   Action:
+   Potassium 20 meq po potassium given.
+   Response:
+   Repeat potassium per orders.
+   Plan:
+   Monitor electrolytes.
+   Foley removed at 8:30 this am. Has not voided yet.
+   Demographics
+   Attending MD:
+   [**Doctor Last Name 819**] [**Doctor First Name **] C.
+   Admit diagnosis:
+   CELLULITIS
+   Code status:
+   Full Code
+   Height:
+   67 Inch
+   Admission weight:
+   127 kg
+   Daily weight:
+   Allergies/Reactions:
+   Vancomycin
+   Hives;
+   Precautions: none
+   PMH:
+   CV-PMH:
+   Additional history: Dyslipidemia, Dysrhythmia
+   (PAF,Tachybrady-syndrome), Permanent Pacemaker([**2180-11-16**]) DDD mode.
+   Appendectomy,Tonsilectomy,Bilateral Knee Arthroscopies,MiniMaze
+   [**2181-2-14**],Obesity, uterine polypectomy
+   Surgery / Procedure and date: [**3-8**] Evacuation of Right Chest wall
+   hematoma s/p Mini-Maze done [**2-14**]. Bronchoscopy done after multiple
+   attempts to place double lumen ETT  which caused some bleeding (5
+   attempts). Some Endotracheal swelling. No Central line. No swan. Aline
+   and preipheral lines. Black tube via JP right chest wall. Urine 85 cc
+   in OR. Fluids 1600 ml. Vented-Slow weaning to extubate. Out on
+   Propofol. Echo (EF 50%,mild AI,moderate Bilateral atrial
+   enlargement,Trace to moderate MR,mild TR)
+   Latest Vital Signs and I/O
+   Non-invasive BP:
+   S:93
+   D:54
+   Temperature:
+   98.5
+   Arterial BP:
+   S:94
+   D:71
+   Respiratory rate:
+   19 insp/min
+   Heart Rate:
+   91 bpm
+   Heart rhythm:
+   AF (Atrial Fibrillation)
+   O2 delivery device:
+   None
+   O2 saturation:
+   100% %
+   O2 flow:
+   R/A
+   FiO2 set:
+   R/A
+   24h total in:
+   687 mL
+   24h total out:
+   625 mL
+   Pacer Data
+   Permanent pacemaker mode:
+   Dual Demand
+   Permanent pacemaker rate:
+   60 /min
+   Pertinent Lab Results:
+   Sodium:
+   141 mEq/L
+   [**2181-3-9**] 02:22 AM
+   Potassium:
+   3.9 mEq/L
+   [**2181-3-9**] 02:22 AM
+   Chloride:
+   109 mEq/L
+   [**2181-3-9**] 02:22 AM
+   CO2:
+   23 mEq/L
+   [**2181-3-9**] 02:22 AM
+   BUN:
+   13 mg/dL
+   [**2181-3-9**] 02:22 AM
+   Creatinine:
+   0.7 mg/dL
+   [**2181-3-9**] 02:22 AM
+   Glucose:
+   110 mg/dL
+   [**2181-3-9**] 02:22 AM
+   Hematocrit:
+   26.9 %
+   [**2181-3-9**] 02:22 AM
+   Finger Stick Glucose:
+   144
+   [**2181-3-9**] 01:00 PM
+   Valuables / Signature
+   Patient valuables: none
+   Other valuables: none
+   Clothes:  Sent home with:
+   Wallet / Money:
+   No money / wallet
+   Cash / Credit cards sent home with:
+   Jewelry: none
+   Transferred from: CVICU-A room #3
+   Transferred to: [**Hospital Ward Name 2014**]
+   Date & time of Transfer:  [**2181-3-9**] @ 14:30
+
+Atrial fibrillation (Afib)
+   Assessment:
+   Action:
+   Response:
+   Plan:
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Action:
+   Response:
+   Plan:
+
+61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was originally admitted on [**Hospital Ward Name 2014**]
+   on [**2181-3-5**] with acute right chest pain with
+lump
+ on her chest after
+   coughing and sneezing at home. Had been sent home on coumadin.Came in
+   with INR was 4 on arrival .
+   Ultrasound and CTScan confirmed hematoma in chest. See Metavision for
+   history. Permanent pacemaker (DDD) for Tachy-Brady syndrome [**2180-11-16**].
+   Baseline AFib and Aflutter. Allergy to Vancomycin (Redman Syndrome).
+   Has been getting Vanco without incident or reactions. Last dose will be
+   tonight.
+   Had some throat swelling
+Has improved since yesterday. Shovel mask with
+   humidity off/on threw out the day.
+   Atrial fibrillation (Afib)
+   Assessment:
+   Episodes of rapid rates in the 140-150
+s this am. Afib. Patient denies
+   chest pressure but does feel palpitations. BP 95-110 syst.
+   Action:
+   Lopressor total 10 mg IV. Lopressor 25 mg po. Amiodarone 200mg po.
+   Response:
+   Heart rate decreased 90-120
+s. Alternates from Aflutter and AFib. (not
+   new).BP mid 90
+   Plan:
+   Continue betablockers and [**Name6 (MD) 5963**] [**Name8 (MD) 77**] MD.
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Action:
+   Response:
+   Plan:
+
+61 year old female admitted from OR for Evacuation of  hematoma of
+   right chest and bronchoscopy s/p Mini-Maze done here on [**2181-2-14**].
+   Admitted to CVICU-A room #3. Patient was originally admitted on [**Hospital Ward Name 2014**]
+   on [**2181-3-5**] with acute right chest pain with
+lump
+ on her chest after
+   coughing and sneezing at home. Had been sent home on coumadin.Came in
+   with INR was 4 on arrival . Ultrasound and CTScan confirmed hematoma in
+   chest. See Metavision for history. Permanent pacemaker (DDD) for
+   Tachy-Brady syndrome [**2180-11-16**]. Baseline AFib and Aflutter. Allergy to
+   Vancomycin (Redman Syndrome). Has been getting Vanco without incident
+   or reactions. Last dose will be tonight.
+   Had some throat swelling after multiple intubation attempts in OR
+   improved since yesterday. Shovel mask with humidity off/on threw out
+   the day. Does take good po intake.
+   [**Doctor Last Name **] tube to JP right chest. Minimal drainage. Keep pressure dressing
+   intact until medial advice.
+   Atrial fibrillation (Afib)
+   Assessment:
+   Episodes of rapid Atrial Fibrillation rates in the 140-150
+s this am.
+   Np notified [**First Name8 (NamePattern2) **] [**Last Name (NamePattern1) 808**]. Patient denies chest pressure but does feel
+   palpitations. BP 95-110 syst.
+   Action:
+   Lopressor total 10 mg IV. Lopressor 25 mg po. Amiodarone 200mg po.
+   Response:
+   Heart rate decreased 90-120
+s. Alternates from Aflutter and AFib. (not
+   new). BP mid 90
+   Plan:
+   Continue beta-blockers and anti-[**Name6 (MD) 5964**] [**Name8 (MD) 77**] MD.
+   Pain control (acute pain, chronic pain)
+   Assessment:
+   Surgical Incision pain [**3-25**] right upper chest.
+   Action:
+   Dilaudid 2mg po po given and anti-inflammatory. OOB to chair.
+   Response:
+   Patient states being pain free after dilaudid
+   Plan:
+   Pain management. Increase activity.

@@ -1,0 +1,458 @@
+################################Discharge summary################################
+
+Admission Date:  [**2131-10-24**]              Discharge Date:   [**2131-10-28**]
+
+Date of Birth:  [**2055-3-23**]             Sex:   F
+
+Service: CARDIOTHORACIC
+
+Allergies:
+Patient recorded as having No Known Allergies to Drugs
+
+Attending:[**First Name3 (LF) 922**]
+Chief Complaint:
+back pain and vomiting
+
+Major Surgical or Invasive Procedure:
+none
+
+History of Present Illness:
+76 yo female transferred to Ed here from [**Hospital3 **] Hosp. after
+w/u revealed aortic aneurysm. Pt. had back pain and vomiting.
+per pt. pain was not new and has had the same in the past.Denies
+CP or SOB. Had uncontrolled HTN and BP in ER systolic 200. CT
+from OSH showed aortic aneurysm from arch to renal arteries;
+very tortuous and no dissection flap. Max. diameter 5.5-6.3 cm.
+No evidence of leak. Tiny left pleural effusion noted. On
+arrival, nipride and esmolol drips started.
+
+Past Medical History:
+GERD
+back pain
+fibromyalgia
+anxiety
+lens replacement
+cholecystectomy
+T and A
+
+Social History:
+single, retired, lives alone
+no ETOH
+150 pack/years ; quit 18 years ago
+
+Family History:
+no premature disease
+parents with CVA and CAD
+
+Physical Exam:
+117/69   HR 80  no bruits
+S1  S2 present
+soft abd, NT
+symmetrically good peripheral pulses
+NAD
+PERRLA,EOMIMAE [**5-18**]
+neck supple, nontender, +BS
+CTAB with scant basilar crackles
+
+
+Pertinent Results:
+[**2131-10-28**] 08:01AM BLOOD WBC-7.2 RBC-2.21*# Hgb-5.9*# Hct-16.8*#
+MCV-76* MCH-26.7* MCHC-35.0 RDW-15.5 Plt Ct-65*#
+[**2131-10-28**] 08:01AM BLOOD WBC-7.2 RBC-2.21*# Hgb-5.9*# Hct-16.8*#
+MCV-76* MCH-26.7* MCHC-35.0 RDW-15.5 Plt Ct-65*#
+[**2131-10-28**] 08:01AM BLOOD PT-14.0* PTT-43.0* INR(PT)-1.2*
+[**2131-10-28**] 08:01AM BLOOD Plt Smr-VERY LOW Plt Ct-65*#
+[**2131-10-28**] 08:01AM BLOOD Glucose-289* UreaN-12 Creat-0.7 Na-166*
+K-5.4* Cl-111* HCO3-48* AnGap-12
+[**2131-10-28**] 08:01AM BLOOD Calcium-14.9* Phos-3.2 Mg-2.6
+
+[**Hospital1 18**] ECHOCARDIOGRAPHY REPORT
+
+[**Known lastname **], [**Known firstname 68293**]       [**Hospital1 18**] [**Numeric Identifier 68294**]TTE (Complete)
+Done [**2131-10-25**] at 10:20:47 AM      FINAL
+Referring Physician     [**Name9 (PRE) **] Information
+[**Name9 (PRE) **], [**First Name3 (LF) 177**]
+[**Hospital Unit Name 927**]
+[**Location (un) 86**], [**Numeric Identifier 718**]  Status: Inpatient DOB: [**2055-3-23**]
+Age (years): 76 F  Hgt (in): 61
+BP (mm Hg): 103/56  Wgt (lb): 200
+HR (bpm): 85  BSA (m2): 1.89 m2
+Indication: Left ventricular function. Check Valves
+ICD-9 Codes: 424.1
+Test Information
+Date/Time: [**2131-10-25**] at 10:20    Interpret MD: [**First Name11 (Name Pattern1) 449**] [**Last Name (NamePattern4) **],
+MD
+Test Type: TTE (Complete) Son[**Name (NI) 930**]: [**Name2 (NI) 8154**] Bzymek, RDCS
+Doppler: Full Doppler and color Doppler Test Location: West Echo
+Lab
+Contrast: Definity Tech Quality: Suboptimal
+Tape #: 2006W048-0:31 Machine: Vivid [**7-21**]
+Echocardiographic Measurements
+Results  Measurements  Normal Range
+Left Atrium - Four Chamber Length:  4.9 cm  <= 5.2 cm
+Left Atrium - Peak Pulm Vein S:  0.8 m/s
+Left Atrium - Peak Pulm Vein D:  0.4 m/s
+Left Atrium - Peak Pulm Vein A:  0.3 m/s  < 0.4 m/s
+Right Atrium - Four Chamber Length:  4.5 cm  <= 5.0 cm
+Left Ventricle - Ejection Fraction:  70% to 80%  >= 55%
+Left Ventricle - Lateral Peak E':  0.13 m/s  > 0.08 m/s
+Left Ventricle - Septal Peak E':  *0.08 m/s  > 0.08 m/s
+Left Ventricle - Ratio E/E':  10  < 15
+Aortic Valve - Peak Velocity:  *2.2 m/sec  <= 2.0 m/sec
+Aortic Valve - Peak Gradient:  19 mm Hg  < 20 mm Hg
+Aortic Valve - Mean Gradient:  7 mm Hg
+Mitral Valve - E Wave:  1.0 m/sec
+Mitral Valve - A Wave:  1.2 m/sec
+Mitral Valve - E/A ratio:  0.83
+Mitral Valve - E Wave deceleration time:  218 ms  140-250 ms
+
+Findings
+Intravenous administration of echo contrast was used due to poor
+native endocardial border definition.
+
+LEFT ATRIUM: Normal LA size.
+
+RIGHT ATRIUM/INTERATRIAL SEPTUM: Normal RA size. The IVC is
+normal in diameter with appropriate phasic respirator variation.
+
+
+LEFT VENTRICLE: Normal LV cavity size. Suboptimal technical
+quality, a focal LV wall motion abnormality cannot be fully
+excluded. Hyperdynamic LVEF >75%. No resting LVOT gradient.
+
+RIGHT VENTRICLE: Normal RV chamber size and free wall motion.
+
+AORTA: Markedly dilated descending aorta
+
+AORTIC VALVE: ?# aortic valve leaflets. Mildly thickened aortic
+valve leaflets. No valvular AS. The increased transaortic
+gradient related to high cardiac output.
+
+MITRAL VALVE: Mildly thickened mitral valve leaflets. No MVP.
+Mild mitral annular calcification. Mild thickening of mitral
+valve chordae. Calcified tips of papillary muscles. No MS.
+Trivial MR. Normal LV inflow pattern for age.
+
+TRICUSPID VALVE: Normal tricuspid valve leaflets with trivial
+TR. Normal tricuspid valve supporting structures. Indeterminate
+PA systolic pressure.
+
+PULMONIC VALVE/PULMONARY ARTERY: Normal pulmonic valve leaflets
+with physiologic PR. Normal main PA. No Doppler evidence for PDA
+
+
+PERICARDIUM: No pericardial effusion.
+
+GENERAL COMMENTS: Suboptimal image quality - poor echo windows.
+Suboptimal image quality - poor parasternal views. Suboptimal
+image quality - poor apical views.
+Conclusions
+The left atrium is normal in size. The left ventricular cavity
+size is normal. Due to suboptimal technical quality, a focal
+wall motion abnormality cannot be fully excluded. Left
+ventricular systolic function is hyperdynamic (EF 70-80%). Right
+ventricular chamber size and free wall motion are normal. The
+descending thoracic aorta is markedly dilated. The number of
+aortic valve leaflets cannot be determined. The aortic valve
+leaflets are mildly thickened. There is no valvular aortic
+stenosis. The increased transaortic gradient is likely related
+to high cardiac output. The mitral valve leaflets are mildly
+thickened. There is no mitral valve prolapse. Trivial mitral
+regurgitation is seen. The pulmonary artery systolic pressure
+could not be determined. There is no pericardial effusion.
+Electronically signed by [**First Name11 (Name Pattern1) 449**] [**Last Name (NamePattern4) **], MD, Interpreting
+physician
+
+
+?????? [**2128**] CareGroup IS. All rights reserved.
+
+
+Brief Hospital Course:
+Admitted [**10-24**] and tight BP control titrated. Vascular consult
+also obtained and CTA of torso done. Transferred to floor and
+transitioned to oral BP control. Cardiology and pulmonary
+consults also completed to help stratify risk of possible
+surgery. Surgery was planned for early the next week. On the
+early morning of [**10-28**], the pt. suffered an asystolic cardiac
+arrest with ACLS protocol done and shocked when Vfib occurred.
+Went into PEA and did not respond despite 25 minutes of
+resuscitative attempts. Expired at 8:05 AM. Family subsequently
+notified.
+
+Medications on Admission:
+xanax
+nexium
+ASA
+
+Discharge Disposition:
+Expired
+
+Discharge Diagnosis:
+thoracoabdominal aortic aneurysm
+GERD
+fibromyalgia
+
+Discharge Condition:
+expired
+
+
+Completed by:[**2132-2-8**]
+
+
+################################Echo################################
+
+PATIENT/TEST INFORMATION:
+Indication: Left ventricular function. Check Valves
+Height: (in) 61
+Weight (lb): 200
+BSA (m2): 1.89 m2
+BP (mm Hg): 103/56
+HR (bpm): 85
+Status: Inpatient
+Date/Time: [**2131-10-25**] at 10:20
+Test: TTE (Complete)
+Doppler: Full Doppler and color Doppler
+Contrast: Definity
+Technical Quality: Suboptimal
+
+
+INTERPRETATION:
+
+Findings:
+
+LEFT ATRIUM: Normal LA size.
+
+RIGHT ATRIUM/INTERATRIAL SEPTUM: Normal RA size. The IVC is normal in diameter
+with appropriate phasic respirator variation.
+
+LEFT VENTRICLE: Normal LV cavity size. Suboptimal technical quality, a focal
+LV wall motion abnormality cannot be fully excluded. Hyperdynamic LVEF. No
+resting LVOT gradient.
+
+RIGHT VENTRICLE: Normal RV chamber size and free wall motion.
+
+AORTA: Markedly dilated descending aorta
+
+AORTIC VALVE: ?# aortic valve leaflets. Mildly thickened aortic valve
+leaflets. No valvular AS. The increased transaortic gradient related to high
+cardiac output.
+
+MITRAL VALVE: Mildly thickened mitral valve leaflets. No MVP. Mild mitral
+annular calcification. Mild thickening of mitral valve chordae. Calcified tips
+of papillary muscles. No MS. Trivial MR. Normal LV inflow pattern for age.
+
+TRICUSPID VALVE: Normal tricuspid valve leaflets with trivial TR. Normal
+tricuspid valve supporting structures. Indeterminate PA systolic pressure.
+
+PULMONIC VALVE/PULMONARY ARTERY: Normal pulmonic valve leaflets with
+physiologic PR. Normal main PA. No Doppler evidence for PDA
+
+PERICARDIUM: No pericardial effusion.
+
+GENERAL COMMENTS: Suboptimal image quality - poor echo windows. Suboptimal
+image quality - poor parasternal views. Suboptimal image quality - poor apical
+views.
+
+Conclusions:
+The left atrium is normal in size. The left ventricular cavity size is normal.
+Due to suboptimal technical quality, a focal wall motion abnormality cannot be
+fully excluded. Left ventricular systolic function is hyperdynamic (EF
+70-80%). Right ventricular chamber size and free wall motion are normal. The
+descending thoracic aorta is markedly dilated. The number of aortic valve
+leaflets cannot be determined. The aortic valve leaflets are mildly thickened.
+There is no valvular aortic stenosis. The increased transaortic gradient is
+likely related to high cardiac output. The mitral valve leaflets are mildly
+thickened. There is no mitral valve prolapse. Trivial mitral regurgitation is
+seen. The pulmonary artery systolic pressure could not be determined. There is
+no pericardial effusion.
+
+
+
+################################ECG################################
+
+Normal sinus rhythm. Borderline A-V conduction delay. No previous tracing
+available for comparison.
+
+
+
+################################Radiology################################
+
+[**2131-10-24**] 4:50 PM
+ CTA CHEST W&W/O C &RECONS; CTA ABD W&W/O C & RECONS             Clip # [**Clip Number (Radiology) 86021**]
+ CTA PELVIS W&W/O C & RECONS
+ Reason: assess thoracoabdominal aneurysm. MMS service
+ Admitting Diagnosis: CP
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+   76 year old woman with aortic aneurysm on OSH scans
+
+ REASON FOR THIS EXAMINATION:
+  assess thoracoabdominal aneurysm. MMS service
+ No contraindications for IV contrast
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ CT TORSO
+
+ CLINICAL HISTORY:  76-year-old woman with aortic aneurysm on outside CT scan.
+ Assess thoracoabdominal aneurysm.
+
+ TECHNIQUE:  Multiple transaxial images of the chest, abdomen, and pelvis were
+ obtained after the administration of intravenous contrast, utilizing the
+ abdominal aortic aneurysm protocol.  Coronally and sagittally reformatted
+ images were also obtained.
+
+ CT CHEST:  There are bilateral pleural effusions, moderate on the left and
+ small on the right with adjacent compressive atelectasis.  No pericardial
+ effusions.  No axillary, hilar, or mediastinal lymphadenopathy.  There is an
+ aortic aneurysm originating from the aortic arch (sequence 4, image #15) and
+ extending inferiorly to just proximal to the iliac bifurcation.  The aorta is
+ markedly tortuous and demonstrates a substantial component of mural thrombus.
+ The maximal diameter is 6.7 cm at its proximal thoracic descending portion and
+ 6.5 cm as it passes through the diaphragmatic hiatus, with an abrupt kink at
+ the level of the lower left chest.  The aneurysm tapers to 4.1 cm at the level
+ of the takeoff of the SMA.  The celiac and SMA are patent, although there is
+ narrowing at the celiac origin.  There appears to be narrowing of the origin
+ of the left renal artery, although both renal arteries are widely patent.  Of
+ considerable note is the presence of relatively higher attenuation fluid
+ dependently in the left abdomen adjacent to the proximal aortic aneurysm,
+ which extends inferiorly along the left psoas muscle.  This finding is
+ concerning for the presence of an aortic leak.
+
+ The patient is post cholecystectomy.  The liver is normal in size and
+ appearance.  No focal lesions.  No intra- or extra-hepatic biliary ductal
+ dilatation.  The gallbladder, spleen, and adrenal glands are unremarkable. The
+ kidneys demonstrate symmetric enhancement without hydronephrosis or focal
+ lesions.  Left perinephric stranding is noted.
+
+ There is a Foley catheter within the urinary bladder, which contains a small
+ amount of gas.  There are numerous colonic diverticula, especially in the
+ sigmoid colon, without evidence of diverticulitis.
+
+ No suspicious osseous lesions.  There are mild degenerative changes of the
+ lumbar spine.
+                                                             (Over)
+
+ [**2131-10-24**] 4:50 PM
+ CTA CHEST W&W/O C &RECONS; CTA ABD W&W/O C & RECONS             Clip # [**Clip Number (Radiology) 86021**]
+ CTA PELVIS W&W/O C & RECONS
+ Reason: assess thoracoabdominal aneurysm. MMS service
+ Admitting Diagnosis: CP
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ (Cont)
+
+ Multiplanar reformatted images were essential in the delineation of the above
+ findings.
+
+ Findings were discussed with cardiac surgery nurse practitioner, [**First Name8 (NamePattern2) 4519**]
+ [**Doctor Last Name 1072**].
+
+ IMPRESSION:
+ 1.  Thoracoabdominal aortic aneurysm measuring up to 6.7 cm at the proximal
+ thoracic level extending through the renal arteries to terminate at the
+ proximal to iliac bifurcation.  Of note is presence of relative higher
+ attenuation left abdominal fluid or soft tissue density adjacent to aorta,
+ concerning for the presence of a leak.  These findings were discussed with
+ [**First Name8 (NamePattern2) 4519**] [**Doctor Last Name 1072**].
+ 2.  Bilateral pleural effusions, left greater than right with adjacent
+ atelectasis.
+
+
+
+
+[**2131-10-25**] 9:43 AM
+ MMS SUGICAL PLANNING SERVICE                                    Clip # [**Clip Number (Radiology) 85493**]
+ Reason: AAA, study done on [**10-24**]
+ ICD9 code from order: 441.4
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+  76 year old woman with AAA
+ REASON FOR THIS EXAMINATION:
+  AAA, study done on [**10-24**]
+ No contraindications for IV contrast
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ This report is for reference only, generated by M2s.
+
+ [**Known firstname 85494**] [**Known lastname 85495**] ([**Numeric Identifier 85496**] ), DOB:[**2055-3-23**] (Age 78) AAA/TAA
+ Date of Service: [**0-0-0**]
+ Physician [**Name Initial (PRE) 4096**]: [**First Name8 (NamePattern2) 923**] [**Last Name (NamePattern1) **], MD
+
+
+ Current Status
+
+
+ [**Known firstname 85494**] [**Known lastname 85495**] was last scanned on [**0-0-0**] and is a pre-operative AAA/TAA
+ patient. Ms. [**Known lastname 85495**] was previously scanned at Pre-op on [**0-0-0**]. Her AAA
+ volume is 40.1cc. Her TAA volume is 800.7cc. Her AAA diameter is 3.0cm. Her
+ TAA diameter is 6.9cm.
+
+
+ Nb: This note was automatically generated.
+
+
+[**2131-10-24**] 5:20 AM
+ CHEST (PORTABLE AP)                                             Clip # [**Clip Number (Radiology) 84773**]
+ Reason: please assess mediastinum
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+  72 year old woman with thoracic aneurysm
+ REASON FOR THIS EXAMINATION:
+  please assess mediastinum
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ INDICATION:  Thoracic aneurysm, please assess mediastinum.
+
+ COMPARISON:  None.
+
+ FINDINGS:  AP supine portable chest radiograph reviewed.  The mediastinal
+ contours are markedly abnormal secondary to an aneurysmal and severely ectatic
+ thoracic aorta.  Heart size is normal.  There is an ill-defined opacity at the
+ left base that likely represents atelectasis, but focus of infection cannot be
+ excluded.
+
+ IMPRESSION:  Markedly abnormal mediastinum with aneurysmal and tortuous
+ thoracic aorta.  No comparison radiographs are available.  Cross sectional
+ imaging is advised.
+
+
+
+
+################################Nursing/other################################
+
+GEN: pt adm from osh to [**Hospital1 **] ed -to csru on esmolol gtt. a+ox3. mentation and neuro intact. afebrile. on partial non-rebreathing w sat 100%. r fem art line placement at bs -no complication. titrated esmolol ^200mcg to keep goal sbp <110 - non-effective. nsr 70s. no ectopies. gave hydralazine iv, po captopril and changed to labetolol gtt [**Name8 (MD) 9**] np [**Initials (NamePattern4) **] [**Last Name (NamePattern4) 11**]->improved, sbp steady 90-100s. d'c esmolol.  sent multi labs ->hct 31. finishing ivf/bicarb gtt x6hours.
+
+neuro: pleasant. r pupil irregular d/t past lenses replacement per pt-not new-both reactive to light. no deficit
+
+cv: remain nsr. con't titrate labetolol to keep goal sbp <110. c/o "back pain x1 ->gave 1mg morphine ivp w effect, n/v x2 sm amt->gave reglan, ekg done at bs. sent troponin. aspirin po given. pt denies cp/sob/dyspnea." both feet cool. skin dry, +pp. no edema. awaiting for echo, thoracic cta, and pft tests. no lytes replete [**Name8 (MD) 9**] np.
+
+resp: ls cta. no distress. weaned to 2lnc w sat >96%
+gi: diet changed to house. pt has no difficulty swallowing. c/o reflux -started on protonix w relief
+endo: treat bs per csru insulin protocol [**Name8 (MD) 9**] np m .[**Doctor Last Name 11**]
+gu: oliguric. started on maintenance ivf d51/2ns w 20kcl at 50cc/hr [**Name8 (MD) 9**] np.
+skin: skin intact
+comfort: spoke person niece -at bs visiting -status updated and info given. explain to pt/family poc/status.
+
+a/p: newly adm pt w thoracic aneurysm, manage to keep goal sbp <110, labetolol gtt, po captopril, iv hydralazine. need CTA, ECHO, PFT.
+manage pain w morphine sulfate. ivf. bedrest.
+
+
+add: pt tol CTA of Torso. both surgeons (Dr [**Last Name (STitle) 5226**] and vascular) spoke with pt about CTA r/s->planning for meeting to discuss poc/surgical options with pt and spoke person niece tomorrow. plan to start on po labetolol and d'c gtt as tol. ?surgery early next week per attending. start ivf ns 200cc/hr x1L for post CTA [**Name8 (MD) 9**] np [**Initials (NamePattern4) **] [**Last Name (NamePattern4) 11**].
+
+
+
+NEURO: Alert, awake, oriented x3, follows commands [**Last Name (LF) 5227**], [**First Name3 (LF) 20**], PERRLA
+
+RESP: On 2L NC with Sats >95%, lungs sounds clear apices/bases, respirations regular/unlabored
+
+CV: NSR without ectopy, keep MAP between 60-90, goal SBP <110, afebrile, denies chest pain, on maintenance IV of 20mEq in 1L bag at 50cc/hr
+
+GI/GU: Able to take PO med and sips of water, abd soft/distended, no BM during shift; Foley draining yellow/clear urine at >20-30cc/hr
+
+LABS: Last K was 3.2 and tx with 20mEq KCl PO
+
+PAIN: Complains of back pain that is relieved with reposition and morphine IVP
+
+PLAN: Continue to monitor BP, ? transfer to floor, monitor for pain
+
+
