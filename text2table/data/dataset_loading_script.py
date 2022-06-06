@@ -48,20 +48,13 @@ _HOMEPAGE = "https://physionet.org/content/mimiciii-demo/1.4/"
 # the licence for the dataset here if you can find it
 _LICENSE = "https://physionet.org/content/mimiciii-demo/view-license/1.4/"
 
-# link to the official dataset URLs here
-# Since we work with our dataset locally, we don't need URLs.
-# _URLS = {
-#     "first_domain": "https://huggingface.co/great-new-dataset-first_domain.zip",
-#     "second_domain": "https://huggingface.co/great-new-dataset-second_domain.zip",
-# }
-
 
 class MIMICDataset(datasets.GeneratorBasedBuilder):
     """MIMIC-III dataset"""
 
     VERSION = datasets.Version("1.4.0")
 
-    # This is a list of multiple configurations for these datasets.
+    # This is a list of multiple configurations for the dataset.
     BUILDER_CONFIGS = [
         datasets.BuilderConfig(name="minimum", version=VERSION, description="This is the bare minimum dataset"),    
     ]
@@ -78,20 +71,10 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     "DOB": datasets.Value("string"),
                     "SEX": datasets.Value("string"),
                     "ADMITTIME": datasets.Value("string"),
-                    "DISCHTIME": datasets.Value("string"),
                     "TEXT": datasets.Value("string"),
                 }
             )
-        # else: 
-        #     features = datasets.Features(
-        #         {
-        #             "DOB": datasets.Value("string"),
-        #             "SEX": datasets.Value("string"),
-        #             "ADMITTIME": datasets.Value("string"),
-        #             "DISCHTIME": datasets.Value("string"),
-        #             "TEXT": datasets.Value("string"),
-        #         }
-        #    )
+        
         return datasets.DatasetInfo(
             # This is the description that will appear on the datasets page.
             description=_DESCRIPTION,
@@ -107,17 +90,16 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager):
         # This method is tasked with defining the splits depending on the configuration
-        # If several configurations are possible (listed in BUILDER_CONFIGS), the configuration selected by the user is in self.config.name
+        # If several configurations are possible (listed in BUILDER_CONFIGS), 
+        # the configuration selected by the user is in self.config.name
 
         # the original template of this method is also tasked with downloading and extracting data from URLs. 
         # However, since we work with our data locally, we don't need this functionality. 
         # dl_manager is a datasets.download.DownloadManager that can be used to download and extract URLS
-        # I still keep this parameter for any later potential use.
 
-        # urls = _URLS[self.config.name]
-        # data_dir = dl_manager.download_and_extract(urls)
-
-        data_dir = "./dataset/"
+        if self.config.name == "minimum":
+            data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum"
+        
         return [
             datasets.SplitGenerator(
                 name=datasets.Split.TRAIN,
@@ -157,15 +139,8 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                 if self.config.name == "minimum":
                     # Yields examples as (key, example) tuples
                     yield key, {
-                        "DOB": "" if split == "test" else row[0],
-                        "SEX": "" if split == "test" else row[1],
-                        "ADMITTIME": "" if split == "test" else row[2],
-                        "DISCHTIME": "" if split == "test" else row[3],
-                        "TEXT": row[4],
+                        "SEX": "" if split == "test" else row[0],
+                        "DOB": "" if split == "test" else row[1],
+                        "ADMITTIME": "" if split == "test" else row[3],
+                        "TEXT": row[2],
                     }
-                # else:
-                #     yield key, {
-                #         "sentence": data["sentence"],
-                #         "option2": data["option2"],
-                #         "second_domain_answer": "" if split == "test" else data["second_domain_answer"],
-                #     }
