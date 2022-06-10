@@ -144,9 +144,9 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     nonheader_seq = " <COL> ".join([x for x in row if x != row[2]])
                     # Yields examples as (key, example) tuples
                     yield (key - 1), {
-                        "SEX": "" if split == "test" else row[0],
-                        "DOB": "" if split == "test" else row[1],
-                        "ADMITTIME": "" if split == "test" else row[3],
-                        "TABLE": "" if split == "test" else header_seq + nonheader_seq,
+                        "SEX": row[0],
+                        "DOB": row[1],
+                        "ADMITTIME": row[3],
+                        "TABLE": header_seq + nonheader_seq,
                         "TEXT": row[2],
                     }
