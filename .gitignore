@@ -90,4 +90,3 @@ target/
 
 # data
 *.csv
-text2table/data/data_test.py
