@@ -71,6 +71,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     "DOB": datasets.Value("string"),
                     "SEX": datasets.Value("string"),
                     "ADMITTIME": datasets.Value("string"),
+                    "TABLE": datasets.Value("string"),
                     "TEXT": datasets.Value("string"),
                 }
             )
@@ -132,15 +133,20 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
         # This method handles input defined in _split_generators to yield (key, example) tuples from the dataset.
         # The `key` is for legacy reasons (tfds) and is not important in itself, but must be unique for each example.
         with open(filepath, encoding="utf-8") as f:
+            header_seq = "" #the sequence representation of the column headers
             csvreader = csv.reader(f, delimiter=",")
             for key, row in enumerate(csvreader):
                 if key == 0:
+                    header_seq = " <COL> ".join([x for x in row if x != row[2]]) + " <ROW> "
                     continue
                 if self.config.name == "minimum":
+                    #the sequence representation of the nonheader cells
+                    nonheader_seq = " <COL> ".join([x for x in row if x != row[2]])
                     # Yields examples as (key, example) tuples
-                    yield key, {
+                    yield (key - 1), {
                         "SEX": "" if split == "test" else row[0],
                         "DOB": "" if split == "test" else row[1],
                         "ADMITTIME": "" if split == "test" else row[3],
+                        "TABLE": "" if split == "test" else header_seq + nonheader_seq,
                         "TEXT": row[2],
                     }
