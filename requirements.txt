@@ -12,6 +12,7 @@ matplotlib
 ipykernel
 datasets
 requests
+transformers
 
 # Linters and formatters
 autopep8
