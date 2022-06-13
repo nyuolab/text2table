@@ -12,7 +12,9 @@ matplotlib
 ipykernel
 datasets
 requests
+pandas
 transformers
+regex
 
 # Linters and formatters
 autopep8
