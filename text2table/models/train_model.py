@@ -28,7 +28,7 @@ else:
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
-    tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>"]})
+    tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
 
 
     # Define the maximum input and output sequence length
