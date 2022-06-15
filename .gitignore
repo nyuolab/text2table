@@ -91,3 +91,7 @@ target/
 # data
 *.csv
 text2table/data/data_test.py
+
+# Training log & Check points
+models/
+text2table/models/wandb/
