@@ -71,6 +71,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     "DOB": datasets.Value("string"),
                     "SEX": datasets.Value("string"),
                     "ADMITTIME": datasets.Value("string"),
+                    "HEADER": datasets.Value("string"),
                     "TABLE": datasets.Value("string"),
                     "TEXT": datasets.Value("string"),
                 }
@@ -147,6 +148,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         "SEX": row[0],
                         "DOB": row[1],
                         "ADMITTIME": row[3],
+                        "HEADER": header_seq,
                         "TABLE": header_seq + nonheader_seq,
                         "TEXT": row[2],
                     }
