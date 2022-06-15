@@ -71,6 +71,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     "DOB": datasets.Value("string"),
                     "SEX": datasets.Value("string"),
                     "ADMITTIME": datasets.Value("string"),
+                    "ICD9": datasets.Value("string"),
                     "HEADER": datasets.Value("string"),
                     "TABLE": datasets.Value("string"),
                     "TEXT": datasets.Value("string"),
@@ -138,17 +139,18 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
             csvreader = csv.reader(f, delimiter=",")
             for key, row in enumerate(csvreader):
                 if key == 0:
-                    header_seq = " <COL> ".join([x for x in row if x != row[2]]) + " <ROW> "
+                    header_seq = " <COL> ".join([x for x in row if x != row[4]]) + " <ROW> "
                     continue
                 if self.config.name == "minimum":
                     #the sequence representation of the nonheader cells
-                    nonheader_seq = " <COL> ".join([x for x in row if x != row[2]])
+                    nonheader_seq = " <COL> ".join([x for x in row if x != row[4]])
                     # Yields examples as (key, example) tuples
                     yield (key - 1), {
                         "SEX": row[0],
                         "DOB": row[1],
-                        "ADMITTIME": row[3],
+                        "ADMITTIME": row[2],
+                        "ICD9": row[3],
                         "HEADER": header_seq,
                         "TABLE": header_seq + nonheader_seq,
-                        "TEXT": row[2],
+                        "TEXT": row[4],
                     }
