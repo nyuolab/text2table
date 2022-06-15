@@ -89,7 +89,7 @@ else:
         batched=True,
         batch_size=batch_size,
         num_proc=num_cpu,
-        remove_columns=["DOB", "SEX", "ADMITTIME"],
+        remove_columns=["DOB", "SEX", "ADMITTIME", "ICD9"],
     )
     # Preprocess(Tokenize) the input data: Validation set
     val_dataset = val_dataset.map(
@@ -97,7 +97,7 @@ else:
         batched=True,
         batch_size=batch_size,
         num_proc=num_cpu,
-        remove_columns=["DOB", "SEX", "ADMITTIME"],
+        remove_columns=["DOB", "SEX", "ADMITTIME", "ICD9"],
     )
 
     # Convert the dataset to Pytorch format for LED
@@ -111,13 +111,13 @@ else:
     )
 
     # Creat a directory to store the pretokenized data for training set
-    os.makedirs(ckpt_dir_train)
+    os.makedirs(ckpt_dir_train, exist_ok=True)
     # Save
     train_dataset.save_to_disk(ckpt_dir_train)
     logging.info(f'saved tokenized training dataset to {ckpt_dir_train}')
 
     # Creat a directory to store the pretokenized data for validation set
-    os.makedirs(ckpt_dir_val)
+    os.makedirs(ckpt_dir_val, exist_ok=True)
     # Save
     val_dataset.save_to_disk(ckpt_dir_val)
     logging.info(f'saved tokenized validation dataset to {ckpt_dir_val}')

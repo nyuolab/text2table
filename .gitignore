@@ -95,3 +95,7 @@ text2table/data/data_test.py
 # Training log & Check points
 models/
 text2table/models/wandb/
+text2table/data/pretokenized/
+
+# Temporary Files
+text2table/models/evaluation.py
