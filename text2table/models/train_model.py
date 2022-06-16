@@ -9,6 +9,14 @@ import os, shutil, logging
 ckpt_dir_train = '/gpfs/data/oermannlab/users/cz1906/text2table/text2table/data/pretokenized/train/'
 ckpt_dir_val = '/gpfs/data/oermannlab/users/cz1906/text2table/text2table/data/pretokenized/val/'
 
+
+# Load tokenizer for the LED model
+tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+# Add special tokens to the LED model
+# As we want to represent the table as a sequence: separation tokens are added
+tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
+
+
 # If the pretokenized data are exists, load it directly from the disk (time-saving)
 # If not, tokenized the text for model and store it for faster reuse
 if os.path.exists(ckpt_dir_train) and os.path.exists(ckpt_dir_val):
@@ -23,12 +31,6 @@ else:
     # Load preprocessed data: with special tokens added
     train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
     val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
-
-    # Load tokenizer for the LED model
-    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
-    # Add special tokens to the LED model
-    # As we want to represent the table as a sequence: separation tokens are added
-    tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
 
 
     # Define the maximum input and output sequence length
