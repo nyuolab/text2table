@@ -15,6 +15,7 @@ requests
 pandas
 transformers
 regex
+rouge_score
 
 # Linters and formatters
 autopep8
