@@ -88,6 +88,7 @@ def tokenize():
         remove_columns=["DOB", "SEX", "ADMITTIME", "ICD9"],
     )
 
+
     # Creat a directory to store the pretokenized data for training set 
     os.makedirs(ckpt_dir_train, exist_ok=True)
     # Save

@@ -20,25 +20,15 @@ tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<
 
 # If the pretokenized data are exists, load it directly from the disk (time-saving)
 # If not, tokenized the text for model and store it for faster reuse (Call Tokenizer in the same directory)
-if os.path.exists(ckpt_dir_train) and os.path.exists(ckpt_dir_val):
-
-    # Load the pre-tokenzied training dataset
-    train_dataset = datasets.load_from_disk(ckpt_dir_train)
-    
-    # Load the pre-tokenized validation dataset
-    val_dataset = datasets.load_from_disk(ckpt_dir_val)
-
-else:
-    # Pre-tokenize the input text
+if not (os.path.exists(ckpt_dir_train) and os.path.exists(ckpt_dir_val)):
+    # Pre-tokenize the input text & save the result in the directory
     tokenize()
 
-    # Load the pre-tokenzied training dataset
-    train_dataset = datasets.load_from_disk(ckpt_dir_train)
-    
-    # Load the pre-tokenized validation dataset
-    val_dataset = datasets.load_from_disk(ckpt_dir_val)
 
-
+# Load the pre-tokenzied training dataset
+train_dataset = datasets.load_from_disk(ckpt_dir_train)
+# Load the pre-tokenized validation dataset
+val_dataset = datasets.load_from_disk(ckpt_dir_val)
 
 # Convert the dataset to Pytorch format for LED
 train_dataset.set_format(
@@ -50,8 +40,18 @@ val_dataset.set_format(
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 
+
+# Modify model & trainer parameters
+gradient_checkpointing=True
+
+predict_with_generate=True
+evaluation_strategy="steps"
+per_device_train_batch_size=2
+per_device_eval_batch_size=2
+
+
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=True)
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -62,13 +62,13 @@ model.config.length_penalty = 1.0
 model.config.early_stopping = True
 
 
-# Modify training parameters
+# Declare the training arguments
 training_args = Seq2SeqTrainingArguments(
     output_dir="../../models/",
-    predict_with_generate=True,
-    evaluation_strategy="steps",
-    per_device_train_batch_size=2,
-    per_device_eval_batch_size=2,
+    predict_with_generate=predict_with_generate,
+    evaluation_strategy=evaluation_strategy,
+    per_device_train_batch_size=per_device_train_batch_size,
+    per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
     logging_steps=10,
     eval_steps=1000,
@@ -80,7 +80,6 @@ training_args = Seq2SeqTrainingArguments(
 
 # Load the HuggingFace pre-defined "rouge" metric for evaluation
 rouge = datasets.load_metric("rouge")
-
 # Define the metric function for evalutation
 def compute_metrics(pred):
     # Prediction IDs
