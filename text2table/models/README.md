@@ -15,10 +15,11 @@ Datasets
 -----------------
 The datatset used for the MVP consists of the data concatenated from the tables `PATIENTS`,
 `NOTEEVENTS`, and `D_ICD_DIAGNOSES`. And the concatenated is based on the Patient ID number
-and Patient Specfici Admission ID number. The concatenated dataset consists of approximately
+and Patient Specific Admission ID number. The concatenated dataset consists of approximately
 50000 rows of data with each row represents one patient for his/her specific admission. Since
 this is a text2table task, the input data is the Discharge Summary of the clinical notes, and
-the output columns are constraint for Patient Sex, Date of Birth, Admission Time, and ICD9 Code.
+the output columns are constraint for Patient Sex, Date of Birth, Admission Time, and ICD9 Code
+for the MVP.
 
 Pre-Tokenize for Model
 -------------------------
@@ -39,4 +40,4 @@ HuggingFace. Once all the requirments is satisfied, one can start fine-tuning fo
 
 The MVP is completed and tested on multi-CPUs/GPUs set-up. Please arrange accordingly. For example, if one has 
 4 GPUs for fine-tuning, one can activate the distributed training by using the 
-`python3 -m torch.distributed.launch --nproc_per_node 4 train_model.py`。
+`python3 -m torch.distributed.launch --nproc_per_node 4 train_model.py`.
