@@ -151,6 +151,6 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         "ADMITTIME": row[2],
                         "ICD9": row[3],
                         "HEADER": header_seq,
-                        "TABLE": header_seq + nonheader_seq,
+                        "TABLE": nonheader_seq,
                         "TEXT": row[4],
                     }
