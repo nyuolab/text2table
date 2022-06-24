@@ -3,7 +3,7 @@ Final Dataset for the Text2Table Task
 
 The files for creating the final dataset for the Text2Table Task. The whole dataset is created based on the 
 present of MIMIC-III (Medical Information Mart for Intensive Care III), and more details can be acccessed at
-[MIMIC-III]([https://link-url-here.org](https://mimic.mit.edu/docs/iii/)). As the original MIMIC-III dataset
+([MIMIC-III][https://link-url-here.org](https://mimic.mit.edu/docs/iii/)). As the original MIMIC-III dataset
 contains 26 tables and approximately hundreds of columns, some pre-selected columns used to train the model
 can be accessed at `text2table/dataset/Pre-Selected_Columns.txt`. In addition, some sample clinicial notes
 for patients can be accessed at `text2table/dataset/sample_patient_data/`. However, as we want models to 
