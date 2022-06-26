@@ -34,22 +34,22 @@ val_dataset = datasets.load_from_disk(ckpt_dir_val)
 
 
 # Convert the dataset to Pytorch format for LED
-train_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
-)
-val_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
-)
+# train_dataset.set_format(
+#     type="torch",
+#     columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
+# )
+# val_dataset.set_format(
+#     type="torch",
+#     columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
+# )
 
 train_dataset.set_format(
     type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 val_dataset.set_format(
     type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 
 

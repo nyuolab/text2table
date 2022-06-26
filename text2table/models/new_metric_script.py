@@ -96,11 +96,11 @@ class ColMatch(datasets.Metric):
     #     bad_words_path = dl_manager.download_and_extract(BAD_WORDS_URL)
     #     self.bad_words = {w.strip() for w in open(bad_words_path, encoding="utf-8")}
 
-    def _compute(self, predictions, references): #predictions, references both in a batch
+    def _compute(self, predictions, references,mode): #predictions, references both in a batch
         result={}
         #initiate dictionary
         for col in headers:
-            for c in self.config_name:
+            for c in mode:
                 result[f'{c}_{col}']={'ele_match':0,'ele_total':0}
         #can't find <row> separator
         result['<row>_error']=0
@@ -168,7 +168,7 @@ class ColMatch(datasets.Metric):
                         continue
                     cel_ref=cols_ref[i].split(' <CEL> ')
                     #number of elements in reference
-                    for c in self.config_name:
+                    for c in mode:
                         result[f'{c}_{headers[i]}']['ele_total']=len(cel_ref)
                     
                     #iterate thru each element in a cell
@@ -178,7 +178,7 @@ class ColMatch(datasets.Metric):
                         for c,d in zip(a,b): #c and d are each char in word a,b
                             if c!=d: char_wrong+=1 #if c,d not match, count as  
                         #--crucial: different config modes:
-                        for c in self.config_name:
+                        for c in mode:
                              #modes
                             if c == '20':perc=0.2
                             elif c == '10':perc=0.1
@@ -191,7 +191,7 @@ class ColMatch(datasets.Metric):
                     #--test
                     #logging.info('cell with 1 value')
                     #iterate thru each element in a cell
-                    for c in self.config_name:
+                    for c in mode:
                         result[f'{c}_{headers[i]}']['ele_total']=1
 
                     char_wrong=0 # counts number of chars matching
@@ -199,8 +199,8 @@ class ColMatch(datasets.Metric):
                     for c,d in zip(a,b): #c and d are each char in word a,b
                         if c!=d: char_wrong+=1 #if c,d not match, count as  
                     #--crucial: different config modes:
-                    for c in self.config_name:
-                            #modes
+                    for c in mode:
+                        #modes
                         if c == '20':perc=0.2
                         elif c == '10':perc=0.1
                         elif c == '0':perc=0
