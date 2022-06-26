@@ -16,6 +16,8 @@ pandas
 transformers
 regex
 rouge_score
+nltk
+datetime
 
 # Linters and formatters
 autopep8

@@ -32,27 +32,15 @@ train_dataset = datasets.load_from_disk(ckpt_dir_train)
 # Load the pre-tokenized validation dataset
 val_dataset = datasets.load_from_disk(ckpt_dir_val)
 
-
 # Convert the dataset to Pytorch format for LED
 train_dataset.set_format(
     type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 val_dataset.set_format(
     type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
-
-train_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
-)
-val_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "decoder_input_ids", "attention_mask", "global_attention_mask", "labels"],
-)
-
-
 print('shape: ',val_dataset.shape)
 
 #--changed,resume
@@ -60,13 +48,15 @@ val_dataset=val_dataset.select(range(10))
 print('\nafter slicing: ')
 print('shape: ',val_dataset.shape)
 
+
 # Modify model & trainer parameters
 gradient_checkpointing=True
 
 predict_with_generate=True
 evaluation_strategy="steps"
-per_device_train_batch_size=1
-per_device_eval_batch_size=1
+per_device_train_batch_size=2
+per_device_eval_batch_size=2
+
 
 
 # Initialize the model
@@ -83,7 +73,7 @@ model.config.length_penalty = 1.0
 model.config.early_stopping = True
 
 
-# Declare the training pts
+# Declare the training arguments
 training_args = Seq2SeqTrainingArguments(
     output_dir="../../models/",
     predict_with_generate=predict_with_generate,
@@ -102,9 +92,9 @@ training_args = Seq2SeqTrainingArguments(
 )
 
 
-
 #--changed: load custom metrics
-cel_match = load_metric('new_metric_script.py', config_name=['20_perc_wrong','0_perc-wrong'])
+
+cel_match = load_metric('new_metric_script.py', config_name='0')
 # Define the metric function for evalutation
 def compute_metrics(pred):
     # Prediction IDs
@@ -117,10 +107,20 @@ def compute_metrics(pred):
     label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
     
     #cel_match.add_batch(predictions=pred_str, references=label_str)
+    cel_match = load_metric('new_metric_script.py', config_name='0')
+    cel_match_output_0 = cel_match.compute(predictions=pred_str,references=label_str)
 
-    # Compute the rouge evaluation results
-    cel_match_output = cel_match.compute(predictions=pred_str,references=label_str)
+    cel_match = load_metric('new_metric_script.py', config_name='10')
+    cel_match_output_10 = cel_match.compute(predictions=pred_str,references=label_str)
+
+    cel_match = load_metric('new_metric_script.py', config_name='20')
+    cel_match_output_20 = cel_match.compute(predictions=pred_str,references=label_str)
     
+    exit(0)
+
+    final={}
+    
+   
 
     # Return the results
     # return {
@@ -140,7 +140,7 @@ trainer = Seq2SeqTrainer(
     args=training_args,
     compute_metrics=compute_metrics,
     train_dataset=train_dataset,
-    eval_dataset=val_dataset
+    eval_dataset=val_dataset,
 )
 
 # Start the training

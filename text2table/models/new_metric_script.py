@@ -23,7 +23,7 @@ a=datetime.datetime.now()
 #os.makedirs('eval_logs',exist_ok=True)
 b=a.strftime("eval_logs/%m_%d_%H:%M:%S")+'_eval.log'
 #config:
-logging.basicConfig(filename=b, level=logging.DEBUG,format='%(asctime)s - %(message)s',datefmt='%d-%b-%y %H:%M:%S')
+
 logging.info('---------Start of evaluation epoch---------')
 
 # TODO: Add BibTeX citation
@@ -97,15 +97,16 @@ class ColMatch(datasets.Metric):
     #     self.bad_words = {w.strip() for w in open(bad_words_path, encoding="utf-8")}
 
     def _compute(self, predictions, references): #predictions, references both in a batch
-        result={}
-        #initiate dictionary
-        for col in headers:
-            for c in self.config_name:
-                result[f'{c}_{col}']={'ele_match':0,'ele_total':0}
-        #can't find <row> separator
-        result['<row>_error']=0
-        #unequal number of columns
-        result['<col>_mismatch']=0
+        # result={}
+        # #initiate dictionary
+        # for col in headers:
+        #     for c in self.config_name:
+        #         result[f'{c}_{col}']={'ele_match':0,'ele_total':0}
+        # #can't find <row> separator
+        # result['<row>_error']=0
+        # #unequal number of columns
+        # result['<col>_mismatch']=0
+        
 
         #--test
         logging.info('Successfulyl enters metric')
@@ -113,10 +114,26 @@ class ColMatch(datasets.Metric):
         # TODO: Compute the different scores of the metric
         #replace the below with function 
 
+        #modes
+        if self.config_name == '20':
+            perc=0.2
+        elif self.config_name == '10':
+            perc=0.1
+        elif self.config_name == '0':
+            perc=0
+        else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
+        b=a.strftime(f"{c}_eval_logs/%m_%d_%H:%M:%S")+'_eval.log'
+        logging.basicConfig(filename=b, level=logging.DEBUG,format='%(asctime)s - %(message)s',datefmt='%d-%b-%y %H:%M:%S')
+
         #get column header from first reference
         headers=references[0].split(' <ROW> ')[0].split(' <COL> ')
         headers[0]=headers[0].replace('<s>','')
         logging.info('headers: '+','.join(headers))
+
+        #initiate result
+        result={}
+        for col in headers: result[col]={'ele_match':0,'ele_total':0}
+
         #--test
         count=0
         #iterate thru rows/inputs
@@ -167,47 +184,36 @@ class ColMatch(datasets.Metric):
                         #logging.info('result: ',result)
                         continue
                     cel_ref=cols_ref[i].split(' <CEL> ')
+
                     #number of elements in reference
-                    for c in self.config_name:
-                        result[f'{c}_{headers[i]}']['ele_total']=len(cel_ref)
-                    
+                    ele_total=len(cel_ref)
+                    ele_match=0
                     #iterate thru each element in a cell
                     for a, b in zip(cel_pred, cel_ref):
                         char_wrong=0 # counts number of chars matching
                         char_len=len(b) # counts number of charcters in this column cell
                         for c,d in zip(a,b): #c and d are each char in word a,b
                             if c!=d: char_wrong+=1 #if c,d not match, count as  
-                        #--crucial: different config modes:
-                        for c in self.config_name:
-                             #modes
-                            if c == '20':perc=0.2
-                            elif c == '10':perc=0.1
-                            elif c == '0':perc=0
-                            else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
-                            #if number of matching chars smaller than length of word
-                            if char_wrong/char_len<=perc: 
-                                result[f'{c}_{headers[i]}']['ele_match']+=1
+                        #if number of matching chars smaller than length of word
+                        if char_wrong/char_len<=perc: ele_match+=1
                 else: #if cell has only 1 element
                     #--test
                     #logging.info('cell with 1 value')
-                    #iterate thru each element in a cell
-                    for c in self.config_name:
-                        result[f'{c}_{headers[i]}']['ele_total']=1
+                    #number of elements in reference
+                    #number of elements in reference
+                    ele_total=1
+                    ele_match=0
 
                     char_wrong=0 # counts number of chars matching
-                    char_len=len(b) # counts number of charcters in this column cell
-                    for c,d in zip(a,b): #c and d are each char in word a,b
+                    char_len=len(cols_ref[i]) # counts number of charcters in this column cell
+                    for c,d in zip(cols_pred[i],cols_ref[i]): #c and d are each char in word a,b
                         if c!=d: char_wrong+=1 #if c,d not match, count as  
-                    #--crucial: different config modes:
-                    for c in self.config_name:
-                            #modes
-                        if c == '20':perc=0.2
-                        elif c == '10':perc=0.1
-                        elif c == '0':perc=0
-                        else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
-                        #if number of matching chars smaller than length of word
-                        if char_wrong/char_len<=perc: result[f'{c}_{headers[i]}_ele_match']=1
+                    #if number of matching chars smaller than length of word
+                    if char_wrong/char_len<=perc: ele_match=1
                     
+                #append tmp to result dic for this column
+                result[headers[i]]['ele_match']+=ele_match
+                result[headers[i]]['ele_total']+=ele_total
                 #--test
                 #logging.info('ele_match: ',ele_match)
                 #logging.info('ele_total: ',ele_total)
