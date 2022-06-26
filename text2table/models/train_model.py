@@ -4,6 +4,8 @@ import datasets
 from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer)
 import os, shutil, logging
 from tokenizer import tokenize
+#--changed
+from datasets import load_metric
 
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
@@ -39,6 +41,12 @@ val_dataset.set_format(
     type="torch",
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
+print('shape: ',val_dataset.shape)
+
+#--changed,resume
+val_dataset=val_dataset.select(range(10))
+print('\nafter slicing: ')
+print('shape: ',val_dataset.shape)
 
 
 # Modify model & trainer parameters
@@ -50,8 +58,11 @@ per_device_train_batch_size=2
 per_device_eval_batch_size=2
 
 
+
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+#--changed
+#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+model = LEDForConditionalGeneration.from_pretrained("../checkpoints/checkpoint-1800/")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -70,36 +81,47 @@ training_args = Seq2SeqTrainingArguments(
     per_device_train_batch_size=per_device_train_batch_size,
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
-    logging_steps=10,
-    eval_steps=1000,
+    #--changed, resume
+    #logging_steps=10,
+    logging_steps=2,
+    #--changed, resume
+    #eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,
 )
 
 
-# Load the HuggingFace pre-defined "rouge" metric for evaluation
-rouge = datasets.load_metric("rouge")
+#--changed: load custom metrics
+
+cel_match = load_metric('new_metric_script.py', config_name='0')
 # Define the metric function for evalutation
 def compute_metrics(pred):
     # Prediction IDs
     labels_ids = pred.label_ids
     pred_ids = pred.predictions
+
     # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
     pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
     labels_ids[labels_ids == -100] = tokenizer.pad_token_id
     label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
-    # Compute the rouge evaluation results
-    rouge_output = rouge.compute(
-        predictions=pred_str, references=label_str, rouge_types=["rouge2"]
-    )["rouge2"].mid
-    # Return the results
-    return {
-        "rouge2_precision": round(rouge_output.precision, 4),
-        "rouge2_recall": round(rouge_output.recall, 4),
-        "rouge2_fmeasure": round(rouge_output.fmeasure, 4),
-    }
+    
+    #cel_match.add_batch(predictions=pred_str, references=label_str)
+    cel_match = load_metric('new_metric_script.py', config_name='0')
+    cel_match_output_0 = cel_match.compute(predictions=pred_str,references=label_str)
 
+    cel_match = load_metric('new_metric_script.py', config_name='10')
+    cel_match_output_10 = cel_match.compute(predictions=pred_str,references=label_str)
+
+    cel_match = load_metric('new_metric_script.py', config_name='20')
+    cel_match_output_20 = cel_match.compute(predictions=pred_str,references=label_str)
+    
+    exit(0)
+
+    final={}
+
+
+    return cel_match_output
 
 # Initialize the trainer
 trainer = Seq2SeqTrainer(
