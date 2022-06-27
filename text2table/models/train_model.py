@@ -44,7 +44,7 @@ val_dataset.set_format(
 print('shape: ',val_dataset.shape)
 
 #--changed,resume
-val_dataset=val_dataset.select(range(5))
+val_dataset=val_dataset.select(range(100))
 print('\nafter slicing: ')
 print('shape: ',val_dataset.shape)
 
@@ -89,15 +89,11 @@ training_args = Seq2SeqTrainingArguments(
     gradient_accumulation_steps=4,
 )
 
-#specify log directory for prediction for this run;
-metric_log_dir='metric_log_dir_r1'
-# will give error if it exists (it's intentional)
-os.makedirs(metric_log_dir)
 
 #--changed: load custom metrics
 cel_match = load_metric('new_metric_script.py')
 # Define the metric function for evalutation
-def compute_metrics(pred,metric_log_dir):
+def compute_metrics(pred):
     # Prediction IDs
     labels_ids = pred.label_ids
     pred_ids = pred.predictions
@@ -111,7 +107,7 @@ def compute_metrics(pred,metric_log_dir):
 
 
     # Compute the rouge evaluation results
-    cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=['0','10','20'],metric_log_dir=metric_log_dir)
+    cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=['0','10','20'])
     
     return cel_match_output
 

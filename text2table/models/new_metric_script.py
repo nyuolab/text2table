@@ -90,12 +90,13 @@ class ColMatch(datasets.Metric):
     #     bad_words_path = dl_manager.download_and_extract(BAD_WORDS_URL)
     #     self.bad_words = {w.strip() for w in open(bad_words_path, encoding="utf-8")}
 
-    def _compute(self, predictions, references,mode,metric_log_dir): #predictions, references both in a batch
-    """Returns the scores"""
+    def _compute(self, predictions, references,mode): #predictions, references both in a batch
+        """Returns the scores"""
         #log config:
-        a=datetime.datetime.now()
-        b=a.strftime(f"{metric_log_dir}/%m_%d_%H:%M:%S_eval.log")
-        logging.basicConfig(filename=b, level=logging.DEBUG,format='%(levelname)s:%(message)s')
+        os.makedirs('eval_logs',exist_ok=True)
+        date=datetime.datetime.now()
+        n=date.strftime("eval_logs/%m_%d_%H:%M:%S_eval.log")
+        logging.basicConfig(filename=n, level=logging.DEBUG,format='%(levelname)s:%(message)s')
         logging.info('---------Start of evaluation epoch---------')
 
         #get column header from first reference
