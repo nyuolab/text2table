@@ -88,15 +88,16 @@ class ColMatch(datasets.Metric):
         # configs: matters for compute and logging
         if self.config_name == '20':
             perc=0.2
+            logging.info('\n---------Start of evaluation epoch: perc 20---------')
         elif self.config_name == '10':
             perc=0.1
+            logging.info('\n---------Start of evaluation epoch: perc 10---------')
         elif self.config_name == '0':
             perc=0
-        else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
-        #define filename for log: date_time_run.log
-        os.makedirs('eval_logs',exist_ok=True)
-        logging.basicConfig(filename=f"eval_logs/perc_{self.config_name}_eval.log", format='%(levelname)s:%(message)s', level=logging.DEBUG)
-        logging.info('---------Start of evaluation epoch---------')
+            logging.info('\n---------Start of evaluation epoch: perc 0---------')
+        else: raise ValueError(f"Invalid config name for ColMatch: {self.config_name}. Please use '0', '10', or '20'.")
+
+
         #get column header from first reference
         headers=references[0].split(' <ROW> ')[0].split(' <COL> ')
         headers[0]=headers[0].replace('<s>','')
@@ -187,21 +188,4 @@ class ColMatch(datasets.Metric):
                 #logging.info('ele_total: ',ele_total)
                 
                 logging.info(f'result: {result}')
-        logging.info('---------End of evaluation epoch---------')
         return result
-        #create final dicaiontry to be returned
-        # final={}
-        # for key,val in result.items(): 
-        #     #if it's single value: (errors)
-        #     if isinstance(val, int):
-        #         final[key]=val
-        #     else: #that should be dictionary
-        #         assert(isinstance(val,dict))
-        #         #if ele_total=0, make it 1 to prevent error
-        #         if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
-        #         final[key]=val['ele_match']/val['ele_total']*100
-        #--test
-        #logging.info('\final: ',final)
-        #logging.info('---------End of evaluation epoch---------')
-        # print('\nfinal: ',final)
-        # return final

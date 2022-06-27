@@ -6,6 +6,7 @@ import os, shutil, logging
 from tokenizer import tokenize
 #--changed
 from datasets import load_metric
+import datetime
 
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
@@ -41,12 +42,12 @@ val_dataset.set_format(
     type="torch",
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
-print('shape: ',val_dataset.shape)
 
-#--changed,resume
-val_dataset=val_dataset.select(range(5))
-print('\nafter slicing: ')
-print('shape: ',val_dataset.shape)
+# print('shape: ',val_dataset.shape)
+# #--changed,resume
+# val_dataset=val_dataset.select(range(5))
+# print('\nafter slicing: ')
+# print('shape: ',val_dataset.shape)
 
 
 # Modify model & trainer parameters
@@ -54,15 +55,15 @@ gradient_checkpointing=True
 
 predict_with_generate=True
 evaluation_strategy="steps"
-per_device_train_batch_size=1
-per_device_eval_batch_size=1
+per_device_train_batch_size=2
+per_device_eval_batch_size=2
 
 
 
 # Initialize the model
 #--changed
-#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-model = LEDForConditionalGeneration.from_pretrained("../checkpoints/checkpoint-1800/")
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+#model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-3000/")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -82,10 +83,10 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
     #--changed, resume
-    #logging_steps=10,
-    logging_steps=2,
+    logging_steps=10,
+    #logging_steps=2,
     #--changed, resume
-    #eval_steps=1000,
+    eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,
@@ -105,8 +106,9 @@ def compute_metrics(pred):
     
     #logs
     os.makedirs('eval_logs',exist_ok=True)
-    logging.basicConfig(filename="eval_logs/final_eval.log", format='%(levelname)s:%(message)s', level=logging.DEBUG)
-    logging.info('---------Start of evaluation epoch---------')
+    date=datetime.datetime.now()
+    n=date.strftime(f"eval_logs/%m_%d_%H:%M:%S_eval.log")
+    logging.basicConfig(filename=n, level=logging.DEBUG,format='%(levelname)s:%(message)s')
     #cel_match.add_batch(predictions=pred_str, references=label_str)
     #compute configs
     cel_match = load_metric('new_metric_script.py', config_name='0')
@@ -140,6 +142,7 @@ def compute_metrics(pred):
             if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
             final[f"20_{key}"]=val['ele_match']/val['ele_total']*100
     logging.info(f'final: {final}')
+    logging.info('\n---------End of evaluation epoch---------')
     return final
 
 # Initialize the trainer
