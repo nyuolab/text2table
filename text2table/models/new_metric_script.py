@@ -18,6 +18,14 @@ import logging
 import datetime
 import os
 
+def setup_logger(name, log_file, formatter,level=logging.INFO):
+    """To setup as many loggers as you want"""
+    handler = logging.FileHandler(log_file)        
+    handler.setFormatter(logging.Formatter(formatter))
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+    return logger
 
 
 # TODO: Add BibTeX citation
@@ -90,19 +98,22 @@ class ColMatch(datasets.Metric):
     #     bad_words_path = dl_manager.download_and_extract(BAD_WORDS_URL)
     #     self.bad_words = {w.strip() for w in open(bad_words_path, encoding="utf-8")}
 
+
     def _compute(self, predictions, references,mode): #predictions, references both in a batch
         """Returns the scores"""
         #log config:
         os.makedirs('eval_logs',exist_ok=True)
         date=datetime.datetime.now()
         n=date.strftime("eval_logs/%m_%d_%H:%M:%S_eval.log")
-        logging.basicConfig(filename=n, level=logging.DEBUG,format='%(levelname)s:%(message)s')
-        logging.info('---------Start of evaluation epoch---------')
+        metric_logger = setup_logger(name='metric_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+        
+        #logging.basicConfig(filename=n, level=logging.DEBUG,format='%(levelname)s:%(message)s')
+        metric_logger.info('\n---------Start of evaluation epoch---------')
 
         #get column header from first reference
         headers=references[0].split(' <ROW> ')[0].split(' <COL> ')
         headers[0]=headers[0].replace('<s>','')
-        logging.info('headers: '+','.join(headers))
+        metric_logger.info('headers: '+','.join(headers))
         #initiate dictionary
         result={}
         for col in headers:
@@ -112,55 +123,55 @@ class ColMatch(datasets.Metric):
         result['<row>_error']=0
         #unequal number of columns
         result['<col>_mismatch']=0
-        #--test
+        #--debug variable for metric_logger
         count=0
         #iterate thru rows/inputs
         for row_pred,row_ref in zip(predictions, references):
-            #--test
+            #--debug variable for metric_logger
             count+=1
-            logging.info(f'\ncurrent row in batch: {count}')
+            metric_logger.info(f'\ncurrent row in batch: {count}')
 
             #split pred_str by columns as a list
             #replace <pad> since annoying
             row_ref=row_ref.replace('<pad>','')
             row_pred=row_pred.replace('<pad>','')
-            logging.info(f'row_ref: {row_ref}')
-            logging.info(f'row_pred: {row_pred}')
+            metric_logger.info(f'row_ref: {row_ref}')
+            metric_logger.info(f'row_pred: {row_pred}')
 
             #error: first evaluation may look like </s><s>, need to skip
             if ' <ROW> ' not in row_pred: 
                 result['<row>_error']+=1
-                logging.info('<row>_error detected')
-                logging.info(f'result: {result}')
+                metric_logger.info('<row>_error detected')
+                metric_logger.info(f'result: {result}')
                 continue
             cols_pred=row_pred.split(' <ROW> ')[1].split(' <COL> ')
             cols_ref=row_ref.split(' <ROW> ')[1].split(' <COL> ')
-            logging.info(f"cols_pred: {', '.join(cols_pred)}")
-            logging.info(f"cols_ref: {', '.join(cols_ref)}")
+            metric_logger.info(f"cols_pred: {', '.join(cols_pred)}")
+            metric_logger.info(f"cols_ref: {', '.join(cols_ref)}")
 
             #if length mismatch, log as error
             if len(cols_pred)!=len(cols_ref):
                 result['<col>_mismatch']+=1
-                logging.info('<col>_mismatch detected')
-                logging.info(f'result: {result}')
+                metric_logger.info('<col>_mismatch detected')
+                metric_logger.info(f'result: {result}')
                 continue
 
             # iterate thru columns
             for i in range(len(headers)):  
-                logging.info(f'current header: {headers[i]}')
+                metric_logger.info(f'current header: {headers[i]}')
                 if ' <CEL> ' in cols_ref[i]: # use ref to be safe, if ref cell has multiple elements
-                    logging.info('This cell has multi values')
+                    metric_logger.info('This cell has multi values')
                     try: #if last column doesn't exist (a consequence of mismatch length of columns)
                         cel_pred=cols_pred[i].split(' <CEL> ')
                     except IndexError: 
                         result['<col>_mismatch']+=1
-                        logging.info('Index Error detected in split by <CEL>, counted as <col>_mismatch_error')
-                        logging.info(f'result: {result}')
+                        metric_logger.info('Index Error detected in split by <CEL>, counted as <col>_mismatch_error')
+                        metric_logger.info(f'result: {result}')
                         continue
                     cel_ref=cols_ref[i].split(' <CEL> ')
                     #number of elements in reference
                     for c in mode:
-                        result[f'{c}_{headers[i]}']['ele_total']=len(cel_ref)
+                        result[f'{c}_{headers[i]}']['ele_total']+=len(cel_ref)
                     
                     #iterate thru each element in a cell
                     for a, b in zip(cel_pred, cel_ref):
@@ -179,14 +190,14 @@ class ColMatch(datasets.Metric):
                             if char_wrong/char_len<=perc: 
                                 result[f'{c}_{headers[i]}']['ele_match']+=1
                 else: #if cell has only 1 element
-                    logging.info('This cell with 1 value')
+                    metric_logger.info('This cell has 1 value')
                     #iterate thru each element in a cell
                     for c in mode:
-                        result[f'{c}_{headers[i]}']['ele_total']=1
+                        result[f'{c}_{headers[i]}']['ele_total']+=1
 
                     char_wrong=0 # counts number of chars matching
-                    char_len=len(b) # counts number of charcters in this column cell
-                    for c,d in zip(a,b): #c and d are each char in word a,b
+                    char_len=len(cols_ref[i]) # counts number of charcters in this column cell
+                    for c,d in zip(cols_pred[i],cols_ref[i]): #c and d are each char in word a,b
                         if c!=d: char_wrong+=1 #if c,d not match, count as  
                     #--crucial: different config modes:
                     for c in mode:
@@ -196,9 +207,8 @@ class ColMatch(datasets.Metric):
                         elif c == '0':perc=0
                         else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
                         #if number of matching chars smaller than length of word
-                        if char_wrong/char_len<=perc: result[f'{c}_{headers[i]}_ele_match']=1
-                #--test
-                logging.info(f'result: {result}')
+                        if char_wrong/char_len<=perc: result[f'{c}_{headers[i]}']['ele_match']+=1
+                metric_logger.info(f'result: {result}')
                 
 
         #create final dicaiontry to be returned
@@ -212,6 +222,6 @@ class ColMatch(datasets.Metric):
                 #if ele_total=0, make it 1 to prevent error
                 if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
                 final[key]=val['ele_match']/val['ele_total']*100
-        logging.info(f'final: {final}')
-        logging.info('---------End of evaluation epoch---------')
+        metric_logger.info(f'final: {final}')
+        metric_logger.info('\n---------End of evaluation epoch---------')
         return final

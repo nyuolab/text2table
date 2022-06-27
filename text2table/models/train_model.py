@@ -4,8 +4,18 @@ import datasets
 from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer)
 import os, shutil, logging
 from tokenizer import tokenize
-#--changed
 from datasets import load_metric
+import datetime
+import logging
+
+def setup_logger(name, log_file, formatter,level=logging.INFO):
+    """To setup as many loggers as you want"""
+    handler = logging.FileHandler(log_file)        
+    handler.setFormatter(logging.Formatter(formatter))
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+    return logger
 
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
@@ -41,10 +51,10 @@ val_dataset.set_format(
     type="torch",
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
-print('shape: ',val_dataset.shape)
 
 #--changed,resume
-val_dataset=val_dataset.select(range(100))
+print('shape: ',val_dataset.shape)
+val_dataset=val_dataset.select(range(5))
 print('\nafter slicing: ')
 print('shape: ',val_dataset.shape)
 
@@ -53,14 +63,15 @@ gradient_checkpointing=True
 
 predict_with_generate=True
 evaluation_strategy="steps"
+#--changed
 per_device_train_batch_size=1
 per_device_eval_batch_size=1
 
 
 # Initialize the model
 #--changed
-#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-model = LEDForConditionalGeneration.from_pretrained("../checkpoints/checkpoint-1800/")
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+#model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-3000/")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -89,8 +100,7 @@ training_args = Seq2SeqTrainingArguments(
     gradient_accumulation_steps=4,
 )
 
-
-#--changed: load custom metrics
+#load custom metric
 cel_match = load_metric('new_metric_script.py')
 # Define the metric function for evalutation
 def compute_metrics(pred):
@@ -123,3 +133,28 @@ trainer = Seq2SeqTrainer(
 
 # Start the training
 trainer.train()
+
+#Start prediction
+def get_pred(pred):
+    #log config:
+    os.makedirs('pred_logs',exist_ok=True)
+    date=datetime.datetime.now()
+    n=date.strftime("pred_logs/%m_%d_%H:%M:%S_pred.log")
+    pred_logger = setup_logger(name='pred_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+    pred_logger.info('\n---------Start of prediction epoch---------')
+
+    labels_ids = pred.label_ids
+    pred_ids = pred.predictions
+    # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
+    pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
+    labels_ids[labels_ids == -100] = tokenizer.pad_token_id
+    label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
+    for pred_str_row, label_str_row in zip(pred_str,label_str):
+        #replace <pad> since annoying
+        pred_logger.info(f"pred_str: {pred_str_row.replace('<pad>','')}")
+        pred_logger.info(f"label_str: {label_str_row.replace('<pad>','')}")
+
+    pred_logger.info('\n---------End of prediction epoch---------')
+
+# predictions = trainer.predict(val_dataset)
+# get_pred(predictions)
