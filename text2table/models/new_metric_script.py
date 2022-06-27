@@ -16,15 +16,9 @@
 import datasets
 import logging
 import datetime
+import os
 
-#logging config:
-#define filename: date_time_run.log
-a=datetime.datetime.now()
-#os.makedirs('eval_logs',exist_ok=True)
-b=a.strftime("eval_logs/%m_%d_%H:%M:%S")+'_eval.log'
-#config:
 
-logging.info('---------Start of evaluation epoch---------')
 
 # TODO: Add BibTeX citation
 _CITATION = """\
@@ -89,32 +83,9 @@ class ColMatch(datasets.Metric):
             reference_urls=["http://path.to.reference.url/new_metric"]
         )
 
-# don't need the below function
-    # def _download_and_prepare(self, dl_manager):
-    #     """Optional: download external resources useful to compute the scores"""
-    #     # TODO: Download external resources if needed
-    #     bad_words_path = dl_manager.download_and_extract(BAD_WORDS_URL)
-    #     self.bad_words = {w.strip() for w in open(bad_words_path, encoding="utf-8")}
-
     def _compute(self, predictions, references): #predictions, references both in a batch
-        # result={}
-        # #initiate dictionary
-        # for col in headers:
-        #     for c in self.config_name:
-        #         result[f'{c}_{col}']={'ele_match':0,'ele_total':0}
-        # #can't find <row> separator
-        # result['<row>_error']=0
-        # #unequal number of columns
-        # result['<col>_mismatch']=0
-        
-
-        #--test
-        logging.info('Successfulyl enters metric')
         """Returns the scores"""
-        # TODO: Compute the different scores of the metric
-        #replace the below with function 
-
-        #modes
+        # configs: matters for compute and logging
         if self.config_name == '20':
             perc=0.2
         elif self.config_name == '10':
@@ -122,66 +93,64 @@ class ColMatch(datasets.Metric):
         elif self.config_name == '0':
             perc=0
         else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
-        b=a.strftime(f"{c}_eval_logs/%m_%d_%H:%M:%S")+'_eval.log'
-        logging.basicConfig(filename=b, level=logging.DEBUG,format='%(asctime)s - %(message)s',datefmt='%d-%b-%y %H:%M:%S')
-
+        #define filename for log: date_time_run.log
+        os.makedirs('eval_logs',exist_ok=True)
+        logging.basicConfig(filename=f"eval_logs/perc_{self.config_name}_eval.log", format='%(levelname)s:%(message)s', level=logging.DEBUG)
+        logging.info('---------Start of evaluation epoch---------')
         #get column header from first reference
         headers=references[0].split(' <ROW> ')[0].split(' <COL> ')
         headers[0]=headers[0].replace('<s>','')
         logging.info('headers: '+','.join(headers))
 
-        #initiate result
+        #initiate result dic
         result={}
         for col in headers: result[col]={'ele_match':0,'ele_total':0}
+        result['<col>_mismatch']=0
+        result['<row>_error']=0
 
-        #--test
+        #--test var
         count=0
         #iterate thru rows/inputs
         for row_pred,row_ref in zip(predictions, references):
-            #--test
+            #--test var
             count+=1
-            #logging.info('current row in batch: ',count)
-
+            logging.info(f'\ncurrent row in batch: {count}')
             #split pred_str by columns as a list
-            #replace <pad> since annoying
             row_ref=row_ref.replace('<pad>','')
+            #replace <pad> since annoying
             row_pred=row_pred.replace('<pad>','')
-            #--test
-            #logging.info('row_ref: ',row_ref)
-            #logging.info('row_pred: ',row_pred)
+            logging.info(f'row_ref: {row_ref}')
+            logging.info(f'row_pred: {row_pred}')
 
             #error: first evaluation may look like </s><s>, need to skip
             if ' <ROW> ' not in row_pred: 
                 result['<row>_error']+=1
-                #--test
-                #logging.info('result: ',result)
+                logging.info('<row>_error detected')
+                logging.info(f'result: {result}')
                 continue
             cols_pred=row_pred.split(' <ROW> ')[1].split(' <COL> ')
             cols_ref=row_ref.split(' <ROW> ')[1].split(' <COL> ')
-            #--test
-            #logging.info('cols_pred: ',cols_pred)
-            #logging.info('cols_ref: ',cols_ref)
+            logging.info(f"cols_pred: {', '.join(cols_pred)}")
+            logging.info(f"cols_ref: {', '.join(cols_ref)}")
 
             #if length mismatch, log as error
             if len(cols_pred)!=len(cols_ref):
                 result['<col>_mismatch']+=1
-                #logging.info('result: ',result)
+                logging.info('<col>_mismatch detected')
+                logging.info(f'result: {result}')
                 continue
 
             # iterate thru columns
             for i in range(len(headers)):  
-                #--test
-                #logging.info('current header: ',headers[i])
+                logging.info(f'current header: {headers[i]}')
                 if ' <CEL> ' in cols_ref[i]: # use ref to be safe, if ref cell has multiple elements
-                    #--test
-                    #logging.info('cell with mult values')
+                    logging.info('This cell has multi values')
                     try: #if last column doesn't exist (a consequence of mismatch length of columns)
                         cel_pred=cols_pred[i].split(' <CEL> ')
                     except IndexError: 
                         result['<col>_mismatch']+=1
-                        #--test
-                        #logging.info('Index Error')
-                        #logging.info('result: ',result)
+                        logging.info('Index Error detected in split by <CEL>, counted as <col>_mismatch_error')
+                        logging.info(f'result: {result}')
                         continue
                     cel_ref=cols_ref[i].split(' <CEL> ')
 
@@ -197,8 +166,7 @@ class ColMatch(datasets.Metric):
                         #if number of matching chars smaller than length of word
                         if char_wrong/char_len<=perc: ele_match+=1
                 else: #if cell has only 1 element
-                    #--test
-                    #logging.info('cell with 1 value')
+                    logging.info('This cell with 1 value')
                     #number of elements in reference
                     #number of elements in reference
                     ele_total=1
@@ -218,23 +186,22 @@ class ColMatch(datasets.Metric):
                 #logging.info('ele_match: ',ele_match)
                 #logging.info('ele_total: ',ele_total)
                 
-                #--test
-                #logging.info('result: ',result)
-                
-
+                logging.info(f'result: {result}')
+        logging.info('---------End of evaluation epoch---------')
+        return result
         #create final dicaiontry to be returned
-        final={}
-        for key,val in result.items(): 
-            #if it's single value: (errors)
-            if isinstance(val, int):
-                final[key]=val
-            else: #that should be dictionary
-                assert(isinstance(val,dict))
-                #if ele_total=0, make it 1 to prevent error
-                if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
-                final[key]=val['ele_match']/val['ele_total']*100
+        # final={}
+        # for key,val in result.items(): 
+        #     #if it's single value: (errors)
+        #     if isinstance(val, int):
+        #         final[key]=val
+        #     else: #that should be dictionary
+        #         assert(isinstance(val,dict))
+        #         #if ele_total=0, make it 1 to prevent error
+        #         if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
+        #         final[key]=val['ele_match']/val['ele_total']*100
         #--test
         #logging.info('\final: ',final)
         #logging.info('---------End of evaluation epoch---------')
-        print('\nfinal: ',final)
-        return final
+        # print('\nfinal: ',final)
+        # return final

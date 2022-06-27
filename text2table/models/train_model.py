@@ -44,7 +44,7 @@ val_dataset.set_format(
 print('shape: ',val_dataset.shape)
 
 #--changed,resume
-val_dataset=val_dataset.select(range(10))
+val_dataset=val_dataset.select(range(5))
 print('\nafter slicing: ')
 print('shape: ',val_dataset.shape)
 
@@ -54,8 +54,8 @@ gradient_checkpointing=True
 
 predict_with_generate=True
 evaluation_strategy="steps"
-per_device_train_batch_size=2
-per_device_eval_batch_size=2
+per_device_train_batch_size=1
+per_device_eval_batch_size=1
 
 
 
@@ -92,9 +92,6 @@ training_args = Seq2SeqTrainingArguments(
 )
 
 
-#--changed: load custom metrics
-
-cel_match = load_metric('new_metric_script.py', config_name='0')
 # Define the metric function for evalutation
 def compute_metrics(pred):
     # Prediction IDs
@@ -106,22 +103,44 @@ def compute_metrics(pred):
     labels_ids[labels_ids == -100] = tokenizer.pad_token_id
     label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
     
+    #logs
+    os.makedirs('eval_logs',exist_ok=True)
+    logging.basicConfig(filename="eval_logs/final_eval.log", format='%(levelname)s:%(message)s', level=logging.DEBUG)
+    logging.info('---------Start of evaluation epoch---------')
     #cel_match.add_batch(predictions=pred_str, references=label_str)
+    #compute configs
     cel_match = load_metric('new_metric_script.py', config_name='0')
     cel_match_output_0 = cel_match.compute(predictions=pred_str,references=label_str)
-
+    logging.info(f'cel_match_output_0: {cel_match_output_0}')
     cel_match = load_metric('new_metric_script.py', config_name='10')
     cel_match_output_10 = cel_match.compute(predictions=pred_str,references=label_str)
-
+    logging.info(f'cel_match_output_10: {cel_match_output_10}')
     cel_match = load_metric('new_metric_script.py', config_name='20')
     cel_match_output_20 = cel_match.compute(predictions=pred_str,references=label_str)
-    
-    exit(0)
-
+    logging.info(f'cel_match_output_20: {cel_match_output_20}')
     final={}
-
-
-    return cel_match_output
+    final['<col>_mismatch']=cel_match_output_0['<col>_mismatch']
+    final['<row>_error']=cel_match_output_0['<row>_error']
+    for key,val in cel_match_output_0.items(): 
+        #if it's dictionary
+        if isinstance(val, dict):
+            #if ele_total=0, make it 1 to prevent error
+            if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
+            final[f"0_{key}"]=val['ele_match']/val['ele_total']*100
+    for key,val in cel_match_output_10.items(): 
+        #if it's dictionary
+        if isinstance(val, dict):
+            #if ele_total=0, make it 1 to prevent error
+            if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
+            final[f"10_{key}"]=val['ele_match']/val['ele_total']*100
+    for key,val in cel_match_output_20.items(): 
+        #if it's dictionary
+        if isinstance(val, dict):
+            #if ele_total=0, make it 1 to prevent error
+            if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
+            final[f"20_{key}"]=val['ele_match']/val['ele_total']*100
+    logging.info(f'final: {final}')
+    return final
 
 # Initialize the trainer
 trainer = Seq2SeqTrainer(
