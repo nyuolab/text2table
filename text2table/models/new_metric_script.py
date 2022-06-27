@@ -16,15 +16,9 @@
 import datasets
 import logging
 import datetime
+import os
 
-#logging config:
-#define filename: date_time_run.log
-a=datetime.datetime.now()
-#os.makedirs('eval_logs',exist_ok=True)
-b=a.strftime("eval_logs/%m_%d_%H:%M:%S")+'_eval.log'
-#config:
-logging.basicConfig(filename=b, level=logging.DEBUG,format='%(asctime)s - %(message)s',datefmt='%d-%b-%y %H:%M:%S')
-logging.info('---------Start of evaluation epoch---------')
+
 
 # TODO: Add BibTeX citation
 _CITATION = """\
@@ -96,12 +90,13 @@ class ColMatch(datasets.Metric):
     #     bad_words_path = dl_manager.download_and_extract(BAD_WORDS_URL)
     #     self.bad_words = {w.strip() for w in open(bad_words_path, encoding="utf-8")}
 
-    def _compute(self, predictions, references,mode): #predictions, references both in a batch
-        #--test
-        logging.info('Successfulyl enters metric')
-        """Returns the scores"""
-        # TODO: Compute the different scores of the metric
-        #replace the below with function 
+    def _compute(self, predictions, references,mode,metric_log_dir): #predictions, references both in a batch
+    """Returns the scores"""
+        #log config:
+        a=datetime.datetime.now()
+        b=a.strftime(f"{metric_log_dir}/%m_%d_%H:%M:%S_eval.log")
+        logging.basicConfig(filename=b, level=logging.DEBUG,format='%(levelname)s:%(message)s')
+        logging.info('---------Start of evaluation epoch---------')
 
         #get column header from first reference
         headers=references[0].split(' <ROW> ')[0].split(' <COL> ')
@@ -122,48 +117,44 @@ class ColMatch(datasets.Metric):
         for row_pred,row_ref in zip(predictions, references):
             #--test
             count+=1
-            #logging.info('current row in batch: ',count)
+            logging.info(f'\ncurrent row in batch: {count}')
 
             #split pred_str by columns as a list
             #replace <pad> since annoying
             row_ref=row_ref.replace('<pad>','')
             row_pred=row_pred.replace('<pad>','')
-            #--test
-            #logging.info('row_ref: ',row_ref)
-            #logging.info('row_pred: ',row_pred)
+            logging.info(f'row_ref: {row_ref}')
+            logging.info(f'row_pred: {row_pred}')
 
             #error: first evaluation may look like </s><s>, need to skip
             if ' <ROW> ' not in row_pred: 
                 result['<row>_error']+=1
-                #--test
-                #logging.info('result: ',result)
+                logging.info('<row>_error detected')
+                logging.info(f'result: {result}')
                 continue
             cols_pred=row_pred.split(' <ROW> ')[1].split(' <COL> ')
             cols_ref=row_ref.split(' <ROW> ')[1].split(' <COL> ')
-            #--test
-            #logging.info('cols_pred: ',cols_pred)
-            #logging.info('cols_ref: ',cols_ref)
+            logging.info(f"cols_pred: {', '.join(cols_pred)}")
+            logging.info(f"cols_ref: {', '.join(cols_ref)}")
 
             #if length mismatch, log as error
             if len(cols_pred)!=len(cols_ref):
                 result['<col>_mismatch']+=1
-                #logging.info('result: ',result)
+                logging.info('<col>_mismatch detected')
+                logging.info(f'result: {result}')
                 continue
 
             # iterate thru columns
             for i in range(len(headers)):  
-                #--test
-                #logging.info('current header: ',headers[i])
+                logging.info(f'current header: {headers[i]}')
                 if ' <CEL> ' in cols_ref[i]: # use ref to be safe, if ref cell has multiple elements
-                    #--test
-                    #logging.info('cell with mult values')
+                    logging.info('This cell has multi values')
                     try: #if last column doesn't exist (a consequence of mismatch length of columns)
                         cel_pred=cols_pred[i].split(' <CEL> ')
                     except IndexError: 
                         result['<col>_mismatch']+=1
-                        #--test
-                        #logging.info('Index Error')
-                        #logging.info('result: ',result)
+                        logging.info('Index Error detected in split by <CEL>, counted as <col>_mismatch_error')
+                        logging.info(f'result: {result}')
                         continue
                     cel_ref=cols_ref[i].split(' <CEL> ')
                     #number of elements in reference
@@ -187,8 +178,7 @@ class ColMatch(datasets.Metric):
                             if char_wrong/char_len<=perc: 
                                 result[f'{c}_{headers[i]}']['ele_match']+=1
                 else: #if cell has only 1 element
-                    #--test
-                    #logging.info('cell with 1 value')
+                    logging.info('This cell with 1 value')
                     #iterate thru each element in a cell
                     for c in mode:
                         result[f'{c}_{headers[i]}']['ele_total']=1
@@ -206,13 +196,8 @@ class ColMatch(datasets.Metric):
                         else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
                         #if number of matching chars smaller than length of word
                         if char_wrong/char_len<=perc: result[f'{c}_{headers[i]}_ele_match']=1
-                    
                 #--test
-                #logging.info('ele_match: ',ele_match)
-                #logging.info('ele_total: ',ele_total)
-                
-                #--test
-                #logging.info('result: ',result)
+                logging.info(f'result: {result}')
                 
 
         #create final dicaiontry to be returned
@@ -226,8 +211,6 @@ class ColMatch(datasets.Metric):
                 #if ele_total=0, make it 1 to prevent error
                 if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
                 final[key]=val['ele_match']/val['ele_total']*100
-        #--test
-        #logging.info('\final: ',final)
-        #logging.info('---------End of evaluation epoch---------')
-        print('\nfinal: ',final)
+        logging.info(f'final: {final}')
+        logging.info('---------End of evaluation epoch---------')
         return final
