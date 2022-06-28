@@ -16,6 +16,7 @@ pandas
 transformers
 regex
 rouge_score
+dask
 
 # Linters and formatters
 autopep8

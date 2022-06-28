@@ -100,3 +100,9 @@ text2table/data/pretokenized/
 # Temporary Files
 text2table/models/evaluation.py
 text2table/models/__pycache__
+
+#dask worker space
+dask-worker-space/
+
+#notebook
+notebooks/dataset_compilation.ipynb
