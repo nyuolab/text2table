@@ -53,10 +53,10 @@ val_dataset.set_format(
 )
 
 #--changed,resume
-print('shape: ',val_dataset.shape)
-val_dataset=val_dataset.select(range(5))
-print('\nafter slicing: ')
-print('shape: ',val_dataset.shape)
+# print('shape: ',val_dataset.shape)
+# val_dataset=val_dataset.select(range(5))
+# print('\nafter slicing: ')
+# print('shape: ',val_dataset.shape)
 
 # Modify model & trainer parameters
 gradient_checkpointing=True
@@ -64,8 +64,8 @@ gradient_checkpointing=True
 predict_with_generate=True
 evaluation_strategy="steps"
 #--changed
-per_device_train_batch_size=1
-per_device_eval_batch_size=1
+per_device_train_batch_size=2
+per_device_eval_batch_size=2
 
 
 # Initialize the model
@@ -91,10 +91,10 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
     #--changed, resume
-    #logging_steps=10,
-    logging_steps=2,
+    logging_steps=10,
+    #logging_steps=2,
     #--changed, resume
-    #eval_steps=1000,
+    eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,
@@ -112,9 +112,6 @@ def compute_metrics(pred):
     pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
     labels_ids[labels_ids == -100] = tokenizer.pad_token_id
     label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
-    
-    #cel_match.add_batch(predictions=pred_str, references=label_str)
-
 
     # Compute the rouge evaluation results
     cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=['0','10','20'])
@@ -134,7 +131,7 @@ trainer = Seq2SeqTrainer(
 # Start the training
 trainer.train()
 
-#Start prediction
+# prediction (just a test)
 def get_pred(pred):
     #log config:
     os.makedirs('pred_logs',exist_ok=True)
