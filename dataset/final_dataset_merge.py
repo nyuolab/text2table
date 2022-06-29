@@ -37,5 +37,5 @@ df_output = df_output.reset_index(drop=True)
 
 # Export the table into the target directory
 targetDir = '/gpfs/data/oermannlab/project_data/text2table/final_dataset/'
-df_output.to_csv((path + 'final_dataset.csv'))
+df_output.to_csv((targetDir + 'final_dataset.csv'))
 print('Merge completed!')
