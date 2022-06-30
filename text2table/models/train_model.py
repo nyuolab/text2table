@@ -1,14 +1,21 @@
 # Reference;
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
+from boto import config
 import datasets
-from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer)
-import os, shutil, logging
+from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+import os, shutil, logging, wandb
 from tokenizer import tokenize
+from omegaconf import OmegaConf
 
+# Initialize wandb
+wandb.init(project="text2table")
+
+# Load the configuration
+conf = OmegaConf.load("../config.yaml")
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
-ckpt_dir_train = '../data/pretokenized/train/'
-ckpt_dir_val = '../data/pretokenized/val/'
+ptk_dir_train = conf.tokenizer.ptk_dir_train
+ptk_dir_val = conf.tokenizer.ptk_dir_val
 
 
 # Load tokenizer for the LED model
@@ -20,15 +27,15 @@ tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<
 
 # If the pretokenized data are exists, load it directly from the disk (time-saving)
 # If not, tokenized the text for model and store it for faster reuse (Call Tokenizer in the same directory)
-if not (os.path.exists(ckpt_dir_train) and os.path.exists(ckpt_dir_val)):
+if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
     # Pre-tokenize the input text & save the result in the directory
     tokenize()
 
 
 # Load the pre-tokenzied training dataset
-train_dataset = datasets.load_from_disk(ckpt_dir_train)
+train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
-val_dataset = datasets.load_from_disk(ckpt_dir_val)
+val_dataset = datasets.load_from_disk(ptk_dir_val)
 
 # Convert the dataset to Pytorch format for LED
 train_dataset.set_format(
@@ -41,40 +48,35 @@ val_dataset.set_format(
 )
 
 
-# Modify model & trainer parameters
-gradient_checkpointing=True
-
-predict_with_generate=True
-evaluation_strategy="steps"
-per_device_train_batch_size=2
-per_device_eval_batch_size=2
-
-
+# Setup the model arguments
+model_args = LEDConfig(
+    num_beams=conf.model.num_beams,
+    max_length=conf.model.max_length,
+    min_length=conf.model.min_length,
+    length_penalty=conf.model.length_penalty,
+    early_stopping=conf.model.early_stopping,
+)
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-# Add special tokens to the LED model decoder
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", config=model_args)
+# Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
-# Setup the model's hyperparameters
-model.config.num_beams = 2
-model.config.max_length = 512
-model.config.min_length = 0
-model.config.length_penalty = 1.0
-model.config.early_stopping = True
 
 
 # Declare the training arguments
 training_args = Seq2SeqTrainingArguments(
-    output_dir="../../models/",
-    predict_with_generate=predict_with_generate,
-    evaluation_strategy=evaluation_strategy,
-    per_device_train_batch_size=per_device_train_batch_size,
-    per_device_eval_batch_size=per_device_eval_batch_size,
-    fp16=True,
-    logging_steps=10,
-    eval_steps=1000,
-    save_steps=1000,
-    save_total_limit=2,
-    gradient_accumulation_steps=4,
+    gradient_checkpointing=conf.trainer.gradient_checkpointing,
+    output_dir=conf.trainer.output_dir,
+    predict_with_generate=conf.trainer.predict_with_generate,
+    evaluation_strategy=conf.trainer.evaluation_strategy,
+    per_device_train_batch_size=conf.trainer.per_device_train_batch_size,
+    per_device_eval_batch_size=conf.trainer.per_device_eval_batch_size,
+    fp16=conf.trainer.fp16,
+    logging_steps=conf.trainer.logging_steps,
+    eval_steps=conf.trainer.eval_steps,
+    save_steps=conf.trainer.save_steps,
+    save_total_limit=conf.trainer.save_total_limit,
+    gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
+    run_name=conf.trainer.run_name,
 )
 
 
