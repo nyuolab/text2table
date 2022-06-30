@@ -6,22 +6,11 @@ import os, shutil, logging
 from tokenizer import tokenize
 from datasets import load_metric
 import datetime
-import logging
-
-def setup_logger(name, log_file, formatter,level=logging.INFO):
-    """To setup as many loggers as you want"""
-    handler = logging.FileHandler(log_file)        
-    handler.setFormatter(logging.Formatter(formatter))
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
-    logger.addHandler(handler)
-    return logger
-
+from text2table.logging.logging_script import setup_logger
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
 ckpt_dir_train = '../data/pretokenized/train/'
 ckpt_dir_val = '../data/pretokenized/val/'
-
 
 # Load tokenizer for the LED model
 tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
@@ -53,10 +42,10 @@ val_dataset.set_format(
 )
 
 #--changed,resume
-# print('shape: ',val_dataset.shape)
-# val_dataset=val_dataset.select(range(5))
-# print('\nafter slicing: ')
-# print('shape: ',val_dataset.shape)
+print('shape: ',val_dataset.shape)
+val_dataset=val_dataset.select(range(5))
+print('\nafter slicing: ')
+print('shape: ',val_dataset.shape)
 
 # Modify model & trainer parameters
 gradient_checkpointing=True
@@ -64,14 +53,14 @@ gradient_checkpointing=True
 predict_with_generate=True
 evaluation_strategy="steps"
 #--changed
-per_device_train_batch_size=2
-per_device_eval_batch_size=2
+per_device_train_batch_size=1
+per_device_eval_batch_size=1
 
 
 # Initialize the model
 #--changed
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-#model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-3000/")
+#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-2000/")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -91,17 +80,17 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
     #--changed, resume
-    logging_steps=10,
-    #logging_steps=2,
+    #logging_steps=10,
+    logging_steps=2,
     #--changed, resume
-    eval_steps=1000,
+    #eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,
 )
 
 #load custom metric
-cel_match = load_metric('new_metric_script.py')
+cel_match = load_metric('../metrics/col_wise_metric_script.py')
 # Define the metric function for evalutation
 def compute_metrics(pred):
     # Prediction IDs
