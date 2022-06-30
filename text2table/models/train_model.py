@@ -41,26 +41,17 @@ val_dataset.set_format(
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 
-#--changed (test conditions)
-# print('shape: ',val_dataset.shape)
-# val_dataset=val_dataset.select(range(5))
-# print('\nafter slicing: ')
-# print('shape: ',val_dataset.shape)
-
 # Modify model & trainer parameters
 gradient_checkpointing=True
 
 predict_with_generate=True
 evaluation_strategy="steps"
-#--changed
 per_device_train_batch_size=2
 per_device_eval_batch_size=2
 
 
 # Initialize the model
-#--changed
 model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-#model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-3000/")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -79,10 +70,7 @@ training_args = Seq2SeqTrainingArguments(
     per_device_train_batch_size=per_device_train_batch_size,
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
-    #--changed, resume
     logging_steps=10,
-    #logging_steps=2,
-    #--changed, resume
     eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
@@ -103,7 +91,7 @@ def compute_metrics(pred):
     label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
 
     # Compute the rouge evaluation results
-    cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=['0','10','20'])
+    cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=[0,10,20])
     
     return cel_match_output
 
@@ -119,28 +107,3 @@ trainer = Seq2SeqTrainer(
 
 # Start the training
 trainer.train()
-
-# prediction (just a test)
-def get_pred(pred):
-    #log config:
-    os.makedirs('pred_logs',exist_ok=True)
-    date=datetime.datetime.now()
-    n=date.strftime("pred_logs/%m_%d_%H:%M:%S_pred.log")
-    pred_logger = setup_logger(name='pred_logger', log_file=n,formatter='%(levelname)s:%(message)s')
-    pred_logger.info('\n---------Start of prediction epoch---------')
-
-    labels_ids = pred.label_ids
-    pred_ids = pred.predictions
-    # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
-    pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
-    labels_ids[labels_ids == -100] = tokenizer.pad_token_id
-    label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
-    for pred_str_row, label_str_row in zip(pred_str,label_str):
-        #replace <pad> since annoying
-        pred_logger.info(f"pred_str: {pred_str_row.replace('<pad>','')}")
-        pred_logger.info(f"label_str: {label_str_row.replace('<pad>','')}")
-
-    pred_logger.info('\n---------End of prediction epoch---------')
-
-# predictions = trainer.predict(val_dataset)
-# get_pred(predictions)

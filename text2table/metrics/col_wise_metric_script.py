@@ -54,6 +54,29 @@ Examples:
     {'accuracy': 1.0}
 """
 
+#helper for ColMatch's compute function: calculates matches within a cell (works for both cells with single or mult values)
+def cel_match(mode,curr_header,cel_pred,cel_ref,result):
+    for c in mode:
+        result[f'{c}_{curr_header}']['ele_total']+=len(cel_ref)
+    #iterate thru each element in a cell
+    for ele_pred, ele_ref in zip(cel_pred, cel_ref):
+        char_right=0 # counts number of chars matching
+        char_len=len(ele_ref) # counts number of charcters in this column cell
+        for c,d in zip(ele_pred,ele_ref): #c and d are each char in word a,b
+            if c==d: char_right+=1 #if c,d match, count as char_right
+        #find the length of the longer element/word
+        max_len=max(len(ele_pred),len(ele_ref))
+        #find char_wrong
+        char_wrong=max_len-char_right
+        #--crucial: different config modes:
+        for c in mode:
+            perc=c/100
+            if not (perc>=0 and perc<=1): raise ValueError(f"Invalid config name for ColMatch: {c}. Please input a valid number for percentage between 0 and 100 inclusice") 
+            #if number of matching chars smaller than length of word
+            if char_wrong/char_len<=perc: 
+                result[f'{c}_{curr_header}']['ele_match']+=1
+    return result
+
 @datasets.utils.file_utils.add_start_docstrings(_DESCRIPTION, _KWARGS_DESCRIPTION)
 class ColMatch(datasets.Metric):
     """TODO: Short description of my metric."""
@@ -66,6 +89,9 @@ class ColMatch(datasets.Metric):
             citation=_CITATION,
             inputs_description=_KWARGS_DESCRIPTION,
             # This defines the format of each prediction and reference
+            
+            # Note: we have to define the features as simply 'predictions' and 'reference' instead of our actuall dataset features (column names) which will lead to a ValueError. (Since huggingface will assume that the column name are the actual columns being passed into ref/pred, which isn't what we're doing here)
+            
             features=datasets.Features({
                 'predictions': datasets.Value('string'),
                 'references': datasets.Value('string'),
@@ -83,10 +109,9 @@ class ColMatch(datasets.Metric):
         os.makedirs('eval_logs',exist_ok=True)
         date=datetime.datetime.now()
         n=date.strftime("eval_logs/%m_%d_%H:%M:%S_eval.log")
-        #--changed
+       
         metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
 
-        #logging.basicConfig(filename=n, level=logging.DEBUG,format='%(levelname)s:%(message)s')
         metric_logger.info('\n---------Start of evaluation epoch---------')
 
         #get column header from first reference
@@ -117,7 +142,7 @@ class ColMatch(datasets.Metric):
             metric_logger.info(f'row_ref: {row_ref}')
             metric_logger.info(f'row_pred: {row_pred}')
 
-            #error: first evaluation may look like </s><s>, need to skip
+            #row error:
             if ' <ROW> ' not in row_pred: 
                 result['<row>_error']+=1
                 metric_logger.info('<row>_error detected')
@@ -149,45 +174,16 @@ class ColMatch(datasets.Metric):
                         metric_logger.info(f'result: {result}')
                         continue
                     cel_ref=cols_ref[i].split(' <CEL> ')
-                    #number of elements in reference
-                    for c in mode:
-                        result[f'{c}_{headers[i]}']['ele_total']+=len(cel_ref)
-                    
-                    #iterate thru each element in a cell
-                    for a, b in zip(cel_pred, cel_ref):
-                        char_wrong=0 # counts number of chars matching
-                        char_len=len(b) # counts number of charcters in this column cell
-                        for c,d in zip(a,b): #c and d are each char in word a,b
-                            if c!=d: char_wrong+=1 #if c,d not match, count as char_wrong
-                        #--crucial: different config modes:
-                        for c in mode:
-                             #modes
-                            if c == '20':perc=0.2
-                            elif c == '10':perc=0.1
-                            elif c == '0':perc=0
-                            else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
-                            #if number of matching chars smaller than length of word
-                            if char_wrong/char_len<=perc: 
-                                result[f'{c}_{headers[i]}']['ele_match']+=1
+
                 else: #if cell has only 1 element
                     metric_logger.info('This cell has 1 value')
-                    #iterate thru each element in a cell
-                    for c in mode:
-                        result[f'{c}_{headers[i]}']['ele_total']+=1
-
-                    char_wrong=0 # counts number of chars matching
-                    char_len=len(cols_ref[i]) # counts number of charcters in this column cell
-                    for c,d in zip(cols_pred[i],cols_ref[i]): #c and d are each char in word a,b
-                        if c!=d: char_wrong+=1 #if c,d not match, count as char_wrong
-                    #--crucial: different config modes:
-                    for c in mode:
-                        #modes
-                        if c == '20':perc=0.2
-                        elif c == '10':perc=0.1
-                        elif c == '0':perc=0
-                        else: raise ValueError(f"Invalid config name for ColMatch: {c}. Please use '0', '10', or '20'.")
-                        #if number of matching chars smaller than length of word
-                        if char_wrong/char_len<=perc: result[f'{c}_{headers[i]}']['ele_match']+=1
+                    
+                    # sets cel_pred/cel_ref as a list of only 1 element of cols_pred[i]/cols_ref[i]
+                    # so now, cel_pred/cel_ref will only have len of 1, which will then be able to conduct the same cel_match calc as with cells with mult values
+                    cel_pred=[cols_pred[i]]
+                    cel_ref=[cols_ref[i]]
+                #call cel_match helper function
+                result=cel_match(mode=mode,curr_header=headers[i],cel_pred=cel_pred,cel_ref=cel_ref,result=result)
                 metric_logger.info(f'result: {result}')
                 
 
