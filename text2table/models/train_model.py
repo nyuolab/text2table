@@ -53,10 +53,9 @@ val_dataset.set_format(
 )
 
 #--changed,resume
-# print('shape: ',val_dataset.shape)
-# val_dataset=val_dataset.select(range(5))
-# print('\nafter slicing: ')
-# print('shape: ',val_dataset.shape)
+print('shape: ',val_dataset.shape)
+print('\nafter slicing: ')
+print('shape: ',val_dataset.shape)
 
 # Modify model & trainer parameters
 gradient_checkpointing=True
@@ -64,14 +63,14 @@ gradient_checkpointing=True
 predict_with_generate=True
 evaluation_strategy="steps"
 #--changed
-per_device_train_batch_size=2
-per_device_eval_batch_size=2
+per_device_train_batch_size=1
+per_device_eval_batch_size=1
 
 
 # Initialize the model
 #--changed
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-#model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-3000/")
+#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/checkpoint-3000/")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -91,10 +90,10 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
     #--changed, resume
-    logging_steps=10,
-    #logging_steps=2,
+    #logging_steps=10,
+    logging_steps=2,
     #--changed, resume
-    eval_steps=1000,
+    #eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,
