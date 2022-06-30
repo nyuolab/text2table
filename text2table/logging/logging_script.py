@@ -8,12 +8,9 @@ import torch
 def setup_logger(name, log_file, formatter,level=logging.INFO):
     """To setup as many loggers as you want"""
     if torch.distributed.get_world_size()>1:
-        print('logging disabled.')
         handler = logging.NullHandler()
-        logger = logging.getLogger(name)
-        logger.addHandler(handler)
-        return logger
-    handler = logging.FileHandler(log_file)        
+    else:
+        handler = logging.FileHandler(log_file)        
     handler.setFormatter(logging.Formatter(formatter))
     logger = logging.getLogger(name)
     logger.setLevel(level)

@@ -67,13 +67,8 @@ class ColMatch(datasets.Metric):
             inputs_description=_KWARGS_DESCRIPTION,
             # This defines the format of each prediction and reference
             features=datasets.Features({
-                "DOB": datasets.Value("string"),
-                "SEX": datasets.Value("string"),
-                "ADMITTIME": datasets.Value("string"),
-                "ICD9": datasets.Value("string"),
-                "HEADER": datasets.Value("string"),
-                "TABLE": datasets.Value("string"),
-                "TEXT": datasets.Value("string"),
+                'predictions': datasets.Value('string'),
+                'references': datasets.Value('string'),
             }),
             # Homepage of the metric for documentation
             homepage="http://metric.homepage",
@@ -88,8 +83,9 @@ class ColMatch(datasets.Metric):
         os.makedirs('eval_logs',exist_ok=True)
         date=datetime.datetime.now()
         n=date.strftime("eval_logs/%m_%d_%H:%M:%S_eval.log")
-        metric_logger = setup_logger(name='metric_logger', log_file=n,formatter='%(levelname)s:%(message)s')
-        
+        #--changed
+        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+
         #logging.basicConfig(filename=n, level=logging.DEBUG,format='%(levelname)s:%(message)s')
         metric_logger.info('\n---------Start of evaluation epoch---------')
 
