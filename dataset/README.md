@@ -30,6 +30,12 @@ clinical notes in the table format. The output of the model, in the table format
 valuable columns that contain information about patients for their admissions are concatenated together to be the output for models.
 To create the output dataset, one can run `python3 final_dataset_output.py`.
 
+
+Final Dataset: All in one table
+----------------------------------
+To put clinical notes and assoicated information in one table, one can run `python3 final_dataset_merge.py`. This file helps to put all
+clinical notes in both text format and table format at just one table, and indeed for feeding our model.
+
 ---------
 
 To create the final dataset, please make sure to download the original MIMIC-III dataset and make it present in an accessible directory.
