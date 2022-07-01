@@ -4,18 +4,18 @@ import datasets
 from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
 import os, shutil, logging, wandb
 from tokenizer import tokenize
-
 from datasets import load_metric
 import datetime
 from text2table.logging.logging_script import setup_logger
-
 from omegaconf import OmegaConf
 
-# Initialize wandb
-wandb.init(project="text2table")
 
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
+
+# Initialize wandb
+if os.environ['LOCAL_RANK'] == '0':
+    wandb.init(project="text2table", name=conf.trainer.run_name)
 
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
@@ -52,19 +52,16 @@ val_dataset.set_format(
 )
 
 
-# Setup the model arguments
-model_args = LEDConfig(
-    num_beams=conf.model.num_beams,
-    max_length=conf.model.max_length,
-    min_length=conf.model.min_length,
-    length_penalty=conf.model.length_penalty,
-    early_stopping=conf.model.early_stopping,
-)
-
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", config=model_args)
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
+# modify model configuration
+model.config.num_beams=conf.model.num_beams
+model.config.max_length=conf.model.max_length
+model.config.min_length=conf.model.min_length
+model.config.length_penalty=conf.model.length_penalty
+model.config.early_stopping=conf.model.early_stopping
 
 
 # Declare the training pts
@@ -81,7 +78,6 @@ training_args = Seq2SeqTrainingArguments(
     save_steps=conf.trainer.save_steps,
     save_total_limit=conf.trainer.save_total_limit,
     gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-    run_name=conf.trainer.run_name,
 )
 
 #load custom metric
