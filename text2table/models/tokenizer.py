@@ -1,12 +1,17 @@
 import datasets
 from transformers import LEDTokenizerFast
 import os, shutil, logging
+from omegaconf import OmegaConf
 
-# Define the tokenized function
+# Define the tokenize function
 def tokenize():
+
+    # Load the configuration
+    conf = OmegaConf.load("../config.yaml")
+
     # Specify the directory where the pretokenized data are stored: train & validation sets
-    ckpt_dir_train = '../data/pretokenized/train/'
-    ckpt_dir_val = '../data/pretokenized/val/'
+    ptk_dir_train = conf.tokenizer.ptk_dir_train
+    ptk_dir_val = conf.tokenizer.ptk_dir_val
 
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
@@ -19,9 +24,7 @@ def tokenize():
     train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
     val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
 
-    # Define the maximum input and output sequence length
-    max_input_length = 8192
-    max_output_length = 512 
+
     # Define the processing function so that the data will match the correct model format
     def process_data_to_model_inputs(batch):
         # Tokenize the input text
@@ -29,14 +32,14 @@ def tokenize():
             batch['TEXT'],
             padding='max_length',
             truncation=True,
-            max_length=max_input_length,
+            max_length=conf.tokenizer.max_input_length,
         )
         # Tokenize the output text
         outputs = tokenizer(
             batch['TABLE'],
             padding='max_length',
             truncation=True,
-            max_length=max_output_length,
+            max_length=conf.tokenizer.max_output_length,
         )
         # Tokenize the head column for decoder
         head = tokenizer(
@@ -68,35 +71,32 @@ def tokenize():
         return batch
 
 
-    # Define the batch size & Num of CPUs (32 CPUs for MVP)
-    batch_size = 32
-    num_cpu = 32
     # Preprocess(Tokenize) the input data: Training set
     train_dataset = train_dataset.map(
         function=process_data_to_model_inputs,
         batched=True,
-        batch_size=batch_size,
-        num_proc=num_cpu,
+        batch_size=conf.tokenizer.batch_size,
+        num_proc=conf.tokenizer.num_cpu,
         remove_columns=["DOB", "SEX", "ADMITTIME", "ICD9"],
     )
     # Preprocess(Tokenize) the input data: Validation set
     val_dataset = val_dataset.map(
         function=process_data_to_model_inputs,
         batched=True,
-        batch_size=batch_size,
-        num_proc=num_cpu,
+        batch_size=conf.tokenizer.batch_size,
+        num_proc=conf.tokenizer.num_cpu,
         remove_columns=["DOB", "SEX", "ADMITTIME", "ICD9"],
     )
 
 
     # Creat a directory to store the pretokenized data for training set 
-    os.makedirs(ckpt_dir_train, exist_ok=True)
+    os.makedirs(ptk_dir_train, exist_ok=True)
     # Save
-    train_dataset.save_to_disk(ckpt_dir_train)
-    logging.info(f'saved tokenized training dataset to {ckpt_dir_train}')
+    train_dataset.save_to_disk(ptk_dir_train)
+    logging.info(f'saved tokenized training dataset to {ptk_dir_train}')
 
     # Creat a directory to store the pretokenized data for validation set
-    os.makedirs(ckpt_dir_val, exist_ok=True)
+    os.makedirs(ptk_dir_val, exist_ok=True)
     # Save
-    val_dataset.save_to_disk(ckpt_dir_val)
-    logging.info(f'saved tokenized validation dataset to {ckpt_dir_val}')
+    val_dataset.save_to_disk(ptk_dir_val)
+    logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
