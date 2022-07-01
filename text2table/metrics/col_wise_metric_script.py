@@ -71,7 +71,7 @@ def cel_match(mode,curr_header,cel_pred,cel_ref,result):
         #--crucial: different config modes:
         for c in mode:
             perc=c/100
-            if not (perc>=0 and perc<=1): raise ValueError(f"Invalid config name for ColMatch: {c}. Please input a valid number for percentage between 0 and 100 inclusice") 
+            if not (perc>=0 and perc<=1): raise ValueError(f"Invalid config name for ColMatch: {c}. Please input a valid number for percentage between 0 and 100 inclusive") 
             #if number of matching chars smaller than length of word
             if char_wrong/char_len<=perc: 
                 result[f'{c}_{curr_header}']['ele_match']+=1
