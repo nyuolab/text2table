@@ -16,6 +16,8 @@ pandas
 transformers
 regex
 rouge_score
+nltk
+datetime
 dask
 
 # Linters and formatters
