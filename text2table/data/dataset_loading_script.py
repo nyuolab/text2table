@@ -59,7 +59,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
         datasets.BuilderConfig(name="minimum", version=VERSION, description="This is the bare minimum dataset"),    
     ]
 
-    #This is the default configuration
+    # This is the default configuration
     DEFAULT_CONFIG_NAME = "minimum"
 
     def _info(self):
