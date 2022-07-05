@@ -50,6 +50,7 @@ val_dataset.set_format(
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 
+
 # Initialize the model
 model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
