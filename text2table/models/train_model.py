@@ -14,8 +14,7 @@ from omegaconf import OmegaConf
 conf = OmegaConf.load("../config.yaml")
 
 # Initialize wandb
-if os.environ['LOCAL_RANK'] == '0':
-    wandb.init(project="text2table", name=conf.trainer.run_name)
+wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
 
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
