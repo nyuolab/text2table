@@ -6,7 +6,7 @@ import os, shutil, logging, wandb
 from tokenizer import tokenize
 from datasets import load_metric
 import datetime
-from text2table.logging.logging_script import setup_logger
+from text2table.logging_utils.logging_script import setup_logger
 from omegaconf import OmegaConf
 
 
