@@ -46,11 +46,11 @@ val_dataset=val_dataset.select(range(2))
 
 train_dataset.set_format(
     type="torch",
-    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
 )
 val_dataset.set_format(
     type="torch",
-    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
 )
 
 #--changed
