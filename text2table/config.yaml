@@ -23,10 +23,12 @@ trainer:
   per_device_eval_batch_size: 2
   fp16: true
   logging_steps: 10
-  eval_steps: 1000
+  #--changed
+  eval_steps: 5
   save_steps: 1000
   save_total_limit: 2
   gradient_accumulation_steps: 2
   # Change name for different runs
-  run_name: "colum-wise-eval-trail-#"
+  #--changed
+  run_name: "debug-5"
   group: "experiment_#"
