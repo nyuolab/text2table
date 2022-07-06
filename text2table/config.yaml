@@ -4,6 +4,7 @@ tokenizer:
   ptk_dir_val: '../data/pretokenized/val/'
   max_input_length: 8192
   max_output_length: 512
+  max_header_length: 512
   batch_size: 32
   # Change num_cpu for different envirnoments
   num_cpu: 32

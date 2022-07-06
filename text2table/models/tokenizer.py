@@ -44,6 +44,8 @@ def tokenize():
         # Tokenize the head column for decoder
         head = tokenizer(
             batch['HEADER'],
+            padding='max_length',
+            max_length=conf.tokenizer.max_header_length,
         )
 
         # Assign the input IDs and corresponding attention mask
@@ -51,6 +53,8 @@ def tokenize():
         batch["attention_mask"] = inputs.attention_mask
         # Assign the header IDs
         batch["decoder_input_ids"] = head.input_ids
+        # Assign the attention mask for the header
+        batch["decoder_attention_mask"] = head.attention_mask
 
         # create 0 global_attention_mask lists (0: token attends 'locally')
         batch["global_attention_mask"] = len(batch["input_ids"]) * [
@@ -100,3 +104,4 @@ def tokenize():
     # Save
     val_dataset.save_to_disk(ptk_dir_val)
     logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
+    
