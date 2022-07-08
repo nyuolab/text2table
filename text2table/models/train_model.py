@@ -35,7 +35,6 @@ if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
     # Pre-tokenize the input text & save the result in the directory
     tokenize()
 
-
 # Load the pre-tokenzied training dataset
 train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
@@ -52,6 +51,8 @@ val_dataset.set_format(
     type="torch",
     columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
 )
+#--changed
+#val_dataset=val_dataset.select(range(5))
 
 #--changed
 # Initialize the model
