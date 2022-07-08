@@ -25,7 +25,6 @@ if not (os.path.exists(ckpt_dir_train) and os.path.exists(ckpt_dir_val)):
     # Pre-tokenize the input text & save the result in the directory
     tokenize()
 
-
 # Load the pre-tokenzied training dataset
 train_dataset = datasets.load_from_disk(ckpt_dir_train)
 # Load the pre-tokenized validation dataset
@@ -40,18 +39,22 @@ val_dataset.set_format(
     type="torch",
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
+#--changed
+val_dataset=val_dataset.select(range(2))
 
 # Modify model & trainer parameters
 gradient_checkpointing=True
 
 predict_with_generate=True
 evaluation_strategy="steps"
-per_device_train_batch_size=2
-per_device_eval_batch_size=2
+per_device_train_batch_size=1
+per_device_eval_batch_size=1
 
 
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+#--changed
+#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-3000")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -71,7 +74,8 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size=per_device_eval_batch_size,
     fp16=True,
     logging_steps=10,
-    eval_steps=1000,
+    #--changed
+    eval_steps=2,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,

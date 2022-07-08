@@ -7,10 +7,11 @@ import torch
 # useful for logging in evaluation or inference
 def setup_logger(name, log_file, formatter,level=logging.INFO):
     """To setup as many loggers as you want"""
-    if torch.distributed.get_world_size()>1:
-        handler = logging.NullHandler()
-    else:
-        handler = logging.FileHandler(log_file)        
+    # if torch.distributed.get_world_size()>1:
+    #     handler = logging.NullHandler()
+    # else:
+    #     handler = logging.FileHandler(log_file)   
+    handler = logging.FileHandler(log_file)     
     handler.setFormatter(logging.Formatter(formatter))
     logger = logging.getLogger(name)
     logger.setLevel(level)
