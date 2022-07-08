@@ -40,7 +40,7 @@ val_dataset.set_format(
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 #--changed
-val_dataset=val_dataset.select(range(2))
+#val_dataset=val_dataset.select(range(5))
 
 # Modify model & trainer parameters
 gradient_checkpointing=True
@@ -53,8 +53,8 @@ per_device_eval_batch_size=1
 
 # Initialize the model
 #--changed
-#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
-model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-3000")
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384", gradient_checkpointing=gradient_checkpointing)
+#model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-3000")
 # Add special tokens to the LED model decoder
 model.resize_token_embeddings(len(tokenizer))
 # Setup the model's hyperparameters
@@ -75,7 +75,7 @@ training_args = Seq2SeqTrainingArguments(
     fp16=True,
     logging_steps=10,
     #--changed
-    eval_steps=2,
+    eval_steps=1000,
     save_steps=1000,
     save_total_limit=2,
     gradient_accumulation_steps=4,

@@ -70,7 +70,7 @@ def tokenize():
 
     # Define the batch size & Num of CPUs (32 CPUs for MVP)
     #--changed
-    batch_size = 16
+    batch_size = 32
     num_cpu = 32
     # Preprocess(Tokenize) the input data: Training set
     train_dataset = train_dataset.map(
