@@ -55,8 +55,8 @@ val_dataset.set_format(
 
 #--changed
 # Initialize the model
-#model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-3000")
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-3000")
+#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 # modify model configuration
