@@ -93,7 +93,7 @@ target/
 text2table/data/data_test.py
 
 # Training log & Check points
-models/
+/models/
 text2table/models/wandb/
 text2table/data/pretokenized/
 
@@ -106,3 +106,6 @@ dask-worker-space/
 
 #notebook
 notebooks/dataset_compilation.ipynb
+
+#model copy
+text2table/models/modeling_hierarchical_led_copy.py
