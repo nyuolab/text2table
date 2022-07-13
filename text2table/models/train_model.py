@@ -40,7 +40,7 @@ train_dataset = datasets.load_from_disk(ptk_dir_train)
 val_dataset = datasets.load_from_disk(ptk_dir_val)
 
 # Define whether we want to add header to the decoder input
-if (conf.trainer.use_header):
+if (conf.trainer.use_decoder_header):
     train_dataset.set_format(
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],

@@ -15,7 +15,7 @@ model:
   length_penalty: 1.0
   early_stopping: false
 trainer:
-  use_header: false # Whether pass header to the decoder
+  use_decoder_header: false
   gradient_checkpointing: true
   output_dir: '../../models/'
   predict_with_generate: true
