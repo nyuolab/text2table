@@ -12,7 +12,6 @@ from omegaconf import OmegaConf
 
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
-
 # Initialize wandb
 wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
 
@@ -40,15 +39,25 @@ train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
 val_dataset = datasets.load_from_disk(ptk_dir_val)
 
-
-train_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
-)
-val_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
-)
+# Define whether we want to add header to the decoder input
+if (conf.trainer.use_header):
+    train_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
+    )
+    val_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
+    )
+else:
+    train_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    )
+    val_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    )
 
 
 # Initialize the model
@@ -61,7 +70,6 @@ model.config.max_length=conf.model.max_length
 model.config.min_length=conf.model.min_length
 model.config.length_penalty=conf.model.length_penalty
 model.config.early_stopping=conf.model.early_stopping
-
 
 # Declare the training pts
 training_args = Seq2SeqTrainingArguments(
