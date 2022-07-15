@@ -110,7 +110,7 @@ class ColMatch(datasets.Metric):
         date=datetime.datetime.now()
         n=date.strftime("eval_logs/%m_%d_%H:%M:%S_eval.log")
        
-        metric_logger = setup_logger(name='metric_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
 
         metric_logger.info('\n---------Start of evaluation epoch---------')
 
