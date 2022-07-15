@@ -34,14 +34,12 @@ tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<
 if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
     # Pre-tokenize the input text & save the result in the directory
     tokenize()
-
+    
 # Load the pre-tokenzied training dataset
 train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
 val_dataset = datasets.load_from_disk(ptk_dir_val)
 
-#--changed
-val_dataset=val_dataset.select(range(2))
 
 train_dataset.set_format(
     type="torch",
@@ -52,11 +50,11 @@ val_dataset.set_format(
     columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
 )
 #--changed
-#val_dataset=val_dataset.select(range(5))
+val_dataset=val_dataset.select(range(20))
 
 #--changed
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-3000")
+model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-12000")
 #model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
@@ -80,6 +78,8 @@ training_args = Seq2SeqTrainingArguments(
     logging_steps=conf.trainer.logging_steps,
     eval_steps=conf.trainer.eval_steps,
     save_steps=conf.trainer.save_steps,
+    #--changed
+    #max_steps=conf.trainer.max_steps,
     save_total_limit=conf.trainer.save_total_limit,
     gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
 )
