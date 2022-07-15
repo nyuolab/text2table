@@ -12,10 +12,9 @@ from omegaconf import OmegaConf
 
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
-
 # Initialize wandb
 #--changed
-wandb.init(project="huggingface", group=conf.trainer.group, name=conf.trainer.run_name)
+wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
 
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
@@ -40,22 +39,29 @@ train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
 val_dataset = datasets.load_from_disk(ptk_dir_val)
 
-
-train_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
-)
-val_dataset.set_format(
-    type="torch",
-    columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
-)
-#--changed
-val_dataset=val_dataset.select(range(20))
+# Define whether we want to add header to the decoder input
+if (conf.trainer.use_decoder_header):
+    train_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
+    )
+    val_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
+    )
+else:
+    train_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    )
+    val_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    )
 
 #--changed
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-12000")
-#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 # modify model configuration
@@ -64,7 +70,6 @@ model.config.max_length=conf.model.max_length
 model.config.min_length=conf.model.min_length
 model.config.length_penalty=conf.model.length_penalty
 model.config.early_stopping=conf.model.early_stopping
-
 
 # Declare the training pts
 training_args = Seq2SeqTrainingArguments(
