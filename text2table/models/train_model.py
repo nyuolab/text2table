@@ -1,6 +1,7 @@
 # Reference;
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
 import datasets
+import torch
 from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
 import os, shutil, logging, wandb
 from tokenizer import tokenize
@@ -38,32 +39,29 @@ if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
 train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
 val_dataset = datasets.load_from_disk(ptk_dir_val)
+# Prepare column header for the decoder
+column_header = torch.LongTensor(train_dataset["decoder_input_ids"])
 
-# Define whether we want to add header to the decoder input
-if (conf.trainer.use_decoder_header):
-    train_dataset.set_format(
-        type="torch",
-        columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
-    )
-    val_dataset.set_format(
-        type="torch",
-        columns=["input_ids", "attention_mask", "decoder_input_ids", "decoder_attention_mask", "global_attention_mask", "labels"],
-    )
-else:
-    train_dataset.set_format(
-        type="torch",
-        columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
-    )
-    val_dataset.set_format(
-        type="torch",
-        columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
-    )
+# Convert and save the dataset to the torch.Tensor format for the model
+train_dataset.set_format(
+    type="torch",
+    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+)
+val_dataset.set_format(
+    type="torch",
+    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+)
 
 
 # Initialize the model
 model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
+
+# Define whether we add column header to the decoder input
+if (conf.trainer.use_decoder_header):
+    model.prepare_decoder_input_ids_from_labels(column_header)
+
 # modify model configuration
 model.config.num_beams=conf.model.num_beams
 model.config.max_length=conf.model.max_length
