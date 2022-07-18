@@ -101,7 +101,9 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
         # dl_manager is a datasets.download.DownloadManager that can be used to download and extract URLS
 
         if self.config.name == "minimum":
-            data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum"
+            #--changed
+            data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
+            #data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum"
         
         return [
             datasets.SplitGenerator(
@@ -139,7 +141,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
             csvreader = csv.reader(f, delimiter=",")
             for key, row in enumerate(csvreader):
                 if key == 0:
-                    header_seq = " <COL> ".join([x for x in row if x != row[4]]) + " <ROW> "
+                    header_seq = " <COL> ".join([x for x in row if x != row[4]]) + " <ROW> "     
                     continue
                 if self.config.name == "minimum":
                     #the sequence representation of the nonheader cells
