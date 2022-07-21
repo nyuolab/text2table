@@ -1,5 +1,5 @@
 import datasets
-from transformers import LEDTokenizerFast
+from transformers import PerceiverTokenizer
 import os, shutil, logging
 from omegaconf import OmegaConf
 
@@ -14,7 +14,7 @@ def tokenize():
     ptk_dir_val = conf.tokenizer.ptk_dir_val
 
     # Load tokenizer for the LED model
-    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+    tokenizer = PerceiverTokenizer.from_pretrained("deepmind/language-perceiver")
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
     tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -41,27 +41,10 @@ def tokenize():
             truncation=True,
             max_length=conf.tokenizer.max_output_length,
         )
-        # Tokenize the head column for decoder
-        head = tokenizer(
-            batch['HEADER'],
-            padding='max_length',
-            max_length=conf.tokenizer.max_header_length,
-        )
 
         # Assign the input IDs and corresponding attention mask
-        batch["input_ids"] = inputs.input_ids
+        batch["inputs"] = inputs.input_ids
         batch["attention_mask"] = inputs.attention_mask
-        # Assign the header IDs
-        batch["decoder_input_ids"] = head.input_ids
-        # Assign the attention mask for the header
-        batch["decoder_attention_mask"] = head.attention_mask
-
-        # create 0 global_attention_mask lists (0: token attends 'locally')
-        batch["global_attention_mask"] = len(batch["input_ids"]) * [
-            [0 for _ in range(len(batch["input_ids"][0]))]
-        ]
-        # Change the first token of all sequences to make it attend 'globally' (suggested by the original paper)
-        batch["global_attention_mask"][0][0] = 1
 
         # Assign the output IDs
         batch["labels"] = outputs.input_ids
@@ -73,7 +56,6 @@ def tokenize():
         ]
         
         return batch
-
 
     # Preprocess(Tokenize) the input data: Training set
     train_dataset = train_dataset.map(

@@ -2,7 +2,7 @@
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
 import datasets
 import torch
-from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+from transformers import (PerceiverTokenizer, PerceiverForMaskedLM, Seq2SeqTrainingArguments, Seq2SeqTrainer, PerceiverConfig)
 import os, shutil, logging, wandb
 from tokenizer import tokenize
 from datasets import load_metric
@@ -22,7 +22,7 @@ ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
 # Load tokenizer for the LED model
-tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+tokenizer = PerceiverTokenizer.from_pretrained("deepmind/language-perceiver")
 # Add special tokens to the LED model
 # As we want to represent the table as a sequence: separation tokens are added
 tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -39,24 +39,22 @@ if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
 train_dataset = datasets.load_from_disk(ptk_dir_train)
 # Load the pre-tokenized validation dataset
 val_dataset = datasets.load_from_disk(ptk_dir_val)
-# Prepare column header for the decoder
-column_header = torch.LongTensor(train_dataset["decoder_input_ids"])
 
 # Convert and save the dataset to the torch.Tensor format for the model
 train_dataset.set_format(
     type="torch",
-    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["inputs", "attention_mask", "labels"],
 )
 val_dataset.set_format(
     type="torch",
-    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["inputs", "attention_mask", "labels"],
 )
 
 
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+model = PerceiverForMaskedLM.from_pretrained("deepmind/language-perceiver")
 # Add special tokens to the LED model
-model.resize_token_embeddings(len(tokenizer))
+# model.resize_token_embeddings(len(tokenizer))
 
 # Define whether we add column header to the decoder input
 if (conf.trainer.use_decoder_header):
@@ -71,7 +69,7 @@ model.config.early_stopping=conf.model.early_stopping
 
 # Declare the training pts
 training_args = Seq2SeqTrainingArguments(
-    gradient_checkpointing=conf.trainer.gradient_checkpointing,
+    # gradient_checkpointing=conf.trainer.gradient_checkpointing,
     output_dir=conf.trainer.output_dir,
     predict_with_generate=conf.trainer.predict_with_generate,
     evaluation_strategy=conf.trainer.evaluation_strategy,
