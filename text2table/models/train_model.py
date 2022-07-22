@@ -2,7 +2,7 @@
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
 import datasets
 import torch
-from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+from transformers import (AutoTokenizer, LongT5ForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LongT5Config)
 import os, shutil, logging, wandb
 from tokenizer import tokenize
 from datasets import load_metric
@@ -22,7 +22,7 @@ ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
 # Load tokenizer for the LED model
-tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+tokenizer = AutoTokenizer.from_pretrained("google/long-t5-tglobal-base")
 # Add special tokens to the LED model
 # As we want to represent the table as a sequence: separation tokens are added
 tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -45,16 +45,16 @@ column_header = torch.LongTensor(train_dataset["decoder_input_ids"])
 # Convert and save the dataset to the torch.Tensor format for the model
 train_dataset.set_format(
     type="torch",
-    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "labels"],
 )
 val_dataset.set_format(
     type="torch",
-    columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
+    columns=["input_ids", "attention_mask", "labels"],
 )
 
 
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+model = LongT5Model.from_pretrained("google/long-t5-tglobal-base")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 
