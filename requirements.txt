@@ -19,6 +19,12 @@ rouge_score
 nltk
 datetime
 dask
+distributed
+dask-cuda==22.6.0
+keras
+tensorflow
+sklearn
+xgboost
 
 # Linters and formatters
 autopep8
