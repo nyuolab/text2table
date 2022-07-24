@@ -54,7 +54,7 @@ val_dataset.set_format(
 
 
 # Initialize the model
-model = LongT5Model.from_pretrained("google/long-t5-tglobal-base")
+model = LongT5ForConditionalGeneration.from_pretrained("google/long-t5-tglobal-base")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 
