@@ -173,11 +173,11 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     if key == 0:
                         continue
                     # The special token that we prepend the text with and also feed to the decoder
-                    category_token = "<" + row[3] + ">"
+                    category_token = "<" + row[2] + ">"
                     # Yields examples as (key, example) tuples
                     yield (key - 1), {
                         "category": category_token,
-                        "label": row[4],
+                        "label": row[3],
                         # The list of texts that exclude empty strings
-                        "text": [" ".join([category_token, x]) for x in row[5:] if x is not None or x != ""],
+                        "text": [" ".join([category_token, x]) for x in row[4:] if x is not None or x != ""],
                     }
