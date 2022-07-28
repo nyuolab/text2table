@@ -179,5 +179,5 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         "category": category_token,
                         "label": row[3],
                         # The list of texts that exclude empty strings
-                        "text": [" ".join([category_token, x]) for x in row[4:] if x is not None or x != ""],
+                        "text": [" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""],
                     }
