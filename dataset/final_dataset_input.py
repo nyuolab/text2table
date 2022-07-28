@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 
 # Concatenation for the Input data: Clinical Notes in the text format
 
@@ -18,6 +19,7 @@ if not (os.path.exists(patientInfo)):
     admission = pd.read_csv((path + 'ADMISSIONS.csv'), delimiter=',', dtype=str, low_memory=False)
     IDs = admission[['SUBJECT_ID', 'HADM_ID']]
     IDs = IDs.sort_values(by=['SUBJECT_ID', 'HADM_ID'])
+    IDs = IDs.reset_index(drop=True)
     IDs.to_csv(patientInfo)
 
 else:
@@ -29,18 +31,35 @@ ID = IDs
 new_note = note.sort_values(by=['SUBJECT_ID', 'HADM_ID']).set_index(['SUBJECT_ID', 'HADM_ID'])[['CATEGORY', 'TEXT']]
 new_dataset = IDs.join(new_note, on=['SUBJECT_ID', 'HADM_ID'])
 
-# Initialize the final datatset for the input data (COL1: SUBJECT_ID; COL2: HADM_ID; COL3: TEXT)
-final_dataset = pd.DataFrame.from_dict({'SUBJECT_ID': [], 'HADM_ID': [], 'TEXT': []})
+# Get the info of all the unique categories of the clinical notes
+categories = new_dataset['CATEGORY'].unique().tolist()
+# Clear the space in the categories
+categories = [str(x).strip() for x in categories]
+# Remove the unwanted categories
+unwanted = ['Case Management', 'Pharmacy', 'Social Work', 'Rehab Services', 'Consult', 'nan']
+categories = [x for x in categories if x not in unwanted]
+
+# Initialize the final datatset for the input data (COL1: SUBJECT_ID; COL2: HADM_ID; COL3-COL#: Categories of the clinical notes)
+final_dataset = pd.DataFrame(columns=['SUBJECT_ID', 'HADM_ID'] + categories)
+# Input all unique HADM IDs and SUBJECT_IDs into the final dataset
+final_dataset['SUBJECT_ID'] = ID['SUBJECT_ID']
+final_dataset['HADM_ID'] = ID['HADM_ID']
 
 # Concatenate the notes for each unique admission
 for admID in (ID.HADM_ID.unique()):
     # Individual unique admission
     tmpADM = new_dataset.loc[new_dataset['HADM_ID'] == admID]
-    # Individual unique admission for its corresponding clinicial notes
-    tmpNote = ''
+    # Unique categories of this admission
+    tmpCat = tmpADM['CATEGORY'].unique().tolist()
+    # Clear the space in the categories
+    tmpCat = [str(x).strip() for x in tmpCat]
+    # Remove the unwanted categories
+    tmpCat = [x for x in tmpCat if x not in unwanted]
 
     # Concatenate the notes for current admission
-    for current in (tmpADM['CATEGORY'].unique()):
+    for current in tmpCat:
+        # Individual unique admission for its corresponding unique clinicial note (initialization)
+        tmpNote = ''
         # Category for the current notes
         category = (str(current).strip())[:3].upper()
         # Notes under this category
@@ -62,33 +81,24 @@ for admID in (ID.HADM_ID.unique()):
             tmpNote += str(currentNotes[currentNotes.index[0]])
             tmpNote += ' '
 
-        # If the admission has no notes under this category: Simply skip it
+        # If the admission has no notes under this category: Assign the empty string
         else:
-            continue
+            tmpNote = np.nan
+
+        # Append the current notes for this category to the final dataset
+        final_dataset.loc[final_dataset['HADM_ID'] == admID, (str(current).strip())] = tmpNote
 
 
-    # Get the correspnding Patient ID and Admission ID
-    tmpID = tmpADM['SUBJECT_ID'].unique()
-    ADM = tmpADM['HADM_ID'].unique()
-
-    # Concatenate multiple IDs together if necessary
-    if len(tmpID) > 1:
-        tmpID = ', '.join([str(n) for n in tmpID])
-    else:
-        tmpID = str(tmpID[0])
-
-    if len(ADM) > 1:
-        ADM = ', '.join([str(n) for n in ADM])
-    else:
-        ADM = str(ADM[0])
-
-    # Store the current admission into the final dataset
-    full_note = {'SUBJECT_ID': tmpID, 'HADM_ID': ADM, 'TEXT': tmpNote}
-    final_dataset = pd.concat([final_dataset, pd.DataFrame.from_records([full_note])])
-
+# Replace the empty string with the NaN
+final_dataset = final_dataset.replace(r'^\s*$', np.nan, regex=True)
 
 # Clear all unwanted columns generated during concatenation
-final_dataset = final_dataset[['SUBJECT_ID', 'HADM_ID', 'TEXT']]
+final_dataset = final_dataset[['SUBJECT_ID', 'HADM_ID'] + categories]
+
+# Sort the row by HADM_ID and reset the index
+final_dataset = final_dataset.sort_values(by=['HADM_ID'])
+final_dataset = final_dataset.reset_index(drop=True)
 
 # Store the Final dataset into a .csv file
-final_dataset.to_csv('/gpfs/data/oermannlab/project_data/text2table/complete/final_dataset_input.csv')
+final_dataset.to_csv('/gpfs/data/oermannlab/project_data/text2table/complete/complete_input_dataset.csv')
+print("Input dataset is ready!")

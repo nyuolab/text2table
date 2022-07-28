@@ -18,23 +18,27 @@ Make sure to run `make requirements` before running the actual model. And you ca
 Input Dataset: Clinical Notes in text format
 -----------------------------------------------
 The table, `NOTEEVENTS.csv`, in the original MIMIC-III dataset, contains information about patient's clinical 
-notes associated with each individual admission. Therefore, the input for the model, in the text format, is created
-based on this table. All categories of clinical notes assoicated with each patient for the individual admission are
-concatenated together as pieces of data. To create the input dataset, one can run `python3 final_dataset_input.py`,
-and the resulting data contains 58976 admissions associated with different patients for the corresponding clinical notes.
+notes in differnt categories associated with each individual admission. Therefore, the input for the model, in the text format, 
+is created based on this table. All clinical notes assoicated with each patient for the individual admission are concatenated 
+together as pieces of data. Notice that there are differnt categories of clinical notes present for one admission. Therefore, 
+one row presents one unique admission, and the differnt categories of notes are represented in different columns. (As there are categories
+such as, 'Case Management', 'Pharmacy', 'Social Work', 'Rehab Services', 'Consult', presented in the original dataset; however, for our 
+interest, we manually read those texts and conclude they are irrelevent to our prediction. Thus, we exclude those columns) 
+To create the input dataset, one can run `python3 final_dataset_input.py`, and the resulting data contains 58976 
+admissions associated with different patients for the corresponding clinical notes.
 
 Output Dataset: Clinical Notes in the table format
 -----------------------------------------------------
-The rest of the tables in the original MIMIC-III dataset contain information about different patients for their corresponding
+The rest of the tables in the original MIMIC-III dataset contains information about different patients for their corresponding
 clinical notes in the table format. The output of the model, in the table format, is created based on those tables. All minimum
 valuable columns that contain information about patients for their admissions are concatenated together to be the output for models.
 To create the output dataset, one can run `python3 final_dataset_output.py`.
 
-
 Final Dataset: All in one table
 ----------------------------------
 To put clinical notes and assoicated information in one table, one can run `python3 final_dataset_merge.py`. This file helps to put all
-clinical notes in both text format and table format at just one table, and indeed for feeding our model.
+clinical notes in both text format and table format at just one table, and indeed for feeding the model. Also, this program helps to 
+split the train, development, and evaluation sets (80%/5%/15%) and store three sets into three files umder the same directory.
 
 ---------
 
