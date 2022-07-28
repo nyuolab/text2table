@@ -100,5 +100,5 @@ final_dataset = final_dataset.sort_values(by=['HADM_ID'])
 final_dataset = final_dataset.reset_index(drop=True)
 
 # Store the Final dataset into a .csv file
-final_dataset.to_csv('/gpfs/data/oermannlab/project_data/text2table/complete/complete_input_dataset.csv')
+final_dataset.to_csv('/gpfs/data/oermannlab/project_data/text2table/complete/complete_input_dataset.csv', index=False)
 print("Input dataset is ready!")

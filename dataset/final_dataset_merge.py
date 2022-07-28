@@ -39,7 +39,7 @@ df_output.insert(0, 'SUBJECT_ID', first_column)
 df_output = df_output.reset_index(drop=True)
 
 # Export the table into the target directory
-df_output.to_csv((path + 'complete_merged_final_dataset.csv'))
+df_output.to_csv((path + 'complete_merged_final_dataset.csv'), index=False)
 print('Merge completed!')
 
 
@@ -63,7 +63,7 @@ df_test = df_test.reset_index(drop=True)
 
 # Export the training and testing set into the target directory
 targetDir = targetDir + "/"
-df_train.to_csv((targetDir + 'train.csv'))
-df_test.to_csv((targetDir + 'test.csv'))
-df_dev.to_csv((targetDir + 'dev.csv'))
+df_train.to_csv((targetDir + 'train.csv'), index=False)
+df_test.to_csv((targetDir + 'test.csv'), index=False)
+df_dev.to_csv((targetDir + 'dev.csv'), index=False)
 print('Training and testing set split completed!')
