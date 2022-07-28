@@ -22,8 +22,7 @@ ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
 # Load tokenizer for the LED model
-tokenizer = AutoTokenizer.from_pretrained('allenai/PRIMERA')
-tokenizer.model_max_length = 16384
+tokenizer = AutoTokenizer.from_pretrained('allenai/led-large-16384')
 # Add special tokens to the LED model
 # As we want to represent the table as a sequence: separation tokens are added
 tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -56,8 +55,7 @@ val_dataset.set_format(
 
 # Initialize the model
 model = LEDForConditionalGeneration.from_pretrained('allenai/PRIMERA')
-model.max_encoder_position_embeddings = 16384
-model.max_position_embeddings = 16384
+model.config = LEDConfig.from_pretrained('allenai/led-large-16384')
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 
