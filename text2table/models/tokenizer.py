@@ -1,5 +1,5 @@
 import datasets
-from transformers import LEDTokenizerFast
+from transformers import AutoTokenizer
 import os, shutil, logging
 from omegaconf import OmegaConf
 
@@ -14,7 +14,8 @@ def tokenize():
     ptk_dir_val = conf.tokenizer.ptk_dir_val
 
     # Load tokenizer for the LED model
-    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+    tokenizer = AutoTokenizer.from_pretrained('allenai/PRIMERA')
+    tokenizer.model_max_length = 16384
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
     tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
