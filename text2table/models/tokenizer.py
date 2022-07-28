@@ -1,5 +1,5 @@
 import datasets
-from transformers import LEDTokenizerFast, TransfoXLForSequenceClassification
+from transformers import LEDTokenizerFast
 import os, shutil, logging
 from omegaconf import OmegaConf
 
@@ -9,23 +9,23 @@ def tokenize():
     # Load the configuration
     conf = OmegaConf.load("../config.yaml")
 
+    # Specify the directory where the pretokenized data are stored: train & validation sets
+    ptk_dir_train = conf.tokenizer.ptk_dir_train
+    ptk_dir_val = conf.tokenizer.ptk_dir_val
+
+    # Load tokenizer for the LED model
+    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+    # Add special tokens to the LED model
+    # As we want to represent the table as a sequence: separation tokens are added
+    tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
+
+
+    # Load preprocessed data: with special tokens added
+    train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
+    val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
+
+
     if conf.dataset.version == "minimum":
-        # Specify the directory where the pretokenized data are stored: train & validation sets
-        ptk_dir_train = conf.tokenizer.ptk_dir_train
-        ptk_dir_val = conf.tokenizer.ptk_dir_val
-
-        # Load tokenizer for the LED model
-        tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
-        # Add special tokens to the LED model
-        # As we want to represent the table as a sequence: separation tokens are added
-        tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
-
-
-        # Load preprocessed data: with special tokens added
-        train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
-        val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
-
-
         # Define the processing function so that the data will match the correct model format
         def process_data_to_model_inputs(batch):
             # Tokenize the input text
@@ -94,39 +94,9 @@ def tokenize():
         )
 
 
-        # Creat a directory to store the pretokenized data for training set 
-        os.makedirs(ptk_dir_train, exist_ok=True)
-        # Save
-        train_dataset.save_to_disk(ptk_dir_train)
-        logging.info(f'saved tokenized training dataset to {ptk_dir_train}')
-
-        # Creat a directory to store the pretokenized data for validation set
-        os.makedirs(ptk_dir_val, exist_ok=True)
-        # Save
-        val_dataset.save_to_disk(ptk_dir_val)
-        logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
-    
-
     elif conf.dataset.version == "full":
-        # Specify the directory where the pretokenized data are stored: train & validation sets
-        ptk_dir_train = conf.tokenizer.ptk_dir_train
-        ptk_dir_val = conf.tokenizer.ptk_dir_val
-
-        # Load tokenizer for the LED model
-        tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
-        # Add special tokens to the LED model
-        # As we want to represent the table as a sequence: separation tokens are added
-        tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
-
-
-        # Load preprocessed data: with special tokens added
-        train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
-        val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
-
-
         # Define the processing function so that the data will match the correct model format
         def process_data_to_model_inputs(example):
-
             # Tokenize the input text
             inputs = tokenizer(
                 example['text'],
@@ -189,15 +159,15 @@ def tokenize():
         )
 
 
-        # Creat a directory to store the pretokenized data for training set 
-        os.makedirs(ptk_dir_train, exist_ok=True)
-        # Save
-        train_dataset.save_to_disk(ptk_dir_train)
-        logging.info(f'saved tokenized training dataset to {ptk_dir_train}')
+    # Creat a directory to store the pretokenized data for training set 
+    os.makedirs(ptk_dir_train, exist_ok=True)
+    # Save
+    train_dataset.save_to_disk(ptk_dir_train)
+    logging.info(f'saved tokenized training dataset to {ptk_dir_train}')
 
-        # Creat a directory to store the pretokenized data for validation set
-        os.makedirs(ptk_dir_val, exist_ok=True)
-        # Save
-        val_dataset.save_to_disk(ptk_dir_val)
-        logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
+    # Creat a directory to store the pretokenized data for validation set
+    os.makedirs(ptk_dir_val, exist_ok=True)
+    # Save
+    val_dataset.save_to_disk(ptk_dir_val)
+    logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
     

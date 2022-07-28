@@ -15,16 +15,16 @@ from modeling_hierarchical_led import HierarchicalLEDForConditionalGeneration
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
 
+# Initialize wandb
+wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
+
+# Specify the directory where the pretokenized data are stored: train & validation sets
+ptk_dir_train = conf.tokenizer.ptk_dir_train
+ptk_dir_val = conf.tokenizer.ptk_dir_val
+
+
 # training script for the minimum dataset
 if conf.dataset.name == "minimum":
-    # Initialize wandb
-    wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
-
-
-    # Specify the directory where the pretokenized data are stored: train & validation sets
-    ptk_dir_train = conf.tokenizer.ptk_dir_train
-    ptk_dir_val = conf.tokenizer.ptk_dir_val
-
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
     # Add special tokens to the LED model
@@ -122,14 +122,6 @@ if conf.dataset.name == "minimum":
 
 # training script for the full dataset
 elif conf.dataset.name == "full":
-     # Initialize wandb
-    wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
-
-
-    # Specify the directory where the pretokenized data are stored: train & validation sets
-    ptk_dir_train = conf.tokenizer.ptk_dir_train
-    ptk_dir_val = conf.tokenizer.ptk_dir_val
-
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
     # Add special tokens to the LED model
