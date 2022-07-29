@@ -13,19 +13,18 @@ def tokenize():
     ptk_dir_train = conf.tokenizer.ptk_dir_train
     ptk_dir_val = conf.tokenizer.ptk_dir_val
 
-    # Load tokenizer for the LED model
-    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
-    # Add special tokens to the LED model
-    # As we want to represent the table as a sequence: separation tokens are added
-    tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
-
-
     # Load preprocessed data: with special tokens added
     train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
     val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
 
 
     if conf.dataset.version == "minimum":
+        # Load tokenizer for the LED model
+        tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+        # Add special tokens to the LED model
+        # As we want to represent the table as a sequence: separation tokens are added
+        tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
+
         # Define the processing function so that the data will match the correct model format
         def process_data_to_model_inputs(batch):
             # Tokenize the input text
@@ -95,11 +94,22 @@ def tokenize():
 
 
     elif conf.dataset.version == "full":
+        # Load tokenizer for the LED model
+        tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+        # Add special tokens to the LED model
+        # As we want to represent the table as a sequence: separation tokens are added
+        tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
+        "<NUR>", "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", 
+        "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>"
+        "<PRESCRIPTION>", "<PROC_ICD9>"]})
+
         # Define the processing function so that the data will match the correct model format
         def process_data_to_model_inputs(example):
-            # Tokenize the input text
+            # Separate the input texts
+            example["text_list"] = example["text"].split(" <text-sep> ")
+            # Tokenize the input texts
             inputs = tokenizer(
-                example['text'],
+                example['text_list'],
                 padding='max_length',
                 truncation=True,
                 max_length=conf.tokenizer.max_input_length,
@@ -149,14 +159,14 @@ def tokenize():
             batched=False,
             num_proc=conf.tokenizer.num_cpu,
             remove_columns=["category", "label", "text"],
-        )
+        ).remove_columns("text_list")
         # Preprocess(Tokenize) the input data: Validation set
         val_dataset = val_dataset.map(
             function=process_data_to_model_inputs,
             batched=False,
             num_proc=conf.tokenizer.num_cpu,
             remove_columns=["category", "label", "text"],
-        )
+        ).remove_columns("text_list")
 
 
     # Creat a directory to store the pretokenized data for training set 

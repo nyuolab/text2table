@@ -126,8 +126,10 @@ elif conf.dataset.name == "full":
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
-    tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
-
+    tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
+    "<NUR>", "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", 
+    "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>"
+    "<PRESCRIPTION>", "<PROC_ICD9>"]})
 
     # If the pretokenized data are exists, load it directly from the disk (time-saving)
     # If not, tokenized the text for model and store it for faster reuse (Call Tokenizer in the same directory)
