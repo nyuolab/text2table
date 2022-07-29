@@ -25,6 +25,7 @@ keras
 tensorflow
 sklearn
 xgboost
+evaluate
 
 # Linters and formatters
 autopep8
