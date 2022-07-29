@@ -17,6 +17,7 @@
 import csv
 from multiprocessing.sharedctypes import Value
 import os
+import sys
 
 import datasets
 
@@ -112,7 +113,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
         if self.config.name == "minimum":
             data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
         elif self.config.name == "full":
-            data_dir = "/gpfs/data/oermannlab/project_data/text2table/complete"
+            data_dir = "/gpfs/data/oermannlab/project_data/text2table/complete/train_test_data"
         
         return [
             datasets.SplitGenerator(
@@ -167,8 +168,9 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     }
         
         elif self.config.name == "full":
-            with open(filepath, encoding="utf-8") as f:
-                csvreader = csv.reader(f, delimiter=",")
+            csv.field_size_limit(sys.maxsize)
+            with open(filepath, "r") as f:
+                csvreader = csv.reader(f, dialect="excel")
                 for key, row in enumerate(csvreader):
                     if key == 0:
                         continue
@@ -179,5 +181,5 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         "category": category_token,
                         "label": row[3],
                         # The list of texts that exclude empty strings
-                        "text": [" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""],
+                        "text": " <text-sep> ".join([" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""]),
                     }
