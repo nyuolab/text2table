@@ -17,6 +17,7 @@
 import csv
 from multiprocessing.sharedctypes import Value
 import os
+import sys
 
 import datasets
 
@@ -56,11 +57,12 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
 
     # This is a list of multiple configurations for the dataset.
     BUILDER_CONFIGS = [
-        datasets.BuilderConfig(name="minimum", version=VERSION, description="This is the bare minimum dataset"),    
+        datasets.BuilderConfig(name="minimum", version=VERSION, description="This is the bare minimum dataset"),
+        datasets.BuilderConfig(name="full", version=VERSION, description="This is the full dataset"),  
     ]
 
     #This is the default configuration
-    DEFAULT_CONFIG_NAME = "minimum"
+    DEFAULT_CONFIG_NAME = "full"
 
     def _info(self):
         # This method specifies the datasets.DatasetInfo object which contains informations and typings for the dataset
@@ -75,6 +77,14 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     "HEADER": datasets.Value("string"),
                     "TABLE": datasets.Value("string"),
                     "TEXT": datasets.Value("string"),
+                }
+            )
+        elif self.config.name == "full": # For the full dataset
+            features = datasets.Features(
+                {
+                    "category": datasets.Value("string"),
+                    "label": datasets.Value("string"),
+                    "text": datasets.Value("string"),
                 }
             )
         
@@ -102,6 +112,8 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
 
         if self.config.name == "minimum":
             data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
+        elif self.config.name == "full":
+            data_dir = "/gpfs/data/oermannlab/project_data/text2table/complete/train_test_data"
         
         return [
             datasets.SplitGenerator(
@@ -129,19 +141,19 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                 },
             ),
         ]
-
+    
     # method parameters are unpacked from `gen_kwargs` as given in `_split_generators`
     def _generate_examples(self, filepath, split):
         # This method handles input defined in _split_generators to yield (key, example) tuples from the dataset.
         # The `key` is for legacy reasons (tfds) and is not important in itself, but must be unique for each example.
-        with open(filepath, encoding="utf-8") as f:
-            header_seq = "" #the sequence representation of the column headers
-            csvreader = csv.reader(f, delimiter=",")
-            for key, row in enumerate(csvreader):
-                if key == 0:
-                    header_seq = " <COL> ".join([x for x in row if x != row[4]]) + " <ROW> "
-                    continue
-                if self.config.name == "minimum":
+        if self.config.name == "minimum":
+            with open(filepath, encoding="utf-8") as f:
+                header_seq = "" #the sequence representation of the column headers
+                csvreader = csv.reader(f, delimiter=",")
+                for key, row in enumerate(csvreader):
+                    if key == 0:
+                        header_seq = " <COL> ".join([x for x in row if x != row[4]]) + " <ROW> "
+                        continue
                     #the sequence representation of the nonheader cells
                     nonheader_seq = " <COL> ".join([x for x in row if x != row[4]])
                     # Yields examples as (key, example) tuples
@@ -153,4 +165,21 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         "HEADER": header_seq,
                         "TABLE": header_seq + nonheader_seq,
                         "TEXT": row[4],
+                    }
+        
+        elif self.config.name == "full":
+            csv.field_size_limit(sys.maxsize)
+            with open(filepath, "r") as f:
+                csvreader = csv.reader(f, dialect="excel")
+                for key, row in enumerate(csvreader):
+                    if key == 0:
+                        continue
+                    # The special token that we prepend the text with and also feed to the decoder
+                    category_token = "<" + row[2] + ">"
+                    # Yields examples as (key, example) tuples
+                    yield (key - 1), {
+                        "category": category_token,
+                        "label": row[3],
+                        # The list of texts that exclude empty strings
+                        "text": " <text-sep> ".join([" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""]),
                     }
