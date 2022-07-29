@@ -106,6 +106,9 @@ dask-worker-space/
 
 #notebook
 notebooks/dataset_compilation.ipynb
+notebooks/baseline_folder/
+notebooks/dataset_compilation-Copy1.ipynb
+notebooks/xgboost_baseline.ipynb
 
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
