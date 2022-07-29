@@ -32,3 +32,5 @@ trainer:
   # Change name for different runs
   run_name: "column-wise-eval-trail-#"
   group: "experiment_#"
+dataset:
+  version: full
