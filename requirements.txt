@@ -26,6 +26,7 @@ tensorflow
 sklearn
 xgboost
 evaluate
+accelerate
 
 # Linters and formatters
 autopep8

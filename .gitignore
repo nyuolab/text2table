@@ -96,6 +96,7 @@ text2table/data/data_test.py
 /models/
 text2table/models/wandb/
 text2table/data/pretokenized/
+log/
 
 # Temporary Files
 text2table/models/evaluation.py
@@ -112,3 +113,6 @@ notebooks/xgboost_baseline.ipynb
 
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
+
+#sbatch script
+train.sh
