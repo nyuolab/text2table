@@ -3,20 +3,24 @@
 import datasets
 import torch
 from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+from transformers.utils.logging import set_verbosity_debug
 import os, shutil, logging, wandb
 from tokenizer import tokenize
 from datasets import load_metric
 import datetime
-from text2table.logging_utils.logging_script import setup_logger
 from omegaconf import OmegaConf
 from modeling_hierarchical_led import HierarchicalLEDForConditionalGeneration
-
+from data_collator import data_collator
 
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
 
+# Set the verbosity lebel for the huggingface transformers's root logger
+if conf.trainer.debug:
+    set_verbosity_debug()
+
 # Initialize wandb
-wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name)
+wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name, mode=conf.trainer.wandb_mode)
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
 ptk_dir_train = conf.tokenizer.ptk_dir_train
@@ -24,7 +28,7 @@ ptk_dir_val = conf.tokenizer.ptk_dir_val
 
 
 # training script for the minimum dataset
-if conf.dataset.name == "minimum":
+if conf.dataset.version == "minimum":
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
     # Add special tokens to the LED model
@@ -121,14 +125,14 @@ if conf.dataset.name == "minimum":
     trainer.train()
 
 # training script for the full dataset
-elif conf.dataset.name == "full":
+elif conf.dataset.version == "full":
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
     tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
     "<NUR>", "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", 
-    "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>"
+    "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>",
     "<PRESCRIPTION>", "<PROC_ICD9>"]})
 
     # If the pretokenized data are exists, load it directly from the disk (time-saving)
@@ -143,7 +147,7 @@ elif conf.dataset.name == "full":
     # Load the pre-tokenized validation dataset
     val_dataset = datasets.load_from_disk(ptk_dir_val)
 
-    # Convert and save the dataset to the torch.Tensor format for the model
+    # Convert and save the dataset to the torch format for the model
     train_dataset.set_format(
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
@@ -152,7 +156,6 @@ elif conf.dataset.name == "full":
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
     )
-
 
     # Initialize the model
     model = HierarchicalLEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
@@ -205,6 +208,7 @@ elif conf.dataset.name == "full":
         model=model,
         tokenizer=tokenizer,
         args=training_args,
+        data_collator=data_collator,
         compute_metrics=compute_metrics,
         train_dataset=train_dataset,
         eval_dataset=val_dataset

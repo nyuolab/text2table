@@ -2,6 +2,8 @@ import datasets
 from transformers import LEDTokenizerFast
 import os, shutil, logging
 from omegaconf import OmegaConf
+import torch
+
 
 # Define the tokenize function
 def tokenize():
@@ -62,6 +64,8 @@ def tokenize():
             ]
             # Change the first token of all sequences to make it attend 'globally' (suggested by the original paper)
             batch["global_attention_mask"][0][0] = 1
+
+            batch["global_attention_mask"] = torch.tensor(batch["global_attention_mask"])
 
             # Assign the output IDs
             batch["labels"] = outputs.input_ids
@@ -135,14 +139,19 @@ def tokenize():
             example["input_ids"] = inputs.input_ids
             example["attention_mask"] = inputs.attention_mask
             # Assign the header IDs
-            example["decoder_input_ids"] = column_header.input_ids
+            decoder_input_ids = column_header.input_ids
+            shifted_input_ids = [0] * len(decoder_input_ids)
+            shifted_input_ids[1:] = decoder_input_ids[:-1].copy()
+            shifted_input_ids[0] = 2
+            example["decoder_input_ids"] = shifted_input_ids
 
             # create 0 global_attention_mask lists (0: token attends 'locally')
             example["global_attention_mask"] = len(example["input_ids"]) * [
                 [0 for _ in range(len(example["input_ids"][0]))]
             ]
+
             # Change the first and the second token of all sequences to make it attend 'globally' (suggested by the original paper)
-            example["global_attention_mask"][0][:2] = 1
+            example["global_attention_mask"][0][0] = 1
 
             # Assign the output IDs
             example["labels"] = output.input_ids
