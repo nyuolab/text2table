@@ -16,8 +16,7 @@
 # limitations under the License.
 """Pytorch hierarchical LED model for conditional generation"""
 
-
-from transformers import LEDforConditionalGeneration
+from transformers import LEDForConditionalGeneration
 from transformers.models.led.modeling_led import shift_tokens_right, LEDSeq2SeqLMOutput, LEDSeq2SeqModelOutput
 from transformers.utils import logging
 import torch
@@ -29,13 +28,11 @@ from torch.nn.utils.rnn import pad_sequence
 logger = logging.get_logger(__name__)
 
 # Since our project only needs seq2seq model, this class inherit from the LEDForConditionalGeneration class.
-class HierarchicalLEDForConditionalGeneration(LEDforConditionalGeneration):
+class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
 
-    # num_text is the number of categories of the clinical text.
     # avgpool_size is the size of the average pooling layer.
-    def __init__(self, config, num_text = 1, avgpool_size = 10):
+    def __init__(self, config, avgpool_size = 10):
         super().__init__(config)
-        self.num_text = num_text
         self.avgpool = AvgPool1d(avgpool_size)
     
     # input_ids should be a list of batchs of token ids. Each batch corresponds to one kind of clinical text.
@@ -89,12 +86,19 @@ class HierarchicalLEDForConditionalGeneration(LEDforConditionalGeneration):
         if encoder_outputs is None:
             # The list contains all the encoder outputs of the clinical text of each category.
             encoder_outputs_list = []
-            # get the encoder outputs of the clinical text of each category.
-            for i in range(self.num_text):
+            # get the encoder outputs of each group of text sequences in a batch.
+            for i in range(len(input_ids)):
+                # This is the index after which everything should be ignored.
+                pad_index = len(input_ids[i])
+                # if the attention mask is a tensor of all 0s, 
+                # then the index is set to the index of the tensor.
+                for j in range(len(input_ids[i])):
+                    if attention_mask[i][j].sum() == 0:
+                        pad_index = j
                 encoder_outputs_list.append(self.led.encoder(
-                    input_ids=input_ids[i],
-                    attention_mask=attention_mask[i],
-                    global_attention_mask=global_attention_mask,
+                    input_ids=input_ids[i][:pad_index],
+                    attention_mask=attention_mask[i][:pad_index],
+                    global_attention_mask=global_attention_mask[i][:pad_index],
                     head_mask=head_mask,
                     inputs_embeds=inputs_embeds,
                     output_attentions=output_attentions,
@@ -115,18 +119,18 @@ class HierarchicalLEDForConditionalGeneration(LEDforConditionalGeneration):
                     avg = self.avgpool(sequences[j][:, :sequences_mask[j].sum(), :].permute(0, 2, 1)).permute(0, 2, 1)
                     # concatenate the pooled encoder outputs of each individual sequence.
                     # if it is the first part of the final sequence, then it is added to the batch.
-                    # Otherwise, it is concatenated to the final sequence.
-                    if len(encoder_outputs_batch_list) <= j:
+                    # Otherwise, it is concatenated to the sequence.
+                    if j == 0:
                         encoder_outputs_batch_list.append(avg)
                     else:
-                        encoder_outputs_batch_list[j] = torch.cat((encoder_outputs_batch_list[j], avg), dim=1)
+                        encoder_outputs_batch_list[i] = torch.cat((encoder_outputs_batch_list[i], avg), dim=1)
             
             # eliminiate the first dimension which is the batch dimension. The batch dimension is 1.
             for i in range(len(encoder_outputs_batch_list)):
                 encoder_outputs_batch_list[i] = encoder_outputs_batch_list[i].squeeze(0)
             
             # pad the encoder output batch and convert it to a tensor.
-            encoder_outputs = pad_sequence(encoder_outputs_batch_list, batch_first=True)
+            encoder_outputs = pad_sequence(encoder_outputs_batch_list, batch_first=True, padding_value=1).to(input_ids.device)
 
             # The list contains the attention masks of the encoder outputs.
             attention_mask_batch_list = []
@@ -137,7 +141,7 @@ class HierarchicalLEDForConditionalGeneration(LEDforConditionalGeneration):
             
             # pad the attention masks and convert it to a tensor. 
             # By padding them, we set the attention mask of the pad tokens to 0.
-            attention_mask_ = pad_sequence(attention_mask_batch_list, batch_first=True)
+            attention_mask_ = pad_sequence(attention_mask_batch_list, batch_first=True).to(attention_mask.device)
 
         decoder_outputs = self.led.decoder(
             input_ids=decoder_input_ids,
@@ -163,10 +167,6 @@ class HierarchicalLEDForConditionalGeneration(LEDforConditionalGeneration):
             decoder_hidden_states=decoder_outputs.hidden_states,
             decoder_attentions=decoder_outputs.attentions,
             cross_attentions=decoder_outputs.cross_attentions,
-            encoder_last_hidden_state=encoder_outputs.last_hidden_state,
-            encoder_hidden_states=encoder_outputs.hidden_states,
-            encoder_attentions=encoder_outputs.attentions,
-            encoder_global_attentions=encoder_outputs.global_attentions,
         )
         
         lm_logits = self.lm_head(outputs[0]) + self.final_logits_bias
@@ -187,8 +187,4 @@ class HierarchicalLEDForConditionalGeneration(LEDforConditionalGeneration):
             decoder_hidden_states=outputs.decoder_hidden_states,
             decoder_attentions=outputs.decoder_attentions,
             cross_attentions=outputs.cross_attentions,
-            encoder_last_hidden_state=outputs.encoder_last_hidden_state,
-            encoder_hidden_states=outputs.encoder_hidden_states,
-            encoder_attentions=outputs.encoder_attentions,
-            encoder_global_attentions=outputs.encoder_global_attentions,
         )
