@@ -21,8 +21,8 @@ trainer:
   predict_with_generate: true
   evaluation_strategy: 'steps'
   # Change training/evaluation batch size based on needs
-  per_device_train_batch_size: 2
-  per_device_eval_batch_size: 2
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
   fp16: true
   logging_steps: 10
   # --debug
