@@ -7,7 +7,7 @@ tokenizer:
   max_header_length: 512
   batch_size: 32
   # Change num_cpu for different envirnoments
-  num_cpu: 32
+  num_cpu: 40
 model:
   num_beams: 2
   max_length: 512
@@ -29,8 +29,10 @@ trainer:
   save_steps: 1000
   save_total_limit: 2
   gradient_accumulation_steps: 4
+  wandb_mode: "disabled"
   # Change name for different runs
   run_name: "column-wise-eval-trail-#"
   group: "experiment_#"
+  debug: true
 dataset:
   version: full
