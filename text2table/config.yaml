@@ -25,12 +25,13 @@ trainer:
   per_device_eval_batch_size: 2
   fp16: true
   logging_steps: 10
-  eval_steps: 1000
-  save_steps: 1000
+  # --debug
+  eval_steps: 10
+  save_steps: 500
   save_total_limit: 2
   gradient_accumulation_steps: 4
   # Change name for different runs
-  run_name: "column-wise-eval-trail-#"
-  group: "experiment_#"
+  run_name: "trial"
+  group: "lucy_multilabel_debug"
 dataset:
   version: full

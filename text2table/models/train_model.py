@@ -52,6 +52,9 @@ val_dataset.set_format(
     columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
 )
 
+# --change
+val_dataset=val_dataset.select(range(2))
+
 
 # Initialize the model
 model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
@@ -83,6 +86,7 @@ training_args = Seq2SeqTrainingArguments(
     save_steps=conf.trainer.save_steps,
     save_total_limit=conf.trainer.save_total_limit,
     gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
+    include_inputs_for_metrics=True
 )
 
 #load custom metric
@@ -92,7 +96,12 @@ def compute_metrics(pred):
     # Prediction IDs
     labels_ids = pred.label_ids
     pred_ids = pred.predictions
-
+    # --debug
+    metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+    metric_logger.warning('\n---------Start of evaluation epoch---------')
+    print("label_ids: ",labels_ids)
+    print("pred: ",pred)
+    print("pred.inputs: ",pred.inputs)
     # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
     pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
     labels_ids[labels_ids == -100] = tokenizer.pad_token_id
