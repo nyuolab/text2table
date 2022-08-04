@@ -2,7 +2,7 @@
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
 import datasets
 import torch
-from transformers import (AutoTokenizer, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+from transformers import (AutoTokenizer, AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
 import os, shutil, logging, wandb
 from tokenizer import tokenize
 from datasets import load_metric
@@ -22,7 +22,7 @@ ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
 # Load tokenizer for the LED model
-tokenizer = AutoTokenizer.from_pretrained('allenai/led-large-16384')
+tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
 # Add special tokens to the LED model
 # As we want to represent the table as a sequence: separation tokens are added
 tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -54,8 +54,8 @@ val_dataset.set_format(
 
 
 # Initialize the model
-model = LEDForConditionalGeneration.from_pretrained('allenai/PRIMERA')
-model.config = LEDConfig.from_pretrained('allenai/led-large-16384')
+config = LEDConfig.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
+model = AutoModelForSeq2SeqLM.from_pretrained('patrickvonplaten/led-large-16384-pubmed', config=config)
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 

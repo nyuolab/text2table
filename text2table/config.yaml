@@ -7,9 +7,9 @@ tokenizer:
   max_header_length: 512
   batch_size: 32
   # Change num_cpu for different envirnoments
-  num_cpu: 32
+  num_cpu: 40
 model:
-  num_beams: 2
+  num_beams: 4
   max_length: 512
   min_length: 0
   length_penalty: 1.0
@@ -21,14 +21,14 @@ trainer:
   predict_with_generate: true
   evaluation_strategy: 'steps'
   # Change training/evaluation batch size based on needs
-  per_device_train_batch_size: 2
-  per_device_eval_batch_size: 2
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
   fp16: true
   logging_steps: 10
-  eval_steps: 1000
-  save_steps: 1000
+  eval_steps: 2000
+  save_steps: 2000
   save_total_limit: 2
-  gradient_accumulation_steps: 4
+  gradient_accumulation_steps: 2
   # Change name for different runs
-  run_name: "column-wise-eval-trail-17"
-  group: "experiment_17"
+  run_name: "column-wise-eval-trail-19"
+  group: "experiment_19"

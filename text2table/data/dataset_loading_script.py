@@ -17,6 +17,7 @@
 import csv
 from multiprocessing.sharedctypes import Value
 import os
+import sys
 
 import datasets
 
@@ -135,6 +136,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
         # This method handles input defined in _split_generators to yield (key, example) tuples from the dataset.
         # The `key` is for legacy reasons (tfds) and is not important in itself, but must be unique for each example.
         with open(filepath, encoding="utf-8") as f:
+            csv.field_size_limit(sys.maxsize)
             header_seq = "" #the sequence representation of the column headers
             csvreader = csv.reader(f, delimiter=",")
             for key, row in enumerate(csvreader):
