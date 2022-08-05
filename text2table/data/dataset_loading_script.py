@@ -63,7 +63,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
 
     #This is the default configuration
     #--change
-    DEFAULT_CONFIG_NAME = "minimum"
+    DEFAULT_CONFIG_NAME = "full"
 
     def _info(self):
         # This method specifies the datasets.DatasetInfo object which contains informations and typings for the dataset

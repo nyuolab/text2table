@@ -12,6 +12,14 @@ from omegaconf import OmegaConf
 from modeling_hierarchical_led import HierarchicalLEDForConditionalGeneration
 from data_collator import data_collator
 
+def count_param(m):
+    pre_sum=0
+    for param in m.parameters():
+        if param.requires_grad == True:
+            pre_sum+=param.numel()
+    return pre_sum
+
+
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
 
@@ -26,8 +34,9 @@ wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run
 ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
-
 # training script for the minimum dataset
+
+
 if conf.dataset.version == "minimum":
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
@@ -65,6 +74,7 @@ if conf.dataset.version == "minimum":
 
     # Initialize the model
     model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+    
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
 
@@ -93,6 +103,7 @@ if conf.dataset.version == "minimum":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
+        # --change
         include_inputs_for_metrics=True
     )
 
@@ -104,12 +115,12 @@ if conf.dataset.version == "minimum":
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
 
-        # --debug
+        # --change
         metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
         metric_logger.warning('\n---------Start of evaluation epoch---------')
-        print("label_ids: ",labels_ids)
-        print("pred: ",pred)
-        print("pred.inputs: ",pred.inputs)
+        metric_logger.warning("label_ids: ",labels_ids)
+        metric_logger.warning("pred: ",pred)
+        metric_logger.warning("pred.inputs: ",pred.inputs)
 
         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
@@ -134,95 +145,111 @@ if conf.dataset.version == "minimum":
     # Start the training
     trainer.train()
 
-# # training script for the full dataset
-# elif conf.dataset.version == "full":
-#     # Load tokenizer for the LED model
-#     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
-#     # Add special tokens to the LED model
-#     # As we want to represent the table as a sequence: separation tokens are added
-#     tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
-#     "<NUR>", "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", 
-#     "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>",
-#     "<PRESCRIPTION>", "<PROC_ICD9>"]})
+# training script for the full dataset
+elif conf.dataset.version == "full":
+    # Load tokenizer for the LED model
+    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+    # Add special tokens to the LED model
+    # As we want to represent the table as a sequence: separation tokens are added
+    tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
+    "<NUR>", "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", 
+    "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>",
+    "<PRESCRIPTION>", "<PROC_ICD9>"]})
 
-#     # If the pretokenized data are exists, load it directly from the disk (time-saving)
-#     # If not, tokenized the text for model and store it for faster reuse (Call Tokenizer in the same directory)
-#     if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
-#         # Pre-tokenize the input text & save the result in the directory
-#         tokenize()
+    # If the pretokenized data are exists, load it directly from the disk (time-saving)
+    # If not, tokenized the text for model and store it for faster reuse (Call Tokenizer in the same directory)
+    if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
+        # Pre-tokenize the input text & save the result in the directory
+        tokenize()
+
+    # Load the pre-tokenzied training dataset
+    train_dataset = datasets.load_from_disk(ptk_dir_train)
+    # Load the pre-tokenized validation dataset
+    val_dataset = datasets.load_from_disk(ptk_dir_val)
+
+    # Convert and save the dataset to the torch format for the model
+    train_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
+    )
+    val_dataset.set_format(
+        type="torch",
+        columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
+    )
+    # --change
+    val_dataset=val_dataset.select(range(2))
+    # Initialize the model
+    model = HierarchicalLEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+    
+    # Add special tokens to the LED model
+    model.resize_token_embeddings(len(tokenizer))
+
+    # modify model configuration
+    model.config.num_beams=conf.model.num_beams
+    model.config.max_length=conf.model.max_length
+    model.config.min_length=conf.model.min_length
+    model.config.length_penalty=conf.model.length_penalty
+    model.config.early_stopping=conf.model.early_stopping
+
+    # Declare the training pts
+    training_args = Seq2SeqTrainingArguments(
+        gradient_checkpointing=conf.trainer.gradient_checkpointing,
+        output_dir=conf.trainer.output_dir,
+        predict_with_generate=conf.trainer.predict_with_generate,
+        evaluation_strategy=conf.trainer.evaluation_strategy,
+        per_device_train_batch_size=conf.trainer.per_device_train_batch_size,
+        per_device_eval_batch_size=conf.trainer.per_device_eval_batch_size,
+        fp16=conf.trainer.fp16,
+        logging_steps=conf.trainer.logging_steps,
+        eval_steps=conf.trainer.eval_steps,
+        save_steps=conf.trainer.save_steps,
+        save_total_limit=conf.trainer.save_total_limit,
+        gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
+        # --change
+        include_inputs_for_metrics=True
+    )
+
+    #load custom metric
+    cel_match = load_metric('../metrics/col_wise_metric_script.py')
+    # Define the metric function for evalutation
+    def compute_metrics(pred):
+        # Prediction IDs
+        labels_ids = pred.label_ids
+        pred_ids = pred.predictions
+        # --change
+        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+        metric_logger.warning('\n---------Start of evaluation epoch---------')
+        metric_logger.warning("label_ids: ",labels_ids)
+        metric_logger.warning("pred: ",pred)
+        metric_logger.warning("pred.inputs: ",pred.inputs)
+        # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
+        pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
+        labels_ids[labels_ids == -100] = tokenizer.pad_token_id
+        label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
+
+        # Compute the rouge evaluation results
+        cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=[0,10,20])
         
+        return cel_match_output
 
-#     # Load the pre-tokenzied training dataset
-#     train_dataset = datasets.load_from_disk(ptk_dir_train)
-#     # Load the pre-tokenized validation dataset
-#     val_dataset = datasets.load_from_disk(ptk_dir_val)
+    # Initialize the trainer
+    trainer = Seq2SeqTrainer(
+        model=model,
+        tokenizer=tokenizer,
+        args=training_args,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+        train_dataset=train_dataset,
+        eval_dataset=val_dataset
+    )
+    
+    # pre-freeze
+    print("pre_freeze param: ",count_param(model))
+    #freeze
+    for param in model.led.encoder.parameters():
+        param.requires_grad = False
+    # post-freeze
+    print("post_freeze param: ",count_param(model))
 
-#     # Convert and save the dataset to the torch format for the model
-#     train_dataset.set_format(
-#         type="torch",
-#         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
-#     )
-#     val_dataset.set_format(
-#         type="torch",
-#         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
-#     )
-
-#     # Initialize the model
-#     model = HierarchicalLEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
-#     # Add special tokens to the LED model
-#     model.resize_token_embeddings(len(tokenizer))
-
-#     # modify model configuration
-#     model.config.num_beams=conf.model.num_beams
-#     model.config.max_length=conf.model.max_length
-#     model.config.min_length=conf.model.min_length
-#     model.config.length_penalty=conf.model.length_penalty
-#     model.config.early_stopping=conf.model.early_stopping
-
-#     # Declare the training pts
-#     training_args = Seq2SeqTrainingArguments(
-#         gradient_checkpointing=conf.trainer.gradient_checkpointing,
-#         output_dir=conf.trainer.output_dir,
-#         predict_with_generate=conf.trainer.predict_with_generate,
-#         evaluation_strategy=conf.trainer.evaluation_strategy,
-#         per_device_train_batch_size=conf.trainer.per_device_train_batch_size,
-#         per_device_eval_batch_size=conf.trainer.per_device_eval_batch_size,
-#         fp16=conf.trainer.fp16,
-#         logging_steps=conf.trainer.logging_steps,
-#         eval_steps=conf.trainer.eval_steps,
-#         save_steps=conf.trainer.save_steps,
-#         save_total_limit=conf.trainer.save_total_limit,
-#         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-#     )
-
-#     #load custom metric
-#     cel_match = load_metric('../metrics/col_wise_metric_script.py')
-#     # Define the metric function for evalutation
-#     def compute_metrics(pred):
-#         # Prediction IDs
-#         labels_ids = pred.label_ids
-#         pred_ids = pred.predictions
-
-#         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
-#         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
-#         labels_ids[labels_ids == -100] = tokenizer.pad_token_id
-#         label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
-
-#         # Compute the rouge evaluation results
-#         cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=[0,10,20])
-        
-#         return cel_match_output
-
-#     # Initialize the trainer
-#     trainer = Seq2SeqTrainer(
-#         model=model,
-#         tokenizer=tokenizer,
-#         args=training_args,
-#         data_collator=data_collator,
-#         compute_metrics=compute_metrics,
-#         train_dataset=train_dataset,
-#         eval_dataset=val_dataset
-#     )
-
-#     # Start the training
-#     trainer.train()
+    # Start the training
+    trainer.train()
