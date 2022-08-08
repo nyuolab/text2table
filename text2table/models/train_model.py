@@ -101,7 +101,6 @@ if conf.dataset.version == "minimum":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-        # --change
         include_inputs_for_metrics=True
     )
 
@@ -113,7 +112,6 @@ if conf.dataset.version == "minimum":
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
 
-        # --change
         metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
         metric_logger.warning('\n---------Start of evaluation epoch---------')
         metric_logger.warning("label_ids: ",labels_ids)
@@ -201,7 +199,6 @@ elif conf.dataset.version == "full":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-        # --change
         include_inputs_for_metrics=True
     )
 
@@ -212,7 +209,6 @@ elif conf.dataset.version == "full":
         # Prediction IDs
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
-        # --change
         metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
         metric_logger.warning('\n---------Start of evaluation epoch---------')
         metric_logger.warning("label_ids: ",labels_ids)
