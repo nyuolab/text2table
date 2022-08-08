@@ -27,6 +27,7 @@ sklearn
 xgboost
 evaluate
 accelerate
+python-dateutil
 
 # Linters and formatters
 autopep8
