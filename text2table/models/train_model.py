@@ -112,12 +112,6 @@ if conf.dataset.version == "minimum":
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
 
-        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
-        metric_logger.warning('\n---------Start of evaluation epoch---------')
-        metric_logger.warning("label_ids: ",labels_ids)
-        metric_logger.warning("pred: ",pred)
-        metric_logger.warning("pred.inputs: ",pred.inputs)
-
         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
         labels_ids[labels_ids == -100] = tokenizer.pad_token_id
@@ -209,11 +203,7 @@ elif conf.dataset.version == "full":
         # Prediction IDs
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
-        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
-        metric_logger.warning('\n---------Start of evaluation epoch---------')
-        metric_logger.warning("label_ids: ",labels_ids)
-        metric_logger.warning("pred: ",pred)
-        metric_logger.warning("pred.inputs: ",pred.inputs)
+
         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
         labels_ids[labels_ids == -100] = tokenizer.pad_token_id
