@@ -62,7 +62,6 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
     ]
 
     #This is the default configuration
-    #--change
     DEFAULT_CONFIG_NAME = "full"
 
     def _info(self):
