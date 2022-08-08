@@ -116,7 +116,15 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
                 # get the pooled encoder outputs of each individual sequence and concatenate them.
                 for j in range(len(sequences)):
                     # get the pooled encoder outputs of each individual sequence. All the pad tokens are removed.
-                    avg = self.avgpool(sequences[j][:, :sequences_mask[j].sum(), :].permute(0, 2, 1)).permute(0, 2, 1)
+                    try:
+                        avg = self.avgpool(sequences[j][:, :sequences_mask[j].sum(), :].permute(0, 2, 1)).permute(0, 2, 1)
+                    except:
+                        torch.save(sequences, "./sequences")
+                        torch.save(sequences[j], './sequence_j')
+                        torch.save(sequences_mask, './sequences_mask')
+                        torch.save(sequences_mask[j], './sequence_mask_j')
+                        torch.save(sequences_mask[j].sum(), './sequences_mask_j_sum')
+                        exit()
                     # concatenate the pooled encoder outputs of each individual sequence.
                     # if it is the first part of the final sequence, then it is added to the batch.
                     # Otherwise, it is concatenated to the sequence.
