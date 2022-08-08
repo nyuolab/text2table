@@ -12,6 +12,14 @@ from omegaconf import OmegaConf
 from modeling_hierarchical_led import HierarchicalLEDForConditionalGeneration
 from data_collator import data_collator
 
+def count_param(m):
+    pre_sum=0
+    for param in m.parameters():
+        if param.requires_grad == True:
+            pre_sum+=param.numel()
+    return pre_sum
+
+
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
 
@@ -26,8 +34,9 @@ wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run
 ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
-
 # training script for the minimum dataset
+
+
 if conf.dataset.version == "minimum":
     # Load tokenizer for the LED model
     tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
@@ -63,6 +72,7 @@ if conf.dataset.version == "minimum":
 
     # Initialize the model
     model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+    
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
 
@@ -91,6 +101,7 @@ if conf.dataset.version == "minimum":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
+        include_inputs_for_metrics=True
     )
 
     #load custom metric
@@ -100,6 +111,12 @@ if conf.dataset.version == "minimum":
         # Prediction IDs
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
+
+        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+        metric_logger.warning('\n---------Start of evaluation epoch---------')
+        metric_logger.warning("label_ids: ",labels_ids)
+        metric_logger.warning("pred: ",pred)
+        metric_logger.warning("pred.inputs: ",pred.inputs)
 
         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
@@ -140,7 +157,6 @@ elif conf.dataset.version == "full":
     if not (os.path.exists(ptk_dir_train) and os.path.exists(ptk_dir_val)):
         # Pre-tokenize the input text & save the result in the directory
         tokenize()
-        
 
     # Load the pre-tokenzied training dataset
     train_dataset = datasets.load_from_disk(ptk_dir_train)
@@ -156,9 +172,9 @@ elif conf.dataset.version == "full":
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
     )
-
     # Initialize the model
     model = HierarchicalLEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+    
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
 
@@ -183,6 +199,7 @@ elif conf.dataset.version == "full":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
+        include_inputs_for_metrics=True
     )
 
     #load custom metric
@@ -192,7 +209,11 @@ elif conf.dataset.version == "full":
         # Prediction IDs
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
-
+        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+        metric_logger.warning('\n---------Start of evaluation epoch---------')
+        metric_logger.warning("label_ids: ",labels_ids)
+        metric_logger.warning("pred: ",pred)
+        metric_logger.warning("pred.inputs: ",pred.inputs)
         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
         labels_ids[labels_ids == -100] = tokenizer.pad_token_id
@@ -213,6 +234,14 @@ elif conf.dataset.version == "full":
         train_dataset=train_dataset,
         eval_dataset=val_dataset
     )
+    
+    # pre-freeze
+    print("pre_freeze param: ",count_param(model))
+    #freeze
+    for param in model.led.encoder.parameters():
+        param.requires_grad = False
+    # post-freeze
+    print("post_freeze param: ",count_param(model))
 
     # Start the training
     trainer.train()
