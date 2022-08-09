@@ -33,6 +33,6 @@ trainer:
   # Change name for different runs
   run_name: "column-wise-eval-trail-#"
   group: "experiment_#"
-  debug: true
+  debug: false
 dataset:
   version: full

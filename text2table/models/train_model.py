@@ -214,5 +214,9 @@ elif conf.dataset.version == "full":
         eval_dataset=val_dataset
     )
 
+    # Freezen the model weights on encoder for the training to save memory
+    for param in model.led.encoder.parameters():
+        param.requires_grad = False
+
     # Start the training
     trainer.train()

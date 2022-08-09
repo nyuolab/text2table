@@ -175,7 +175,17 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
         if labels is not None:
             loss_fct = CrossEntropyLoss()
             masked_lm_loss = loss_fct(lm_logits.view(-1, self.config.vocab_size), labels.view(-1))
-
+            print(lm_logits)
+            print(lm_logits.shape)
+            print(self.config.vocab_size)
+            print("----------------")
+            print(lm_logits.view(-1, self.config.vocab_size)[0])
+            print(lm_logits.view(-1, self.config.vocab_size).shape)
+            print("----------------")
+            print(labels.shape)
+            print(labels.view(-1))
+            print(labels.view(-1).shape)
+            exit(0)
         if not return_dict:
             output = (lm_logits,) + outputs[1:]
             return ((masked_lm_loss,) + output) if masked_lm_loss is not None else output
