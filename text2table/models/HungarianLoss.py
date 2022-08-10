@@ -17,9 +17,9 @@ class HungarianLoss(CrossEntropyLoss):
     def forward(self, input, target):
         """
         Args:
-            input (Tensor): A 3D tensor with shape (batch_size, num_classes, num_classes) where the num_classes is the number of classes
+            input (Tensor): A 2D tensor with shape (batch_size, num_classes) where the num_classes is the number of classes
                 in the dataset.
-            target (Tensor): A 2D tensor with shape (batch_size, num_classes) where the num_classes is the number of classes in the dataset.
+            target (Tensor): A 1D tensor with shape (num_classes) where the num_classes is the number of classes in the dataset.
         """
         # input and target are both 3D tensors with shape (batch_size, num_classes, num_classes)
         # input is the output of the model, and target is the ground truth.

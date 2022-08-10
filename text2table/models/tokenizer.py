@@ -157,7 +157,7 @@ def tokenize():
             example["labels"] = output.input_ids
 
             # Ignore the PAD token
-            example["labels"] = [-100 if token == tokenizer.pad_token_id else token for token in example["labels"]]
+            example["labels"] = [-100 if (token == tokenizer.pad_token_id or token == 50265) else token for token in example["labels"]]
             
             return example
 
@@ -189,4 +189,3 @@ def tokenize():
     # Save
     val_dataset.save_to_disk(ptk_dir_val)
     logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
-    

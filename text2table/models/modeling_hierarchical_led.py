@@ -22,6 +22,7 @@ from transformers.utils import logging
 import torch
 from torch.nn import CrossEntropyLoss, AvgPool1d
 from torch.nn.utils.rnn import pad_sequence
+from HungarianLoss import HungarianLoss
 
 
 # The parts of the code that are not modified are not commented. Please refer to the original code for more information.
@@ -173,8 +174,9 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
 
         masked_lm_loss = None
         if labels is not None:
-            loss_fct = CrossEntropyLoss()
+            loss_fct = HungarianLoss()
             masked_lm_loss = loss_fct(lm_logits.view(-1, self.config.vocab_size), labels.view(-1))
+            print(masked_lm_loss)
             print(lm_logits)
             print(lm_logits.shape)
             print(self.config.vocab_size)
