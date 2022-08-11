@@ -30,4 +30,9 @@ class HungarianLoss(CrossEntropyLoss):
         # The hungarian algorithm is also known as the Kuhn-Munkres algorithm.
 
         
+        # Cross Entropy Loss is done through the column-wise and row-wise softmax.
+        # While for our case, the cross entropy loss shoule be computed element-wisely.
+        # Therefore, we use a LogSoftmax (https://pytorch.org/docs/stable/generated/torch.nn.LogSoftmax.html#torch.nn.LogSoftmax) layer in the last layer, and 
+        # then pass the log-probabilities of each class to the loss function, which is NLLLoss (https://pytorch.org/docs/stable/generated/torch.nn.NLLLoss.html#torch.nn.NLLLoss).
+        # Those two can simulte the cross entropy loss, and can be revised to compute the cross entropy loss element-wisely.
         
