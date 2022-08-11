@@ -61,9 +61,14 @@ df_train = df_train.reset_index(drop=True)
 df_dev = df_dev.reset_index(drop=True)
 df_test = df_test.reset_index(drop=True)
 
+# Drop the potential NaN data inside the clinical notes under specific categories
+new_train = df_train[df_train.isna()[df_train.columns[4:]].sum(1) != len(df_train.columns[4:])]
+new_dev = df_dev[df_dev.isna()[df_dev.columns[4:]].sum(1) != len(df_dev.columns[4:])]
+new_test = df_test[df_test.isna()[df_test.columns[4:]].sum(1) != len(df_test.columns[4:])]
+
 # Export the training and testing set into the target directory
 targetDir = targetDir + "/"
-df_train.to_csv((targetDir + 'train.csv'), index=False)
-df_test.to_csv((targetDir + 'test.csv'), index=False)
-df_dev.to_csv((targetDir + 'dev.csv'), index=False)
+new_train.to_csv((targetDir + 'train.csv'), index=False)
+new_test.to_csv((targetDir + 'test.csv'), index=False)
+new_dev.to_csv((targetDir + 'dev.csv'), index=False)
 print('Training and testing set split completed!')

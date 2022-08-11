@@ -110,9 +110,9 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
         # However, since we work with our data locally, we don't need this functionality. 
         # dl_manager is a datasets.download.DownloadManager that can be used to download and extract URLS
 
-        if self.config.name == "minimum":
+        if self.config.name == "minimum": # For the minimum dataset
             data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
-        elif self.config.name == "full":
+        elif self.config.name == "full": # For the full dataset
             data_dir = "/gpfs/data/oermannlab/project_data/text2table/complete/train_test_data"
         
         return [

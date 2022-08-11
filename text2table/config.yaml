@@ -25,15 +25,14 @@ trainer:
   per_device_eval_batch_size: 1
   fp16: true
   logging_steps: 10
-  # --debug
-  eval_steps: 10
-  save_steps: 500
+  eval_steps: 2000
+  save_steps: 2000
   save_total_limit: 2
-  gradient_accumulation_steps: 1
+  gradient_accumulation_steps: 2
   wandb_mode: "disabled"
   # Change name for different runs
-  run_name: "trial"
-  group: "lucy_multilabel_debug"
+  run_name: "text2table-trail-#"
+  group: "experiment-#"
   debug: false
 dataset:
   version: 'full'
