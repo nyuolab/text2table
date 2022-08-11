@@ -1,4 +1,7 @@
-# Most of the code is taken from Huggingface LED implementation: https://github.com/huggingface/transformers/blob/v4.20.1/src/transformers/models/led/modeling_led.py
+# Most of the code is taken from Huggingface LED implementation: 
+# https://github.com/huggingface/transformers/blob/v4.20.1/src/transformers/models/led/modeling_led.py
+# _prepare_encoder_decoder_kwargs_for_generation function is taken from transformers.generation_utils.py: 
+# https://github.com/huggingface/transformers/blob/v4.21.1/src/transformers/generation_utils.py#L379
 # In compliance with the Apache License, Version 2.0, I have modified the code to fit the needs of this project.
 #
 # Copyright 2021 Iz Beltagy, Matthew E. Peters, Arman Cohan and The HuggingFace Inc. team. All rights reserved.
@@ -17,7 +20,12 @@
 """Pytorch hierarchical LED model for conditional generation"""
 
 from transformers import LEDForConditionalGeneration
-from transformers.models.led.modeling_led import shift_tokens_right, LEDSeq2SeqLMOutput, LEDSeq2SeqModelOutput
+from transformers.models.led.modeling_led import (
+    shift_tokens_right, 
+    LEDSeq2SeqLMOutput, 
+    LEDSeq2SeqModelOutput,
+    LEDEncoderBaseModelOutput,
+)
 from transformers.utils import logging
 import torch
 from torch.nn import CrossEntropyLoss, AvgPool1d
@@ -34,6 +42,106 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
     def __init__(self, config, avgpool_size = 10):
         super().__init__(config)
         self.avgpool = AvgPool1d(avgpool_size)
+    
+    # The purpose of override this function is that we have to replicate 
+    # the custom behavior about the encoder in the forward function in order to
+    # make the evaluation flow function properly.
+    def _prepare_encoder_decoder_kwargs_for_generation(
+        self, inputs_tensor, model_kwargs, model_input_name = None
+    ):
+        # 1. get encoder
+        encoder = self.get_encoder()
+
+        # 2. prepare encoder args and encoder kwargs from model kwargs
+        irrelevant_prefix = ["decoder_", "cross_attn", "use_cache"]
+        encoder_kwargs = {
+            argument: value
+            for argument, value in model_kwargs.items()
+            if not any(argument.startswith(p) for p in irrelevant_prefix)
+        }
+
+        # 3. make sure that encoder returns `ModelOutput`
+        model_input_name = model_input_name if model_input_name is not None else self.main_input_name
+        encoder_kwargs["return_dict"] = True
+        encoder_kwargs[model_input_name] = inputs_tensor
+
+        # assign a pointer to each encoder kwargs in order to make the following code stay the same as
+        # the corresponding part in the forward function.
+        input_ids = encoder_kwargs[model_input_name]
+        attention_mask = encoder_kwargs["attention_mask"]
+        global_attention_mask = encoder_kwargs["global_attention_mask"]
+        head_mask = encoder_kwargs["head_mask"] if "head_mask" in encoder_kwargs else None
+        inputs_embeds = encoder_kwargs["inputs_embeds"] if "inputs_embeds" in encoder_kwargs else None
+        output_attentions = encoder_kwargs["output_attentions"]
+        output_hidden_states = encoder_kwargs["output_hidden_states"]
+        return_dict = encoder_kwargs["return_dict"]
+
+        # The list contains all the encoder outputs of the clinical text of each category.
+        encoder_outputs_list = []
+        # get the encoder outputs of each group of text sequences in a batch.
+        for i in range(len(input_ids)):
+            # This is the index after which everything should be ignored.
+            pad_index = len(input_ids[i])
+            # if the attention mask is a tensor of all 0s, 
+            # then the index is set to the index of the tensor.
+            for j in range(len(input_ids[i])):
+                if attention_mask[i][j].sum() == 0:
+                    pad_index = j
+                    break
+            encoder_outputs_list.append(encoder(
+                input_ids=input_ids[i][:pad_index],
+                attention_mask=attention_mask[i][:pad_index],
+                global_attention_mask=global_attention_mask[i][:pad_index],
+                head_mask=head_mask,
+                inputs_embeds=inputs_embeds,
+                output_attentions=output_attentions,
+                output_hidden_states=output_hidden_states,
+                return_dict=return_dict,
+            ))
+        
+        # The list contains the pooled and concatenated encoder outputs. It is an unpadded batch.
+        encoder_outputs_batch_list = []
+        for i in range(len(encoder_outputs_list)):
+            # split the encoder output batch into individual sequences.
+            sequences = encoder_outputs_list[i][0].split(1)
+            
+            # get the attention mask of each individual sequence.
+            sequences_mask = attention_mask[i].split(1)
+            
+            # get the pooled encoder outputs of each individual sequence and concatenate them.
+            for j in range(len(sequences)):
+                # get the pooled encoder outputs of each individual sequence. All the pad tokens are removed.
+                avg = self.avgpool(sequences[j][:, :sequences_mask[j].sum(), :].permute(0, 2, 1)).permute(0, 2, 1)
+                # concatenate the pooled encoder outputs of each individual sequence.
+                # if it is the first part of the final sequence, then it is added to the batch.
+                # Otherwise, it is concatenated to the sequence.
+                if j == 0:
+                    encoder_outputs_batch_list.append(avg)
+                else:
+                    encoder_outputs_batch_list[i] = torch.cat((encoder_outputs_batch_list[i], avg), dim=1)    
+        
+        # eliminiate the first dimension which is the batch dimension. The batch dimension is 1.
+        for i in range(len(encoder_outputs_batch_list)):
+            encoder_outputs_batch_list[i] = encoder_outputs_batch_list[i].squeeze(0)
+        
+        # pad the encoder output batch and convert it to a tensor.
+        encoder_outputs_ = pad_sequence(encoder_outputs_batch_list, batch_first=True, padding_value=1).to(input_ids.device)
+        
+        # The list contains the attention masks of the encoder outputs.
+        attention_mask_batch_list = []
+        # get the attention masks of the encoder outputs 
+        # by using ones to set the attention mask of the non-pad tokens to 1.
+        for i in range(len(encoder_outputs_batch_list)):
+            attention_mask_batch_list.append(torch.ones(len(encoder_outputs_batch_list[i])).to(attention_mask.device))
+        
+        # pad the attention masks and convert it to a tensor. 
+        # By padding them, we set the attention mask of the pad tokens to 0.
+        attention_mask_ = pad_sequence(attention_mask_batch_list, batch_first=True).to(attention_mask.device)
+
+        model_kwargs["encoder_outputs"] = LEDEncoderBaseModelOutput(last_hidden_state=encoder_outputs_)
+        model_kwargs["attention_mask"] = attention_mask_
+
+        return model_kwargs
     
     # input_ids should be a list of batchs of token ids. Each batch corresponds to one kind of clinical text.
     # The length of the list should be equal to the number of categories of the clinical text.
@@ -95,6 +203,8 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
                 for j in range(len(input_ids[i])):
                     if attention_mask[i][j].sum() == 0:
                         pad_index = j
+                        break
+
                 encoder_outputs_list.append(self.led.encoder(
                     input_ids=input_ids[i][:pad_index],
                     attention_mask=attention_mask[i][:pad_index],
@@ -111,8 +221,10 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
             for i in range(len(encoder_outputs_list)):
                 # split the encoder output batch into individual sequences.
                 sequences = encoder_outputs_list[i][0].split(1)
+                
                 # get the attention mask of each individual sequence.
                 sequences_mask = attention_mask[i].split(1)
+                
                 # get the pooled encoder outputs of each individual sequence and concatenate them.
                 for j in range(len(sequences)):
                     # get the pooled encoder outputs of each individual sequence. All the pad tokens are removed.
@@ -123,31 +235,33 @@ class HierarchicalLEDForConditionalGeneration(LEDForConditionalGeneration):
                     if j == 0:
                         encoder_outputs_batch_list.append(avg)
                     else:
-                        encoder_outputs_batch_list[i] = torch.cat((encoder_outputs_batch_list[i], avg), dim=1)
+                        encoder_outputs_batch_list[i] = torch.cat((encoder_outputs_batch_list[i], avg), dim=1)    
             
             # eliminiate the first dimension which is the batch dimension. The batch dimension is 1.
             for i in range(len(encoder_outputs_batch_list)):
                 encoder_outputs_batch_list[i] = encoder_outputs_batch_list[i].squeeze(0)
             
             # pad the encoder output batch and convert it to a tensor.
-            encoder_outputs = pad_sequence(encoder_outputs_batch_list, batch_first=True, padding_value=1).to(input_ids.device)
-
+            encoder_outputs_ = pad_sequence(encoder_outputs_batch_list, batch_first=True, padding_value=1).to(input_ids.device)
+            
             # The list contains the attention masks of the encoder outputs.
             attention_mask_batch_list = []
             # get the attention masks of the encoder outputs 
             # by using ones to set the attention mask of the non-pad tokens to 1.
             for i in range(len(encoder_outputs_batch_list)):
-                attention_mask_batch_list.append(torch.ones(len(encoder_outputs_batch_list[i])))
+                attention_mask_batch_list.append(torch.ones(len(encoder_outputs_batch_list[i])).to(attention_mask.device))
             
             # pad the attention masks and convert it to a tensor. 
             # By padding them, we set the attention mask of the pad tokens to 0.
             attention_mask_ = pad_sequence(attention_mask_batch_list, batch_first=True).to(attention_mask.device)
-
+        
         decoder_outputs = self.led.decoder(
             input_ids=decoder_input_ids,
             attention_mask=decoder_attention_mask,
-            encoder_hidden_states=encoder_outputs,
-            encoder_attention_mask=attention_mask_, # Original code: encoder_attention_mask=attention_mask
+            # Original code: encoder_hidden_states=encoder_outputs[0]
+            encoder_hidden_states=encoder_outputs_ if "encoder_outputs_" in locals() else encoder_outputs[0],
+            # Original code: encoder_attention_mask=attention_mask
+            encoder_attention_mask=attention_mask_ if "attention_mask_" in locals() else attention_mask,
             head_mask=decoder_head_mask,
             cross_attn_head_mask=cross_attn_head_mask,
             past_key_values=past_key_values,
