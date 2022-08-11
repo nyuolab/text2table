@@ -1,5 +1,5 @@
 import datasets
-from transformers import LEDTokenizerFast
+from transformers import AutoTokenizer
 import os, shutil, logging
 from omegaconf import OmegaConf
 import torch
@@ -19,10 +19,10 @@ def tokenize():
     train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
     val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
 
-
+    # Tokenize the mininum dataset
     if conf.dataset.version == "minimum":
         # Load tokenizer for the LED model
-        tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+        tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
         # Add special tokens to the LED model
         # As we want to represent the table as a sequence: separation tokens are added
         tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -65,8 +65,6 @@ def tokenize():
             # Change the first token of all sequences to make it attend 'globally' (suggested by the original paper)
             batch["global_attention_mask"][0][0] = 1
 
-            batch["global_attention_mask"] = torch.tensor(batch["global_attention_mask"])
-
             # Assign the output IDs
             batch["labels"] = outputs.input_ids
 
@@ -97,9 +95,10 @@ def tokenize():
         )
 
 
+    # Tokenize the full dataset
     elif conf.dataset.version == "full":
         # Load tokenizer for the LED model
-        tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+        tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
         # Add special tokens to the LED model
         # As we want to represent the table as a sequence: separation tokens are added
         tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
