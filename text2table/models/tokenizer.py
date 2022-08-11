@@ -188,3 +188,4 @@ def tokenize():
     # Save
     val_dataset.save_to_disk(ptk_dir_val)
     logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
+    

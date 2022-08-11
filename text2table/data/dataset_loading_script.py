@@ -183,3 +183,4 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         # The list of texts that exclude empty strings
                         "text": " <text-sep> ".join([" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""]),
                     }
+                    
