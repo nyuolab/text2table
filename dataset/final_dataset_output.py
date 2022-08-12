@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import dask.dataframe as dd
 
@@ -107,5 +108,5 @@ new_dataset_ = new_dataset_.reset_index(drop = True)
 new_dataset_ = new_dataset_.groupby("HADM_ID", group_keys = False).apply(split_column)
 
 # save the result to a .csv file
-new_dataset_.to_csv("/gpfs/data/oermannlab/project_data/text2table/complete/complete_dataset.csv")
+new_dataset_.to_csv("/gpfs/data/oermannlab/project_data/text2table/complete/complete_output_dataset.csv")
 
