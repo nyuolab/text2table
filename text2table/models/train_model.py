@@ -20,6 +20,7 @@ def count_param(m):
     return pre_sum
 
 # Define the metric function for evalutation
+# for mvp:
 def old_compute_metrics(pred):
     # Prediction IDs
     labels_ids = pred.label_ids
@@ -40,12 +41,12 @@ def old_compute_metrics(pred):
     
     return cel_match_output
 
-
+# for full data:
 #=====new_metric start======
 #load custom metric
 main_metric = load_metric('../metrics/main_metric_script.py')
     
-def compute_metrics(EvalPrediction, tokenizer):
+def compute_metrics(EvalPrediction):
     predictions = EvalPrediction.predictions
     label_ids = EvalPrediction.label_ids
     inputs = EvalPrediction.inputs
@@ -159,7 +160,7 @@ if conf.dataset.version == "minimum":
         model=model,
         tokenizer=tokenizer,
         args=training_args,
-        compute_metrics=compute_metrics,
+        compute_metrics=old_compute_metrics,
         train_dataset=train_dataset,
         eval_dataset=val_dataset
     )
@@ -232,7 +233,7 @@ elif conf.dataset.version == "full":
     )
 
     #load custom metric
-    cel_match = load_metric('../metrics/col_wise_metric_script.py')
+    main_metric = load_metric('../metrics/main_metric_script.py')
 
     # Initialize the trainer
     trainer = Seq2SeqTrainer(
