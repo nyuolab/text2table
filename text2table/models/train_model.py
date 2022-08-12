@@ -2,7 +2,7 @@
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
 import datasets
 import torch
-from transformers import (LEDTokenizerFast, LEDForConditionalGeneration, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+from transformers import (AutoTokenizer, AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
 from transformers.utils.logging import set_verbosity_debug
 import os, shutil, logging, wandb
 from tokenizer import tokenize
@@ -12,6 +12,9 @@ from omegaconf import OmegaConf
 from modeling_hierarchical_led import HierarchicalLEDForConditionalGeneration
 from data_collator import data_collator
 
+
+# Function to count the number of parameters in the encoder of the model
+# Since the dataset is large, we will freeze the encoder weights to allow for fine-tuning
 def count_param(m):
     pre_sum=0
     for param in m.parameters():
@@ -19,7 +22,7 @@ def count_param(m):
             pre_sum+=param.numel()
     return pre_sum
 
-
+##########################START##########################
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
 
@@ -34,12 +37,11 @@ wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run
 ptk_dir_train = conf.tokenizer.ptk_dir_train
 ptk_dir_val = conf.tokenizer.ptk_dir_val
 
-# training script for the minimum dataset
-  
 
+# training script for the minimum dataset
 if conf.dataset.version == "minimum":
     # Load tokenizer for the LED model
-    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+    tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
     tokenizer.add_special_tokens({"additional_special_tokens": ["<COL>", "<ROW>", "<CEL>"]})
@@ -70,7 +72,8 @@ if conf.dataset.version == "minimum":
     )
 
     # Initialize the model
-    model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+    config = LEDConfig.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
+    model = AutoModelForSeq2SeqLM.from_pretrained('patrickvonplaten/led-large-16384-pubmed', config=config)
     
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
@@ -100,7 +103,6 @@ if conf.dataset.version == "minimum":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-        # --change
         include_inputs_for_metrics=True
     )
 
@@ -112,12 +114,7 @@ if conf.dataset.version == "minimum":
         # Prediction IDs
         labels_ids = pred.label_ids
         pred_ids = pred.predictions
-        # --change
-        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
-        metric_logger.warning('\n---------Start of evaluation epoch---------')
-        metric_logger.warning("label_ids: ",labels_ids)
-        metric_logger.warning("pred: ",pred)
-        metric_logger.warning("pred.inputs: ",pred.inputs)
+
         # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
         pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
         labels_ids[labels_ids == -100] = tokenizer.pad_token_id
@@ -141,10 +138,11 @@ if conf.dataset.version == "minimum":
     # Start the training
     trainer.train()
 
+
 # training script for the full dataset
 elif conf.dataset.version == "full":
     # Load tokenizer for the LED model
-    tokenizer = LEDTokenizerFast.from_pretrained("allenai/led-base-16384")
+    tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
     tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
@@ -172,8 +170,9 @@ elif conf.dataset.version == "full":
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
     )
+
     # Initialize the model
-    model = HierarchicalLEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+    model = HierarchicalLEDForConditionalGeneration.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
     
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
@@ -199,7 +198,6 @@ elif conf.dataset.version == "full":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-        # --change
         include_inputs_for_metrics=True
     )
 
@@ -215,10 +213,12 @@ elif conf.dataset.version == "full":
         label_ids[label_ids == -100] = tokenizer.pad_token_id
         label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=False)
         input_str=tokenizer.batch_decode(inputs, skip_special_tokens=False)
+
         # Compute the rouge evaluation results
         main_metric_output = main_metric.compute(predictions=pred_str,references=label_str,inputs=input_str)
         
         return main_metric_output
+
 
     # Initialize the trainer
     trainer = Seq2SeqTrainer(
@@ -231,9 +231,10 @@ elif conf.dataset.version == "full":
         eval_dataset=val_dataset
     )
     
+    # Freeze the model's encoder weights
     # pre-freeze
     print("pre_freeze param: ",count_param(model))
-    #freeze
+    # freeze
     for param in model.led.encoder.parameters():
         param.requires_grad = False
     # post-freeze
