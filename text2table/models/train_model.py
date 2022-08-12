@@ -69,9 +69,6 @@ if conf.dataset.version == "minimum":
         columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
     )
 
-    # --change
-    val_dataset=val_dataset.select(range(2))
-
     # Initialize the model
     model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
     
@@ -175,8 +172,6 @@ elif conf.dataset.version == "full":
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
     )
-    # --change
-    val_dataset=val_dataset.select(range(2))
     # Initialize the model
     model = HierarchicalLEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
     
