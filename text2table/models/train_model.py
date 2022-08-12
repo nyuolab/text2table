@@ -19,51 +19,6 @@ def count_param(m):
             pre_sum+=param.numel()
     return pre_sum
 
-# Define the metric function for evalutation
-# for mvp:
-def old_compute_metrics(pred):
-    # Prediction IDs
-    labels_ids = pred.label_ids
-    pred_ids = pred.predictions
-    # --change
-    metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
-    metric_logger.warning('\n---------Start of evaluation epoch---------')
-    metric_logger.warning("label_ids: ",labels_ids)
-    metric_logger.warning("pred: ",pred)
-    metric_logger.warning("pred.inputs: ",pred.inputs)
-    # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
-    pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
-    labels_ids[labels_ids == -100] = tokenizer.pad_token_id
-    label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
-
-    # Compute the rouge evaluation results
-    cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=[0,10,20])
-    
-    return cel_match_output
-
-# for full data:
-#=====new_metric start======
-#load custom metric
-main_metric = load_metric('../metrics/main_metric_script.py')
-    
-def compute_metrics(EvalPrediction):
-    predictions = EvalPrediction.predictions
-    label_ids = EvalPrediction.label_ids
-    inputs = EvalPrediction.inputs
-    
-    pred_str = tokenizer.batch_decode(predictions, skip_special_tokens=False)
-    label_ids[label_ids == -100] = tokenizer.pad_token_id
-    label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=False)
-    input_str=tokenizer.batch_decode(inputs, skip_special_tokens=False)
-    print('label_str: ',abel_str)
-    print('input_str: ',input_str)
-    exit(0)
-    # Compute the rouge evaluation results
-    main_metric_output = main_metric.compute(predictions=pred_str,references=label_str,inputs=input_str)
-    
-    return main_metric_output
-
-#=====new_metric end======
 
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
@@ -155,12 +110,33 @@ if conf.dataset.version == "minimum":
     #load custom metric
     cel_match = load_metric('../metrics/col_wise_metric_script.py')
 
+    # Define the metric function for evalutation
+    def compute_metrics(pred):
+        # Prediction IDs
+        labels_ids = pred.label_ids
+        pred_ids = pred.predictions
+        # --change
+        metric_logger = setup_logger(name='null_logger', log_file=n,formatter='%(levelname)s:%(message)s')
+        metric_logger.warning('\n---------Start of evaluation epoch---------')
+        metric_logger.warning("label_ids: ",labels_ids)
+        metric_logger.warning("pred: ",pred)
+        metric_logger.warning("pred.inputs: ",pred.inputs)
+        # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
+        pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
+        labels_ids[labels_ids == -100] = tokenizer.pad_token_id
+        label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
+
+        # Compute the rouge evaluation results
+        cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=[0,10,20])
+        
+        return cel_match_output
+
     # Initialize the trainer
     trainer = Seq2SeqTrainer(
         model=model,
         tokenizer=tokenizer,
         args=training_args,
-        compute_metrics=old_compute_metrics,
+        compute_metrics=compute_metrics,
         train_dataset=train_dataset,
         eval_dataset=val_dataset
     )
@@ -234,6 +210,20 @@ elif conf.dataset.version == "full":
 
     #load custom metric
     main_metric = load_metric('../metrics/main_metric_script.py')
+        
+    def compute_metrics(EvalPrediction, tokenizer):
+        predictions = EvalPrediction.predictions
+        label_ids = EvalPrediction.label_ids
+        inputs = EvalPrediction.inputs
+        
+        pred_str = tokenizer.batch_decode(predictions, skip_special_tokens=False)
+        label_ids[label_ids == -100] = tokenizer.pad_token_id
+        label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=False)
+        input_str=tokenizer.batch_decode(inputs, skip_special_tokens=False)
+        # Compute the rouge evaluation results
+        main_metric_output = main_metric.compute(predictions=pred_str,references=label_str,inputs=input_str)
+        
+        return main_metric_output
 
     # Initialize the trainer
     trainer = Seq2SeqTrainer(
