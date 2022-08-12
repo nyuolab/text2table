@@ -177,11 +177,6 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                         continue
                     # The special token that we prepend the text with and also feed to the decoder
                     category_token = "<" + row[2] + ">"
-                    # --debug
-                    print('category_token: ',category_token)
-                    print('label: ',row[3])
-                    print('text: '," <text-sep> ".join([" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""]))
-                    exit(0)
                     # Yields examples as (key, example) tuples
                     yield (key - 1), {
                         "category": category_token,
