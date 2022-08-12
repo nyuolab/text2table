@@ -1,3 +1,36 @@
+import numpy as np
+import pandas as pd
+from sklearn import metrics
+
+from sklearn.metrics import classification_report
+y_true = [[1,2,3],[1,2],
+[2,3,4]]
+
+y_pred = [[2,3],[1,2],[4,5,3]]
+print(classification_report(y_true, y_pred))
+
+
+exit(0)
+ref=pd.Series(['1,4,5','2,4','3,1'])
+print(ref)
+print()
+ref_sep=ref.str.get_dummies(sep=',')
+print("ref_sep: ",ref_sep)
+print()
+
+pred=pd.Series(['4,5','1,4',"7,8"])
+pred_sep=pred.str.get_dummies(sep=',')
+print(pred_sep)
+print()
+pred_sep=pred_sep.reindex(columns=ref_sep.columns).fillna(0)
+print("pred_sep: ",pred_sep)
+print()
+
+f1=metrics.f1_score(pred_sep, ref_sep, average="micro")
+print("f1: ",f1)
+print()
+
+exit(0)
 # a='132'
 # b='234'
 # c='524'
@@ -13,7 +46,7 @@
 # b=[f'<{x}>' for x in a]
 
 # print(b)
-import numpy as np
+
 print("asdf"==np.nan)
 
 exit(0)

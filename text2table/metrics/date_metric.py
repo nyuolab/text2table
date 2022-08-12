@@ -13,9 +13,12 @@ class DateMetric(evaluate.Metric):
         predictions,
         references,
     ):
-        pred = split_date(predictions)
-        ref = split_date(references)
-        return abs((pred-ref).days)
+        sum_days=0
+        for row_pred, row_ref in zip(predictions,references):
+            pred = split_date(row_pred)
+            ref = split_date(row_ref)
+            sum_days+=abs((pred-ref).days)
+        return sum_days/len(predictions)
 
 
 
