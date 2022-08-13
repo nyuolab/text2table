@@ -71,7 +71,6 @@ if conf.dataset.version == "minimum":
         columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
     )
 
-
     # Initialize the model
     config = LEDConfig.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
     model = AutoModelForSeq2SeqLM.from_pretrained('patrickvonplaten/led-large-16384-pubmed', config=config)
@@ -109,6 +108,7 @@ if conf.dataset.version == "minimum":
 
     #load custom metric
     cel_match = load_metric('../metrics/col_wise_metric_script.py')
+
     # Define the metric function for evalutation
     def compute_metrics(pred):
         # Prediction IDs
@@ -202,22 +202,22 @@ elif conf.dataset.version == "full":
     )
 
     #load custom metric
-    cel_match = load_metric('../metrics/col_wise_metric_script.py')
-    # Define the metric function for evalutation
-    def compute_metrics(pred):
-        # Prediction IDs
-        labels_ids = pred.label_ids
-        pred_ids = pred.predictions
-
-        # Prepare the data for evaluation (as Text2Table task, we care about the special tokens)
-        pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=False)
-        labels_ids[labels_ids == -100] = tokenizer.pad_token_id
-        label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=False)
+    main_metric = load_metric('../metrics/main_metric_script.py')
+        
+    def compute_metrics(EvalPrediction, tokenizer):
+        predictions = EvalPrediction.predictions
+        label_ids = EvalPrediction.label_ids
+        inputs = EvalPrediction.inputs
+        
+        pred_str = tokenizer.batch_decode(predictions, skip_special_tokens=False)
+        label_ids[label_ids == -100] = tokenizer.pad_token_id
+        label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=False)
+        input_str=tokenizer.batch_decode(inputs, skip_special_tokens=False)
 
         # Compute the rouge evaluation results
-        cel_match_output = cel_match.compute(predictions=pred_str,references=label_str,mode=[0,10,20])
+        main_metric_output = main_metric.compute(predictions=pred_str,references=label_str,inputs=input_str)
         
-        return cel_match_output
+        return main_metric_output
 
 
     # Initialize the trainer
