@@ -84,7 +84,7 @@ training_args = Seq2SeqTrainingArguments(
     eval_steps=conf.trainer.eval_steps,
     save_steps=conf.trainer.save_steps,
     #--changed
-    #max_steps=conf.trainer.max_steps,
+    max_steps=conf.trainer.max_steps,
     save_total_limit=conf.trainer.save_total_limit,
     gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
 )
