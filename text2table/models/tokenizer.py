@@ -14,13 +14,14 @@ def tokenize():
     # Specify the directory where the pretokenized data are stored: train & validation sets
     ptk_dir_train = conf.tokenizer.ptk_dir_train
     ptk_dir_val = conf.tokenizer.ptk_dir_val
-
-    # Load preprocessed data: with special tokens added
-    train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
-    val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
-
+    
     # Tokenize the mininum dataset
     if conf.dataset.version == "minimum":
+
+        # Load preprocessed data: with special tokens added
+        train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='minimum', split='train')
+        val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='minimum', split='validation')
+
         # Load tokenizer for the LED model
         tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
         # Add special tokens to the LED model
@@ -96,9 +97,18 @@ def tokenize():
 
 
     # Tokenize the full dataset
-    elif conf.dataset.version == "full":
+    elif conf.dataset.version == "full" or conf.dataset.version == "dev":
+        
+        # Load preprocessed data: with special tokens added
+        if conf.dataset.version == "dev":  
+            train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='dev', split='train')
+            val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='dev', split='validation')
+        else:
+            train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
+            val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
+
         # Load tokenizer for the LED model
-        tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
+        tokenizer = AutoTokenizer.from_pretrained('allenai/led-base-16384')
         # Add special tokens to the LED model
         # As we want to represent the table as a sequence: separation tokens are added
         tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 

@@ -4,10 +4,9 @@ import datasets
 import torch
 from transformers import (AutoTokenizer, AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
 from transformers.utils.logging import set_verbosity_debug
-import os, shutil, logging, wandb
+import os, socket, wandb
 from tokenizer import tokenize
 from datasets import load_metric
-import datetime
 from omegaconf import OmegaConf
 from modeling_hierarchical_led import HierarchicalLEDForConditionalGeneration
 from data_collator import data_collator
@@ -26,12 +25,13 @@ def count_param(m):
 # Load the configuration
 conf = OmegaConf.load("../config.yaml")
 
+# Initialize wandb
+wandb.init(project="text2table", group=conf.trainer.group, 
+name=conf.trainer.run_name + str(socket.gethostname()) + "_" + os.environ["LOCAL_RANK"], mode=conf.trainer.wandb_mode)
+
 # Set the verbosity lebel for the huggingface transformers's root logger
 if conf.trainer.debug:
     set_verbosity_debug()
-
-# Initialize wandb
-wandb.init(project="text2table", group=conf.trainer.group, name=conf.trainer.run_name, mode=conf.trainer.wandb_mode)
 
 # Specify the directory where the pretokenized data are stored: train & validation sets
 ptk_dir_train = conf.tokenizer.ptk_dir_train
@@ -140,9 +140,9 @@ if conf.dataset.version == "minimum":
 
 
 # training script for the full dataset
-elif conf.dataset.version == "full":
+elif conf.dataset.version == "full" or conf.dataset.version == "dev":
     # Load tokenizer for the LED model
-    tokenizer = AutoTokenizer.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
+    tokenizer = AutoTokenizer.from_pretrained('allenai/led-base-16384')
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
     tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
@@ -172,7 +172,7 @@ elif conf.dataset.version == "full":
     )
 
     # Initialize the model
-    model = HierarchicalLEDForConditionalGeneration.from_pretrained('patrickvonplaten/led-large-16384-pubmed')
+    model = HierarchicalLEDForConditionalGeneration.from_pretrained('allenai/led-base-16384')
     
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
@@ -195,10 +195,12 @@ elif conf.dataset.version == "full":
         fp16=conf.trainer.fp16,
         logging_steps=conf.trainer.logging_steps,
         eval_steps=conf.trainer.eval_steps,
+        eval_accumulation_steps=conf.trainer.eval_accumulation_steps,
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-        include_inputs_for_metrics=True
+        include_inputs_for_metrics=True,
+        deepspeed=conf.trainer.deepspeed,
     )
 
     #load custom metric
@@ -237,6 +239,8 @@ elif conf.dataset.version == "full":
     # freeze
     for param in model.led.encoder.parameters():
         param.requires_grad = False
+    for param in model.led.encoder.embed_tokens.parameters():
+        param.requires_grad = True
     # post-freeze
     print("post_freeze param: ",count_param(model))
 

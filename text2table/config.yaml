@@ -18,21 +18,24 @@ trainer:
   use_decoder_header: true
   gradient_checkpointing: true
   output_dir: '../../models/'
-  predict_with_generate: true
+  predict_with_generate: false
+  prediction_loss_only: true
   evaluation_strategy: 'steps'
   # Change training/evaluation batch size based on needs
   per_device_train_batch_size: 2
   per_device_eval_batch_size: 2
   fp16: true
-  logging_steps: 10
-  eval_steps: 500
-  save_steps: 500
-  save_total_limit: 2
+  logging_steps: 20
+  eval_steps: 3000
+  eval_accumulation_steps: 4
+  save_steps: 1500
+  save_total_limit: 10
   gradient_accumulation_steps: 2
-  wandb_mode: "disabled"
+  wandb_mode: "online"
   # Change name for different runs
-  run_name: "text2table-trail-#"
-  group: "experiment-#"
+  run_name: "thread_"
+  group: "multinode_led_base_v2"
   debug: false
+  deepspeed: "../ds_config.json"
 dataset:
   version: 'full'
