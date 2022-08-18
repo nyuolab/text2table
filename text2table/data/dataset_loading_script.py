@@ -59,6 +59,7 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
     BUILDER_CONFIGS = [
         datasets.BuilderConfig(name="minimum", version=VERSION, description="This is the bare minimum dataset"),
         datasets.BuilderConfig(name="full", version=VERSION, description="This is the full dataset"),  
+        datasets.BuilderConfig(name="dev", version=VERSION, description="This is a part of the full dataset for development"),
     ]
 
     #This is the default configuration
@@ -79,7 +80,17 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     "TEXT": datasets.Value("string"),
                 }
             )
+
         elif self.config.name == "full": # For the full dataset
+            features = datasets.Features(
+                {
+                    "category": datasets.Value("string"),
+                    "label": datasets.Value("string"),
+                    "text": datasets.Value("string"),
+                }
+            )
+        
+        elif self.config.name == "dev": # For the development dataset
             features = datasets.Features(
                 {
                     "category": datasets.Value("string"),
@@ -114,6 +125,8 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
             data_dir = "/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
         elif self.config.name == "full": # For the full dataset
             data_dir = "/gpfs/data/oermannlab/project_data/text2table/complete/train_test_data"
+        elif self.config.name == "dev": # For the development dataset
+            data_dir = "/gpfs/data/oermannlab/project_data/text2table/complete/dev_data"
         
         return [
             datasets.SplitGenerator(
@@ -168,6 +181,23 @@ class MIMICDataset(datasets.GeneratorBasedBuilder):
                     }
         
         elif self.config.name == "full":
+            csv.field_size_limit(sys.maxsize)
+            with open(filepath, "r") as f:
+                csvreader = csv.reader(f, dialect="excel")
+                for key, row in enumerate(csvreader):
+                    if key == 0:
+                        continue
+                    # The special token that we prepend the text with and also feed to the decoder
+                    category_token = "<" + row[2] + ">"
+                    # Yields examples as (key, example) tuples
+                    yield (key - 1), {
+                        "category": category_token,
+                        "label": row[3],
+                        # The list of texts that exclude empty strings
+                        "text": " <text-sep> ".join([" ".join([category_token, x]) for x in row[4:] if x is not None and x != ""]),
+                    }
+        
+        elif self.config.name == "dev":
             csv.field_size_limit(sys.maxsize)
             with open(filepath, "r") as f:
                 csvreader = csv.reader(f, dialect="excel")
