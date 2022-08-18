@@ -189,6 +189,7 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         gradient_checkpointing=conf.trainer.gradient_checkpointing,
         output_dir=conf.trainer.output_dir,
         predict_with_generate=conf.trainer.predict_with_generate,
+        prediction_loss_only=conf.trainer.prediction_loss_only,
         evaluation_strategy=conf.trainer.evaluation_strategy,
         per_device_train_batch_size=conf.trainer.per_device_train_batch_size,
         per_device_eval_batch_size=conf.trainer.per_device_eval_batch_size,
@@ -246,3 +247,6 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
 
     # Start the training
     trainer.train()
+
+    # Save the model
+    trainer.save_model("../../models/trained_model/")
