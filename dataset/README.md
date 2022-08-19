@@ -1,4 +1,4 @@
-Final Dataset for the Text2Table Task
+Final Dataset
 ========================================
 
 The files for creating the final dataset for the Text2Table Task. The whole dataset is created based on the 
@@ -38,7 +38,7 @@ Final Dataset: All in one table
 ----------------------------------
 To put clinical notes and assoicated information in one table, one can run `python3 final_dataset_merge.py`. This file helps to put all
 clinical notes in both text format and table format at just one table, and indeed for feeding the model. Also, this program helps to 
-split the train, development, and evaluation sets (80%/5%/15%) and store three sets into three files umder the same directory.
+split the train, development, and evaluation sets (60%/20%/20%) and store three sets into three files under the same directory.
 
 ---------
 
