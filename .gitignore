@@ -118,6 +118,4 @@ notebooks/drop_na.ipynb
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
 
-#sbatch script
-train.sh
 
