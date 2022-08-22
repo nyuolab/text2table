@@ -7,12 +7,12 @@ class SingleLabel(evaluate.Metric):
     # Initialize the metric
     def _info(self):
         return evaluate.MetricInfo(
-            description="Single-Label Metric: F1, Precision, Recall",
-            citation="NaN",
+            description=" ",
+            citation=" ",
             features=datasets.Features(
                 {
-                    "predictions": datasets.Sequence(datasets.Value("int32")),
-                    "references": datasets.Sequence(datasets.Value("int32")),
+                    "predictions": datasets.Value("string", id="sequence"),
+                    "references": datasets.Value("string", id="sequence"),
                 }
             )
         )

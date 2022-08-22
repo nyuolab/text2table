@@ -145,10 +145,9 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
     tokenizer = AutoTokenizer.from_pretrained('allenai/led-base-16384')
     # Add special tokens to the LED model
     # As we want to represent the table as a sequence: separation tokens are added
-    tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", 
-    "<NUR>", "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", 
-    "<GENDER>", "<DOB>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<LAB_MEASUREMENT>",
-    "<PRESCRIPTION>", "<PROC_ICD9>"]})
+    tokenizer.add_special_tokens({"additional_special_tokens": ["<CEL>", "<NTE>", "<NUR>", 
+    "<DIS>", "<ECH>", "<ECG>", "<RAD>", "<PHY>", "<GEN>", "<RES>", "<NUT>", "<GENDER>", 
+    "<DOB>", "<HOSPITAL_EXPIRE_FLAG>", "<CPT_CD>", "<DRG_CODE>", "<DIAG_ICD9>", "<PROC_ICD9>"]})
 
     # If the pretokenized data are exists, load it directly from the disk (time-saving)
     # If not, tokenized the text for model and store it for faster reuse (Call Tokenizer in the same directory)
@@ -170,9 +169,14 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         type="torch",
         columns=["input_ids", "attention_mask", "decoder_input_ids", "global_attention_mask", "labels"],
     )
+    
+    # Initialize the config for the model
+    config = LEDConfig(vocab_size=len(tokenizer), encoder_layers = 6, encoder_ffn_dim =2048, 
+    encoder_attention_heads = 8, decoder_layers = 6, decoder_ffn_dim =2048, decoder_attention_heads = 8,
+    use_cache = False, d_model = 512)
 
     # Initialize the model
-    model = HierarchicalLEDForConditionalGeneration.from_pretrained('allenai/led-base-16384')
+    model = HierarchicalLEDForConditionalGeneration(config)
     
     # Add special tokens to the LED model
     model.resize_token_embeddings(len(tokenizer))
@@ -200,14 +204,13 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         save_steps=conf.trainer.save_steps,
         save_total_limit=conf.trainer.save_total_limit,
         gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
-        include_inputs_for_metrics=True,
         deepspeed=conf.trainer.deepspeed,
     )
 
     #load custom metric
     main_metric = load_metric('../metrics/main_metric_script.py')
         
-    def compute_metrics(EvalPrediction, tokenizer):
+    def compute_metrics(EvalPrediction):
         predictions = EvalPrediction.predictions
         label_ids = EvalPrediction.label_ids
         inputs = EvalPrediction.inputs
@@ -215,7 +218,8 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         pred_str = tokenizer.batch_decode(predictions, skip_special_tokens=False)
         label_ids[label_ids == -100] = tokenizer.pad_token_id
         label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=False)
-        input_str=tokenizer.batch_decode(inputs, skip_special_tokens=False)
+        input_str=tokenizer.batch_decode(inputs[:, [1], 1], skip_special_tokens=False)
+        print(input_str)
 
         # Compute the rouge evaluation results
         main_metric_output = main_metric.compute(predictions=pred_str,references=label_str,inputs=input_str)
@@ -233,17 +237,6 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         train_dataset=train_dataset,
         eval_dataset=val_dataset
     )
-    
-    # Freeze the model's encoder weights
-    # pre-freeze
-    print("pre_freeze param: ",count_param(model))
-    # freeze
-    for param in model.led.encoder.parameters():
-        param.requires_grad = False
-    for param in model.led.encoder.embed_tokens.parameters():
-        param.requires_grad = True
-    # post-freeze
-    print("post_freeze param: ",count_param(model))
 
     # Start the training
     trainer.train()

@@ -1,12 +1,13 @@
-Final Dataset for the Text2Table Task
+Final Dataset
 ========================================
 
 The files for creating the final dataset for the Text2Table Task. The whole dataset is created based on the 
 present of MIMIC-III (Medical Information Mart for Intensive Care III), and more details can be acccessed at
 [MIMIC-III](https://mimic.mit.edu/docs/iii/). As the original MIMIC-III dataset
 contains 26 tables and approximately hundreds of columns, some pre-selected columns used to train the model
-can be accessed at `text2table/dataset/Pre-Selected_Columns.txt`. In addition, some sample clinicial notes
-for patients can be accessed at `text2table/dataset/sample_patient_data/`. However, as we want models to 
+can be accessed at `text2table/dataset/Pre-Selected_Columns.txt`. In addition, some samples clinicial notes
+for patients can be accessed at `text2table/dataset/sample_patient_data/`. Please note that the samples in the
+"after_preprocessing" and the samples in the "before_preprocessing" are different. As we want models to 
 produce more generalized and useful contents, we include as many as clinical notes and columns to feed the
 model.
 
@@ -38,7 +39,7 @@ Final Dataset: All in one table
 ----------------------------------
 To put clinical notes and assoicated information in one table, one can run `python3 final_dataset_merge.py`. This file helps to put all
 clinical notes in both text format and table format at just one table, and indeed for feeding the model. Also, this program helps to 
-split the train, development, and evaluation sets (80%/5%/15%) and store three sets into three files umder the same directory.
+split the train, development, and evaluation sets (80%/10%/10%) and store three sets into three files umder the same directory.
 
 ---------
 

@@ -1,0 +1,3 @@
+<DOB> <ECG> <NTE> Sinus rhythm. Normal ECG. No previous tracing available for comparison.
+
+ 

@@ -1,0 +1,243 @@
+<HOSPITAL_EXPIRE_FLAG> <DIS> <NTE> Admission Date:  [**2117-9-11**]              Discharge Date:   [**2117-9-17**]
+
+Date of Birth:  [**2082-3-21**]             Sex:   F
+
+Service: MEDICINE
+
+Allergies:
+Levaquin
+
+Attending:[**First Name3 (LF) 2195**]
+Chief Complaint:
+nausea, vomiting
+
+
+Major Surgical or Invasive Procedure:
+none
+
+History of Present Illness:
+35F w/ poorly controlled Type 1 diabetes mellitus w/ neuropathy,
+nephropathy, HTN, gastroparesis, CKD and retinopathy, recently
+hospitalized for orthostatic hypotension [**2-3**] autonomic
+neuropathy [**Date range (1) 25088**]; DKA hospitalizations in [**6-12**] and [**7-12**], now
+returning w/ 5d history of worsening nausea, vomiting with
+coffee-ground emesis, chills, and dyspnea on exertion.  Last
+week she had a fall and hit her right face.  she also had 1 day
+of diarrhea, which resolved early last week.  Found to be in DKA
+with AG 30 and bicarb 11.
+.
+In the ED inital vitals were 09:00 0 98.2 113 181/99 22 100% RA.
+K 4.7, HCO3 11, Anion Gap 30, Cr. 2.7 (baseline 1.6-2.0) She is
+on her 3rd L NS. Insulin srip at 5 units/hr. On home at 22
+levemir in am and 12 at with difficult to control sugars. BPs
+have been high. Given 30 mtroprolol tartrate in ED.
+
+She was started on an insulin drip at 5 units/hr and 3L NS
+boluses. Also aspirin 325mg PO and Morphine 4mg IVx1 for pain.
+CXr was clear.  EKG NAD.
+.
+Review of systems: otherwise negative.
+
+Past Medical History:
+Type 1 diabetes mellitis w/ neuropathy, nephropathy, and
+retinopathy - 2 episodes of DKA in [**6-12**] and [**7-12**]
+HTN - 5 years
+gastroparesis - 1.5 years
+CKD - stage III, baseline Cr 2.4-2.5, proteinuria
+L1 vertebral fracture - [**2117-7-17**]
+Systolic ejection murmur
+
+Social History:
+Patient lives at home in [**Location (un) **] with her 8 y/o daughter and
+boyfriend. She has no history of EtOH, tobacco, or illicit drug
+use. She is currently unemployed and seeking disability.
+
+
+Family History:
+Both parents have HTN and T2DM. Grandfather had an MI in his
+40s.
+
+Physical Exam:
+GEN: Awake, alert, and oriented
+HEENT: PERRLA. MMM. no JVD. neck supple. No cervical LAD
+Cards: RRR, S1/S2 normal. II/VI systolic ejection murmur heard
+best at the L upper sternal border.
+Pulm: CTABL with no crackles or wheezes.
+Abd: BS+, soft, NT, no rebound/guarding, no HSM, no [**Doctor Last Name 515**]
+sign
+Extremities: wwp, no edema. radials, DPs, PTs 2+.
+Skin: no rashes or bruising. no skin tenting.
+Neuro: CNs II-XII intact. Upper extremities: Power [**5-6**]
+bilaterally. Le: left power: 4.5/5  right: power [**3-6**].  Bilateral
+symmetric, reduced sensation distal LE to ankles.
+
+
+Pertinent Results:
+Admission Labs: [**2117-9-11**] 09:22AM
+WBC-11.9* RBC-4.58 HGB-13.0 HCT-36.5 MCV-80* PLT COUNT-466*
+LIPASE-22  ALT(SGPT)-10 AST(SGOT)-16 ALK PHOS-105 TOT BILI-0.5
+GLUCOSE-260* UREA N-48* CREAT-2.7* SODIUM-137 POTASSIUM-4.9
+CL-101 CO2-11*
+LACTATE-1.9
+
+Discharge Labs: [**2117-9-16**] 07:10AM
+WBC-6.8 RBC-3.67* Hgb-10.4* Hct-30.2* MCV-82 Plt Ct-298
+Glucose-118* UreaN-20 Creat-2.3* Na-137 K-3.7 Cl-104 HCO3-23
+AnGap-14
+Calcium-8.7 Phos-3.5 Mg-2.0
+
+Radiology:
+CXR: No evidence of pneumonia or other pathological
+abnormalities. No
+pleural effusions. No pulmonary edema. Normal size of the
+cardiac
+silhouette.
+
+Microbiology: Urine culture negative, blood cultures no growth
+to date, stool for C.difficile negative
+
+
+Brief Hospital Course:
+35 yo F with HTN & poorly controlled type I DM, c/b neuropathy,
+gastroparesis, nephropathy ?????? CKD, retinopathy presents with DKA
+and hypertension SBP to 200s.
+.
+# Diabetic ketoacidosis: Patient controls diabetes at home with
+Humalog SS and long acting Levemir.  Sugars at home recently
+have been in 250s. In the ED, glucose was 466. UA was +ve for
+ketones ?????? corrected to 200s, but rose again to 300s. She was
+treated with an insulin drip which was transitioned to subq when
+she tolerated POs. Her electrolytes were repleted and she
+received aggressive volume resuscitation. [**Last Name (un) **] saw her and
+gave sliding scale recommendations which were implemented. No
+source for DKA found, beleived to be [**2-3**] gastroparesis. Nausea
+managed with ativan, compazine, and promethazine. She was
+discharged on her home Insulin and sliding scale with
+instructions to follow-up with [**Last Name (un) **].
+
+# HTN: Hypertensive with SBP in 190s initially, attributed to
+DKA, as she has experienced in the past. As she improved her
+blood pressures normalized and she was re-started on her home
+Lopressor and Midodrine regimen.
+
+# Coffee grounds emesis: Emesis started off as clear, then with
+prolonged wretching, she started having coffee-grounds vomiting.
+This had also occurred on prior admissions for DKA with
+associated vomiting. Her hematocrit remained stable and her
+hematemesis self-resolved, and so work-up was deferred to the
+outpatient setting.
+
+# Acute on chronic kidney disease, Stage III: Patient's Cr on
+admission was 2.7, trending down to 2.1-2.3 following fluids,
+consistent with her known CKD secondary to diabetic nephropathy.
+
+
+Medications on Admission:
+1. citalopram 20 mg Tablet Sig: One (1) Tablet PO DAILY (Daily).
+
+2. Levemir 100 unit/mL Solution Sig: Twenty Two (22) units
+Subcutaneous every AM.
+3. Levemir 100 unit/mL Solution Sig: Twelve (12) units
+Subcutaneous at bedtime.
+4. Humalog 100 unit/mL Solution Sig: sliding scale as directed
+Subcutaneous four times a day: Please use sliding scale as
+directed by MD [**First Name8 (NamePattern2) 767**] [**Last Name (Titles) **].
+5. metoprolol tartrate 50 mg Tablet Sig: 1.5 Tablets PO DAILY
+(Daily): take in the evening.
+6. promethazine 25 mg Tablet Sig: 0.5 Tablet PO Q8H (every 8
+hours) as needed for nausea.
+7. gabapentin 300 mg Capsule Sig: One (1) Capsule PO Q12H (every
+
+12 hours).
+Disp:*60 Capsule(s)* Refills:*2*
+8. duloxetine 30 mg Capsule, Delayed Release(E.C.) Sig: Two (2)
+Capsule, Delayed Release(E.C.) PO DAILY (Daily): Please take
+only 1 capsule daily (30 mg) for first 2 weeks of treatment.
+Disp:*60 Capsule, Delayed Release(E.C.)(s)* Refills:*2*
+9. oxycodone 5 mg Capsule Sig: One (1) Capsule PO every eight
+(8) hours as needed for pain.
+10. midodrine 5 mg Tablet Sig: 1.5 Tablets PO every four (4)
+hours: Can hold while sleeping.
+Disp:*270 Tablet(s)* Refills:*2*
+
+
+Discharge Medications:
+1. citalopram 20 mg Tablet Sig: One (1) Tablet PO DAILY (Daily).
+
+2. gabapentin 300 mg Capsule Sig: One (1) Capsule PO Q12H (every
+12 hours).
+3. duloxetine 30 mg Capsule, Delayed Release(E.C.) Sig: One (1)
+Capsule, Delayed Release(E.C.) PO DAILY (Daily).
+4. metoprolol tartrate 25 mg Tablet Sig: Three (3) Tablet PO
+Once Daily at 6 PM.
+5. midodrine 2.5 mg Tablet Sig: Three (3) Tablet PO DAILY
+(Daily).
+6. Levemir 100 unit/mL Solution Sig: As directed by [**Last Name (un) **] units
+Subcutaneous As directed.
+
+
+Discharge Disposition:
+Home
+
+Discharge Diagnosis:
+Diabetic keotacidosis
+Hematemesis (blood in your vomit)
+Hypertension
+Chronic renal insufficiency
+
+Discharge Condition:
+Mental Status: Clear and coherent.
+Level of Consciousness: Alert and interactive.
+Activity Status: Ambulatory - Independent.
+
+Discharge Instructions:
+You were admitted to the hospital with DKA, hypertension, and
+blood in your vomit. You were initially treated in the ICU with
+an insulin drip, and your blood sugars improved. Your blood
+pressure medications were adjusted to better control your blood
+pressure while you were in DKA, but you were re-started on your
+home regimen at discharge. The blood in your vomit was likely
+secondary to mechanical trauma from repeated wretching, but you
+should follow-up with your primary care doctor to discuss
+whether you should undergo further evaluation such as an upper
+endoscopy. Given your complaints of chronic cough and heartburn,
+you should also discuss beginning a trial of a proton pump
+inhibitor such as Nexium or Prilosec to see if this helps your
+symptoms.
+
+Your insulin regimen was adjusted by the [**Last Name (un) **] team while you
+were here. You should continue to follow-up with them with any
+questions or concerns regarding your insulin management.
+
+Followup Instructions:
+Please call Dr.[**Last Name (STitle) 805**]' office to schedule a follow-up
+appointment within 7-10 days of discharge. Her office number is
+[**Telephone/Fax (1) 85219**].
+
+You should also continue to follow-up with your [**Last Name (un) **] doctors
+as needed.
+
+
+  <text-sep> <HOSPITAL_EXPIRE_FLAG> <RAD> <NTE> [**2117-9-11**] 11:12 AM
+ CHEST (PA & LAT)                                                Clip # [**Clip Number (Radiology) 23125**]
+ Reason: eval for infiltrate
+ ______________________________________________________________________________
+ [**Hospital 2**] MEDICAL CONDITION:
+  35 year old woman with vomiting
+ REASON FOR THIS EXAMINATION:
+  eval for infiltrate
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ CHEST RADIOGRAPH
+
+ INDICATION:  Vomiting, evaluation for infiltrates.
+
+ COMPARISON:  [**2117-8-16**].
+
+ FINDINGS:  As compared to the previous radiograph, there is no relevant
+ change.  No evidence of pneumonia or other pathological abnormalities.  No
+ pleural effusions.  No pulmonary edema.  Normal size of the cardiac
+ silhouette.
+
+
+ 

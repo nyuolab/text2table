@@ -6,7 +6,7 @@ import torch
 
 
 # Define the tokenize function
-def tokenize():
+def tokenize(train=True, val=True, test=True):
 
     # Load the configuration
     conf = OmegaConf.load("../config.yaml")
@@ -100,12 +100,16 @@ def tokenize():
     elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         
         # Load preprocessed data: with special tokens added
-        if conf.dataset.version == "dev":  
-            train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='dev', split='train')
-            val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='dev', split='validation')
+        if conf.dataset.version == "dev":
+            if train:  
+                train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='dev', split='train')
+            if val:
+                val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', name='dev', split='validation')
         else:
-            train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
-            val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
+            if train:
+                train_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='train')
+            if val:
+                val_dataset = datasets.load_dataset('../data/dataset_loading_script.py', split='validation')
 
         # Load tokenizer for the LED model
         tokenizer = AutoTokenizer.from_pretrained('allenai/led-base-16384')
@@ -170,32 +174,35 @@ def tokenize():
             
             return example
 
+        if train:
+            # Preprocess(Tokenize) the input data: Training set
+            train_dataset = train_dataset.map(
+                function=process_data_to_model_inputs,
+                batched=False,
+                num_proc=conf.tokenizer.num_cpu,
+                remove_columns=["category", "label", "text"],
+            ).remove_columns("text_list")
 
-        # Preprocess(Tokenize) the input data: Training set
-        train_dataset = train_dataset.map(
-            function=process_data_to_model_inputs,
-            batched=False,
-            num_proc=conf.tokenizer.num_cpu,
-            remove_columns=["category", "label", "text"],
-        ).remove_columns("text_list")
-        # Preprocess(Tokenize) the input data: Validation set
-        val_dataset = val_dataset.map(
-            function=process_data_to_model_inputs,
-            batched=False,
-            num_proc=conf.tokenizer.num_cpu,
-            remove_columns=["category", "label", "text"],
-        ).remove_columns("text_list")
+        if val:
+            # Preprocess(Tokenize) the input data: Validation set
+            val_dataset = val_dataset.map(
+                function=process_data_to_model_inputs,
+                batched=False,
+                num_proc=conf.tokenizer.num_cpu,
+                remove_columns=["category", "label", "text"],
+            ).remove_columns("text_list")
 
+    if train:
+        # Creat a directory to store the pretokenized data for training set 
+        os.makedirs(ptk_dir_train, exist_ok=True)
+        # Save
+        train_dataset.save_to_disk(ptk_dir_train)
+        logging.info(f'saved tokenized training dataset to {ptk_dir_train}')
 
-    # Creat a directory to store the pretokenized data for training set 
-    os.makedirs(ptk_dir_train, exist_ok=True)
-    # Save
-    train_dataset.save_to_disk(ptk_dir_train)
-    logging.info(f'saved tokenized training dataset to {ptk_dir_train}')
-
-    # Creat a directory to store the pretokenized data for validation set
-    os.makedirs(ptk_dir_val, exist_ok=True)
-    # Save
-    val_dataset.save_to_disk(ptk_dir_val)
-    logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
+    if val:
+        # Creat a directory to store the pretokenized data for validation set
+        os.makedirs(ptk_dir_val, exist_ok=True)
+        # Save
+        val_dataset.save_to_disk(ptk_dir_val)
+        logging.info(f'saved tokenized validation dataset to {ptk_dir_val}')
     

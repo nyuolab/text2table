@@ -1,12 +1,22 @@
-from datetime import date
 from datetime import datetime
+import evaluate
+import datasets
 
 def split_date(d):
     return datetime.strptime(d.split(' ')[0], "%Y-%m-%d").date()
 # for cel-wise prediction/reference
 class DateMetric(evaluate.Metric):
     def _info(self):
-        return evaluate.MetricInfo()
+        return evaluate.MetricInfo(
+            description=" ",
+            citation=" ",
+            features=datasets.Features(
+                {
+                    "predictions": datasets.Value("string", id="sequence"),
+                    "references": datasets.Value("string", id="sequence"),
+                }
+            )
+        )
 
     def _compute(
         self,

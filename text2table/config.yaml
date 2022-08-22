@@ -20,7 +20,7 @@ trainer:
   output_dir: '../../models/'
   predict_with_generate: false
   prediction_loss_only: true
-  evaluation_strategy: 'no'
+  evaluation_strategy: 'steps'
   # Change training/evaluation batch size based on needs
   per_device_train_batch_size: 2
   per_device_eval_batch_size: 2
@@ -31,10 +31,10 @@ trainer:
   save_steps: 500
   save_total_limit: 20
   gradient_accumulation_steps: 2
-  wandb_mode: "disabled"
+  wandb_mode: "online"
   # Change name for different runs
-  run_name: "v3_thread_"
-  group: "multinode_led_base_v3"
+  run_name: "thread_"
+  group: "led_base_v2"
   debug: false
   deepspeed: "../ds_config.json"
 dataset:

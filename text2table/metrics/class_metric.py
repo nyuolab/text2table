@@ -1,7 +1,7 @@
 import pickle as pkl
 import evaluate
-import text2table.metrics.multilabel
 from sklearn import metrics
+import datasets
 
 def dummify(data,classes):
     data=data.str.get_dummies(sep=' <CEL> ')
@@ -12,7 +12,17 @@ def dummify(data,classes):
 # for cel-wise prediction/reference
 class DateMetric(evaluate.Metric):
     def _info(self):
-        return evaluate.MetricInfo()
+        return evaluate.MetricInfo(
+            description=" ",
+            citation=" ",
+            features=datasets.Features(
+                {
+                    "predictions": datasets.Value("string", id="sequence"),
+                    "references": datasets.Value("string", id="sequence"),
+                    "classfile": datasets.Value("string", id="sequence"),
+                }
+            )
+        )
 
     def _compute(
         self,
@@ -28,4 +38,4 @@ class DateMetric(evaluate.Metric):
         f1=metrics.f1_score(dum_ref, dum_pred, average="micro")
         acc=metrics.accuracy_score(dum_ref, dum_pred)
 
-        return {'f1':f1,'acc':acc}
+        return {'micro_f1':f1,'acc':acc}
