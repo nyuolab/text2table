@@ -143,6 +143,7 @@ def tokenize(train=True, val=True, test=True):
             # Tokenize the column header for decoder
             column_header = tokenizer(
                 example['category'],
+                add_special_tokens=False,
                 padding='max_length',
                 truncation=True,
                 max_length=conf.tokenizer.max_header_length,

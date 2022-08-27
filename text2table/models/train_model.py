@@ -2,7 +2,14 @@
 # HF Fine-tune Longformer Encoder-Decoder [tutorial](https://colab.research.google.com/drive/12LjJazBl7Gam0XBPy_y0CTOJZeZ34c2v?usp=sharing#scrollTo=o9IkphgF-90-)
 import datasets
 import torch
-from transformers import (AutoTokenizer, AutoModelForSeq2SeqLM, Seq2SeqTrainingArguments, Seq2SeqTrainer, LEDConfig)
+from transformers import (
+    AutoTokenizer, 
+    AutoModelForSeq2SeqLM, 
+    Seq2SeqTrainingArguments, 
+    Seq2SeqTrainer, 
+    LEDConfig,
+    LEDForConditionalGeneration
+)
 from transformers.utils.logging import set_verbosity_debug
 import os, socket, wandb
 from tokenizer import tokenize
@@ -26,8 +33,11 @@ def count_param(m):
 conf = OmegaConf.load("../config.yaml")
 
 # Initialize wandb
-wandb.init(project="text2table", group=conf.trainer.group, 
-name=conf.trainer.run_name + str(socket.gethostname()) + "_" + os.environ["LOCAL_RANK"], mode=conf.trainer.wandb_mode)
+if "LOCAL_RANK" in os.environ.keys():
+    wandb_name = conf.trainer.run_name + str(socket.gethostname()) + "_" + os.environ["LOCAL_RANK"]
+else:
+    wandb_name = conf.trainer.run_name + str(socket.gethostname())
+wandb.init(project="text2table", group=conf.trainer.group, name=wandb_name, mode=conf.trainer.wandb_mode)
 
 # Set the verbosity lebel for the huggingface transformers's root logger
 if conf.trainer.debug:
@@ -171,15 +181,28 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
     )
     
     # Initialize the config for the model
-    config = LEDConfig(vocab_size=len(tokenizer), encoder_layers = 6, encoder_ffn_dim =2048, 
-    encoder_attention_heads = 8, decoder_layers = 6, decoder_ffn_dim =2048, decoder_attention_heads = 8,
-    use_cache = False, d_model = 512)
+    config = LEDConfig.from_pretrained('allenai/led-base-16384')
 
-    # Initialize the model
+    # Initialize the model and load ONLY the pretrained weights for the encoder
     model = HierarchicalLEDForConditionalGeneration(config)
+    original_model = LEDForConditionalGeneration.from_pretrained('allenai/led-base-16384')
+    model.led.encoder.load_state_dict(original_model.led.encoder.state_dict())
     
-    # Add special tokens to the LED model
+    # resize the token embeddings to the size of vocabulary
     model.resize_token_embeddings(len(tokenizer))
+
+    # Freeze the model's encoder weights
+    # pre-freeze
+    print("pre_freeze param: ",count_param(model))
+    # freeze
+    for param in model.led.encoder.parameters():
+        param.requires_grad = False
+    for param in model.led.encoder.embed_tokens.parameters():
+        param.requires_grad = True
+    for param in model.led.encoder.embed_positions.parameters():
+        param.requires_grad = True
+    # post-freeze
+    print("post_freeze param: ",count_param(model))
 
     # modify model configuration
     model.config.num_beams=conf.model.num_beams
