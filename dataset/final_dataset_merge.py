@@ -48,8 +48,9 @@ targetDir = '/gpfs/data/oermannlab/project_data/text2table/complete/train_test_d
 os.mkdir(targetDir)
 
 # Split the data into training and testing set using sklearn: Split the data based on unique admission ID
-admID_train, admID_test = train_test_split(df_output.HADM_ID.unique(), test_size=0.2, random_state=seed)
-admID_train, admID_dev = train_test_split(admID_train, test_size=0.25, random_state=seed)
+# train/val/test: 80/10/10
+admID_train, admID_test = train_test_split(df_output.HADM_ID.unique(), test_size=0.1, random_state=seed)
+admID_train, admID_dev = train_test_split(admID_train, test_size=0.11, random_state=seed)
 
 # Get the corresponding data from the merged final dataset
 df_train = df_output[df_output.HADM_ID.isin(admID_train)]

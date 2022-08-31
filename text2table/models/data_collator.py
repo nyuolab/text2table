@@ -56,9 +56,6 @@ def data_collator(features):
                         padding_value = 0
                     # pad the batch of groups of sequences
                     batch[k] = pad_sequence([f[k] for f in features], batch_first=True, padding_value=padding_value)
-                    assert batch[k].shape[0] == len(features)
-                    assert batch[k].shape[1] == max(len(f[k]) for f in features)
-                    assert batch[k].shape[2] == max(len(f[k][0]) for f in features)
                 else:
                     # other inputs does not need to be handled specially, so we just follow what the source code does.
                     batch[k] = torch.stack([f[k] for f in features])
@@ -71,9 +68,6 @@ def data_collator(features):
                         padding_value = 0
                     # converting lists to tensors before padding them.
                     batch[k] = pad_sequence([torch.stack(f[k]) for f in features], batch_first=True, padding_value=padding_value)
-                    assert batch[k].shape[0] == len(features)
-                    assert batch[k].shape[1] == max(len(f[k]) for f in features)
-                    assert batch[k].shape[2] == max(len(f[k][0]) for f in features)
                 else:
                     batch[k] = torch.tensor([f[k] for f in features])
 

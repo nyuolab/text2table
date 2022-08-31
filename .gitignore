@@ -94,6 +94,7 @@ text2table/data/pretokenized/
 text2table/data/pretokenized_dev/
 text2table/data/data_test.py
 text2table/data/dev_data.py
+text2table/data/sample_data.py
 
 # Training log & Check points
 /models/
@@ -117,6 +118,4 @@ notebooks/drop_na.ipynb
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
 
-#sbatch script
-train.sh
 
