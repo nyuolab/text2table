@@ -67,11 +67,11 @@ class MainMetric(datasets.Metric):
         # Evaluation: calculation of metrics (batch-wise)
         final={}
         # DOB:
-        final['<DOB>']=evaluate.load('/gpfs/data/oermannlab/users/yangz09/summer/text2table/text2table/metrics/date_metric.py').compute(predictions=result['<DOB>']['pred'],references=result['<DOB>']['ref'])
+        final['<DOB>']=evaluate.load('../metrics/date_metric.py').compute(predictions=result['<DOB>']['pred'],references=result['<DOB>']['ref'])
         
         # binary:
         for category_token in ['<GENDER>','<HOSPITAL_EXPIRE_FLAG>']:
-            final[category_token]=evaluate.load('/gpfs/data/oermannlab/users/yangz09/summer/text2table/text2table/metrics/singlelabel.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'])
+            final[category_token]=evaluate.load('../metrics/singlelabel.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'])
 
         # classes
         # class_file: a file that consists of all the unique classes of a certain category, well be passed to the 'class_metric.py''s compute function
@@ -87,7 +87,7 @@ class MainMetric(datasets.Metric):
             elif category_token=='<DRG_CODE>':
                 class_file=os.path.join('class_files','drg_classes.pkl')
 
-            final[category_token]=evaluate.load('/gpfs/data/oermannlab/users/yangz09/summer/text2table/text2table/metrics/class_metric.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'],classfile=class_file)
+            final[category_token]=evaluate.load('../metrics/class_metric.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'],classfile=class_file)
 
         return final
 

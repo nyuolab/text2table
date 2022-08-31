@@ -33,8 +33,8 @@ trainer:
   gradient_accumulation_steps: 2
   wandb_mode: "online"
   # Change name for different runs
-  run_name: "v4_thread_"
-  group: "multinode_led_base_v4"
+  run_name: "eval_v4_thread_"
+  group: "multinode_led_base_v4_eval"
   debug: false
   deepspeed: "../ds_config.json"
 dataset:

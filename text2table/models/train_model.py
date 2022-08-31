@@ -241,7 +241,7 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         pred_str = tokenizer.batch_decode(predictions, skip_special_tokens=False)
         label_ids[label_ids == -100] = tokenizer.pad_token_id
         label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=False)
-        input_str=tokenizer.batch_decode(inputs[:, [1], 1], skip_special_tokens=False)
+        input_str=tokenizer.batch_decode(inputs[:, [0], 1], skip_special_tokens=False)
         print(input_str)
 
         # Compute the rouge evaluation results
