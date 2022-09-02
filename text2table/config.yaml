@@ -27,14 +27,14 @@ trainer:
   fp16: true
   logging_steps: 10
   #--changed
-  eval_steps: 1000
-  #eval_steps: 1
+  #eval_steps: 1000
+  eval_steps: 1
   #--changed
-  #max_steps: 2
+  max_steps: 2
   save_steps: 1000
   save_total_limit: 2
   # --changed
   gradient_accumulation_steps: 2
   # Change name for different runs
   run_name: "run"
-  group: "mvp_f1_final_3"
+  group: "mvp_icd9_debug"

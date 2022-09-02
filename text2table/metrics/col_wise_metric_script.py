@@ -18,6 +18,7 @@ import datetime
 import os
 from text2table.logging_utils.logging_script import setup_logger
 import evaluate
+import pickle as pkl
 
 # TODO: Add BibTeX citation
 _CITATION = """\
@@ -168,6 +169,21 @@ class ColMatch(datasets.Metric):
                 metric_logger.info(f'result: {result}')
                     
 
+        # --debug
+        # export icd_9 results (result[ICD9_CODE]) to folder icd9_debug
+        pred_path='new_pred.pkl'
+        ref_path='new_ref.pkl'
+        debug_path='../metrics/icd9_debug'
+        metric_path='new_metric'
+        # make metric folder
+        print('current path: ',os.getcwd())
+        os.makedirs(os.path.join(debug_path,metric_path),exist_ok=True)
+        # save both pred and ref
+        with open(os.path.join(debug_path,metric_path,pred_path),'wb') as f:
+            pkl.dump(result['ICD9_CODE']['pred'],f)
+        with open(os.path.join(debug_path,metric_path,ref_path),'wb') as f:
+            pkl.dump(result['ICD9_CODE']['pred'],f)
+
         # Evaluation: calculation of metrics (batch-wise)
         final={}
 
@@ -187,4 +203,10 @@ class ColMatch(datasets.Metric):
 
         metric_logger.info(f'final: {final}')
         metric_logger.info('\n---------End of evaluation epoch---------')
+        
+        # --debug
+        # save final dictionary
+        with open(os.path.join(debug_path,metric_path,'final.pkl'),'wb') as f:
+            pkl.dump(final,f)
+
         return final

@@ -59,12 +59,12 @@ else:
         columns=["input_ids", "attention_mask", "global_attention_mask", "labels"],
     )
 # --changed
-#val_dataset=val_dataset.select(range(50))
+val_dataset=val_dataset.select(range(10))
 
 #--changed
 # Initialize the model
-#model = LEDForConditionalGeneration.from_pretrained("../../models/checkpoint-1500")
-model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
+model = LEDForConditionalGeneration.from_pretrained("../../../my_ckpts/a100_mvp_end")
+#model = LEDForConditionalGeneration.from_pretrained("allenai/led-base-16384")
 # Add special tokens to the LED model
 model.resize_token_embeddings(len(tokenizer))
 # modify model configuration
@@ -87,7 +87,7 @@ training_args = Seq2SeqTrainingArguments(
     eval_steps=conf.trainer.eval_steps,
     save_steps=conf.trainer.save_steps,
     #--changed
-    #max_steps=conf.trainer.max_steps,
+    max_steps=conf.trainer.max_steps,
     save_total_limit=conf.trainer.save_total_limit,
     gradient_accumulation_steps=conf.trainer.gradient_accumulation_steps,
 )
