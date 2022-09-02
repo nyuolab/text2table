@@ -22,17 +22,19 @@ trainer:
   evaluation_strategy: 'steps'
   # Change training/evaluation batch size based on needs
   #--changed
-  per_device_train_batch_size: 1
-  per_device_eval_batch_size: 1
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
   fp16: true
   logging_steps: 10
   #--changed
-  eval_steps: 1005
+  eval_steps: 1000
+  #eval_steps: 1
   #--changed
-  max_steps: 1001
-  save_steps: 500
+  #max_steps: 2
+  save_steps: 1000
   save_total_limit: 2
-  gradient_accumulation_steps: 4
+  # --changed
+  gradient_accumulation_steps: 2
   # Change name for different runs
   run_name: "run"
-  group: "mvp_f1"
+  group: "mvp_f1_final_3"

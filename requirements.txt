@@ -19,6 +19,9 @@ rouge_score
 nltk
 datetime
 dask
+evaluate
+sklearn
+
 
 # Linters and formatters
 autopep8

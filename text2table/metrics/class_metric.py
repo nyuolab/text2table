@@ -1,8 +1,12 @@
-import text2table.metrics.multilabel
+import pickle as pkl
+import evaluate
 from sklearn import metrics
+import evaluate
+import datasets
+import pandas as pd
 
 def dummify(data,classes):
-    data=data.str.get_dummies(sep=' <CEL> ')
+    data=pd.Series(data).str.get_dummies(sep=' <CEL> ')
     # allign with index of all classes, solves the problem of unequal problems after dummification
     data=data.reindex(columns=classes).fillna(0)
     return data.to_numpy()
@@ -10,7 +14,16 @@ def dummify(data,classes):
 # for cel-wise prediction/reference
 class ClassMetric(evaluate.Metric):
     def _info(self):
-        return evaluate.MetricInfo()
+        return evaluate.MetricInfo(
+            description="classify classes",
+            citation="NaN",
+            features=datasets.Features(
+                {
+                    "predictions": datasets.Value("string"),
+                    "references": datasets.Value("string"),
+                }
+            )
+        )
 
     def _compute(
         self,
@@ -27,4 +40,3 @@ class ClassMetric(evaluate.Metric):
         acc=metrics.accuracy_score(dum_ref, dum_pred)
 
         return {'f1':f1,'acc':acc}
-    

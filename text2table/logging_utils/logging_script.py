@@ -11,11 +11,18 @@ def setup_logger(name, log_file, formatter):
         print("multiple gpus detected. Logging disabled."
         )
         level=logging.WARNING
-        handler = logging.NullHandler()
+        handler = logging.FileHandler(log_file)      
+        handler.setFormatter(logging.Formatter(formatter))
+        #handler = logging.NullHandler()
     else:
         level=logging.INFO
         handler = logging.FileHandler(log_file)      
         handler.setFormatter(logging.Formatter(formatter))   
+    # --changed
+    # level=logging.INFO
+    # handler = logging.FileHandler(log_file)      
+    # handler.setFormatter(logging.Formatter(formatter))  
+
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
