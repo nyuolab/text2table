@@ -194,7 +194,10 @@ args = parser.parse_args()
 # print(arg_dict)
 
 # shared path vars across different modes
-data_dir="/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
+# mvp:
+# data_dir="/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
+# complete:
+data_dir='/gpfs/data/oermannlab/project_data/text2table/complete_v2/dataset_v2.csv"
 X_path='matrix_x.npy'
 y_path='dum_y.npy'
 tokenizer_save_path='baseline_tokenizer.json'
