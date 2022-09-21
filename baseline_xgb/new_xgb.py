@@ -135,7 +135,7 @@ def transform_save(X,y,part,tokenizer): # save the preprocessed data for future 
 
 
 def split(final): # Function to split the data into train/val/test sets (70/10/20)
-    random_state = 1
+    random_state = 100
     train, test = train_test_split(final, test_size=0.2, shuffle=True, random_state=random_state)
     train, dev = train_test_split(train, test_size=0.125, shuffle=True, random_state=random_state)
 
