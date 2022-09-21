@@ -10,6 +10,7 @@ from sklearn import metrics
 import argparse
 from sklearn.model_selection import train_test_split
 
+
 # Code for Training and Testing the baseline model, XGBoost, on the data with entered task
 #
 # The following is the guide for runing the code
@@ -52,13 +53,13 @@ def predict(X,y): # helper function for predict_train() and predict_test()
     # Predict on X to get the results of remaining metrics
     y_pred= model.predict(X)
     f1_micro=metrics.f1_score(y, y_pred, average="micro")
-    print("f1_micro: ", round(f1_micro, 4))
+    print("f1_micro: ", round(f1_micro, 8))
     f1_macro=metrics.f1_score(y, y_pred, average="macro")
-    print("f1_macro: ", round(f1_macro, 4))
+    print("f1_macro: ", round(f1_macro, 8))
     precision=metrics.precision_score(y, y_pred, average="weighted")
-    print("precision: ", round(precision, 4))
+    print("precision: ", round(precision, 8))
     recall=metrics.recall_score(y, y_pred, average="weighted")
-    print("recall: ", round(recall, 4))
+    print("recall: ", round(recall, 8))
     # acc=metrics.accuracy_score(y, y_pred)
     # print("accuracy: ", round(acc, 4))
 
@@ -186,13 +187,14 @@ def train(task, tokenizer): # Function to train the model
                                     lowercase=True,dtype=float)
 
         # dummify classes
+        print("dumification...")
         if len(task) == 1: # Single task with one column
             if task[0] == "GENDER" or "HOSPITAL_EXPIRE_FLAG	": # Gender and Expire Flag are binary
-                y_total=y_total.squeeze().str.get_dummies().to_numpy()
+                y_total=y_total.squeeze(axis=1).str.get_dummies().to_numpy()
             elif task[0] == "DOB": # DOB has format of YYYY-MM-DD
-                y_total=y_total.squeeze().str.get_dummies(sep='-').to_numpy()
+                y_total=y_total.squeeze(axis=1).str.get_dummies(sep='-').to_numpy()
             else: # other tasks are separated by <CEL>
-                y_total=y_total.squeeze().str.get_dummies(sep=' <CEL> ').to_numpy()
+                y_total=y_total.squeeze(axis=1).str.get_dummies(sep=' <CEL> ').to_numpy()
 
         else: # Multi-task: Combine all columns into one column and each column is separated by <CEL>
             if "DOB" in task: # DOB has format of YYYY-MM-DD, processed it first
@@ -202,6 +204,7 @@ def train(task, tokenizer): # Function to train the model
             # Combine all columns into one column and each column is separated by <CEL>
             y_total=y_total.apply(lambda x: ' <CEL> '.join(str(x)), axis=1)
             y_total=y_total.str.get_dummies(sep=' <CEL> ').to_numpy()
+        print("dumification finished")
 
 
         print("splitting...")
