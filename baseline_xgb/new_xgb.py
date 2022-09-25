@@ -47,21 +47,30 @@ def predict(X,y): # helper function for predict_train() and predict_test()
     y_pred_proba = model.predict_proba(X)
     print("y_pred_proba: ", y_pred_proba.shape)
     print("num class assigned for 1st input: ", y[0].sum())
-    auc = metrics.roc_auc_score(y, y_pred_proba, average="weighted", multi_class="ovr")
-    print("auc: ", round(auc, 4))
+    auc_weighted = metrics.roc_auc_score(y, y_pred_proba, average="weighted", multi_class="ovr")
+    auc_micro = metrics.roc_auc_score(y, y_pred_proba, average="micro", multi_class="ovo")
+    auc_macro = metrics.roc_auc_score(y, y_pred_proba, average="macro", multi_class="ovo")
+    auc = {"auc_weighted": auc_weighted, "auc_micro": auc_micro, "auc_macro": auc_macro} # AUC
+    print("auc: ", auc)
 
     # Predict on X to get the results of remaining metrics
     y_pred= model.predict(X)
     f1_micro=metrics.f1_score(y, y_pred, average="micro")
-    print("f1_micro: ", round(f1_micro, 8))
     f1_macro=metrics.f1_score(y, y_pred, average="macro")
-    print("f1_macro: ", round(f1_macro, 8))
-    precision=metrics.precision_score(y, y_pred, average="weighted")
-    print("precision: ", round(precision, 8))
-    recall=metrics.recall_score(y, y_pred, average="weighted")
-    print("recall: ", round(recall, 8))
-    # acc=metrics.accuracy_score(y, y_pred)
-    # print("accuracy: ", round(acc, 4))
+    f1 = {"f1_micro": f1_micro, "f1_macro": f1_macro} # F1
+    print("f1: ", f1)
+    precision_weight=metrics.precision_score(y, y_pred, average="weighted")
+    precision_micro=metrics.precision_score(y, y_pred, average="micro")
+    precision_macro=metrics.precision_score(y, y_pred, average="macro")
+    precision = {"precision_weight": precision_weight, "precision_micro": precision_micro, "precision_macro": precision_macro} # Precision
+    print("precision: ", precision)
+    recall_weighted=metrics.recall_score(y, y_pred, average="weighted")
+    recall_micro=metrics.recall_score(y, y_pred, average="micro")
+    recall_macro=metrics.recall_score(y, y_pred, average="macro")
+    recall = {"recall_weighted": recall_weighted, "recall_micro": recall_micro, "recall_macro": recall_macro} # Recall
+    print("recall: ", recall)
+    accuracy=metrics.accuracy_score(y, y_pred) # Accuracy
+    print("accuracy: ", accuracy)
 
 
 def predict_train(): # function to predict on train data
