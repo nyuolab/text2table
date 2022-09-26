@@ -118,4 +118,5 @@ notebooks/drop_na.ipynb
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
 
-
+# baseline model
+baseline_xgb/baseline_folder/
