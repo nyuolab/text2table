@@ -10,8 +10,10 @@ import os
 from sklearn import metrics
 import argparse
 from sklearn.model_selection import train_test_split
+from get_dates_file import tmp
 
-#!/usr/bin/python
+sep='-'
+col='DOB'
 
 def predict(X,y): #helper function for predict_train() and predict_test()
     #load xg-boost model
@@ -26,7 +28,11 @@ def predict(X,y): #helper function for predict_train() and predict_test()
     auc=metrics.roc_auc_score(y, y_pred_proba, average="weighted", multi_class="ovr")
     
     y_pred= model.predict(X)
-    
+    # --test to see what y_pred is
+    os.makedirs('tmp',exist_ok=True)
+    with open(os.path.join('tmp','y_pred_train_icd9.pkl'), 'wb') as f:
+        pkl.dump(y_pred, f)
+
     f1=metrics.f1_score(y, y_pred, average="micro")
     acc=metrics.accuracy_score(y, y_pred)
     print("auc: ",auc)
@@ -46,7 +52,7 @@ def predict_train():
     #call predict function
     predict(X_train,y_train)
     
-def predict_test():
+def predict_test(sep,col):
     # preprocess data
     if os.path.exists(os.path.join(baseline_folder_path,args.partition,X_path)) and os.path.exists(os.path.join(baseline_folder_path,args.partition,y_path)):
         print("load pre-existing preprocessed data.")
@@ -61,10 +67,10 @@ def predict_test():
         test=pd.read_csv(os.path.join(data_dir,args.partition+'.csv'))
             
         #get rid of rows with nan in labels
-        test=test[test['ICD9_CODE'].isna()==False]
+        test=test[test[col].isna()==False]
 
         X_test=test['TEXT']
-        y_test=test['ICD9_CODE']
+        y_test=test[col]
         
         #load tokenizer
         with open(os.path.join(baseline_folder_path,tokenizer_save_path), 'rb') as f:
@@ -72,8 +78,11 @@ def predict_test():
         X_test =tokenizer.transform(X_test)
         X_test=X_test.toarray()
 
+        # add special token before y/m/d
+        y_test=y_test.apply(lambda x:tmp(x))
+
         # transform y_train into dummy variables
-        y_test=y_test.str.get_dummies(sep=' <CEL> ').to_numpy()
+        y_test=y_test.str.get_dummies(sep=sep).to_numpy()
 
     print("X_test's type: ",type(X_test))
     print("X_test's shape: ",X_test.shape)
@@ -104,7 +113,7 @@ def split(final):
     train, dev = train_test_split(train, test_size=0.25, random_state=1)
     return train,dev,test
 
-def train():
+def train(sep,col):
     #preprocess data
     if os.path.exists(os.path.join(baseline_folder_path,args.mode,X_path)) and os.path.exists(os.path.join(baseline_folder_path,args.mode,y_path)):
         print("load pre-existing preprocessed data.")
@@ -116,19 +125,20 @@ def train():
         print("preprocessing data...")
         os.makedirs(baseline_folder_path,exist_ok=True)
         #load original dataset
-        train=pd.read_csv(data_dir+'/train.csv')
-        dev=pd.read_csv(data_dir+'/dev.csv')
-        test=pd.read_csv(data_dir+'/test.csv')
+        # train=pd.read_csv(data_dir+'/train.csv')
+        # dev=pd.read_csv(data_dir+'/dev.csv')
+        # test=pd.read_csv(data_dir+'/test.csv')
 
-        #append dataframe
-        total=pd.concat([train,dev])
-        total=pd.concat([total,test])
-        print("total shape: ",total.shape)
-        #get rid of rows with nan in labels
-        total=total[total['ICD9_CODE'].isna()==False]
+        # #append dataframe
+        # total=pd.concat([train,dev])
+        # total=pd.concat([total,test])
+        # print("total shape: ",total.shape)
+        # #get rid of rows with nan in labels
+        # total=total[total[col].isna()==False]
+        total=pd.read_csv("/gpfs/data/oermannlab/project_data/text2table/complete_v2/dataset_v2.csv")
 
         X_total=total['TEXT']
-        y_total=total['ICD9_CODE']
+        y_total=total[col]
 
         # tokenizer 
         if args.tokenizer=='bag_of_words':
@@ -147,7 +157,9 @@ def train():
         # dummify classes
         # transform y_train into dummy variables
         print("dumification...")
-        y_total=y_total.str.get_dummies(sep=' <CEL> ').to_numpy()
+        # add special token before y/m/d
+        y_total=y_total.apply(lambda x:tmp(x))
+        y_total=y_total.str.get_dummies(sep=sep).to_numpy()
         
         #--test
 
@@ -194,10 +206,7 @@ args = parser.parse_args()
 # print(arg_dict)
 
 # shared path vars across different modes
-# mvp:
 # data_dir="/gpfs/data/oermannlab/project_data/text2table/minimum_re_adtime"
-# complete:
-data_dir='/gpfs/data/oermannlab/project_data/text2table/complete_v2/dataset_v2.csv"
 X_path='matrix_x.npy'
 y_path='dum_y.npy'
 tokenizer_save_path='baseline_tokenizer.json'
@@ -214,9 +223,8 @@ print("baseline_folder_path: ",baseline_folder_path)
 if args.mode=='predict_train':
     predict_train()
 elif args.mode=='train':
-    train()
+    train(sep=sep,col=col)
 elif args.mode=='predict_test':
     if args.partition is None:
         raise ValueError("Please specify 'partition' as 'dev' or 'test', which tells the model which partition of the full dataset you want to perform inference on")
-    predict_test()
-
+    predict_test(sep=sep,col=col)

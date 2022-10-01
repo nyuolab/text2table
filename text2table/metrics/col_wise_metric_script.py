@@ -17,6 +17,8 @@ import datasets
 import datetime
 import os
 from text2table.logging_utils.logging_script import setup_logger
+import evaluate
+import pickle as pkl
 
 # TODO: Add BibTeX citation
 _CITATION = """\
@@ -55,27 +57,6 @@ Examples:
 """
 
 #helper for ColMatch's compute function: calculates matches within a cell (works for both cells with single or mult values)
-def cel_match(mode,curr_header,cel_pred,cel_ref,result):
-    for c in mode:
-        result[f'{c}_{curr_header}']['ele_total']+=len(cel_ref)
-    #iterate thru each element in a cell
-    for ele_pred, ele_ref in zip(cel_pred, cel_ref):
-        char_right=0 # counts number of chars matching
-        char_len=len(ele_ref) # counts number of charcters in this column cell
-        for c,d in zip(ele_pred,ele_ref): #c and d are each char in word a,b
-            if c==d: char_right+=1 #if c,d match, count as char_right
-        #find the length of the longer element/word
-        max_len=max(len(ele_pred),len(ele_ref))
-        #find char_wrong
-        char_wrong=max_len-char_right
-        #--crucial: different config modes:
-        for c in mode:
-            perc=c/100
-            if not (perc>=0 and perc<=1): raise ValueError(f"Invalid config name for ColMatch: {c}. Please input a valid number for percentage between 0 and 100 inclusive") 
-            #if number of matching chars smaller than length of word
-            if char_wrong/char_len<=perc: 
-                result[f'{c}_{curr_header}']['ele_match']+=1
-    return result
 
 @datasets.utils.file_utils.add_start_docstrings(_DESCRIPTION, _KWARGS_DESCRIPTION)
 class ColMatch(datasets.Metric):
@@ -103,7 +84,7 @@ class ColMatch(datasets.Metric):
             reference_urls=["http://path.to.reference.url/new_metric"]
         )
         
-    def _compute(self, predictions, references,mode): #predictions, references both in a batch
+    def _compute(self, predictions, references): #predictions, references both in a batch
         """Returns the scores"""
         #log config:
         os.makedirs('eval_logs',exist_ok=True)
@@ -118,18 +99,23 @@ class ColMatch(datasets.Metric):
         headers=references[0].split(' <ROW> ')[0].split(' <COL> ')
         headers[0]=headers[0].replace('<s>','')
         metric_logger.info('headers: '+','.join(headers))
+
         #initiate dictionary
         result={}
-        for col in headers:
-            for c in mode:
-                result[f'{c}_{col}']={'ele_match':0,'ele_total':0}
+        for i in headers:
+            result[i]={}
+            result[i]['pred']=[]
+            result[i]['ref']=[]
+            # result[i]={'pred':[]}
+            # result[i]={'ref':[]}
         #can't find <row> separator
         result['<row>_error']=0
         #unequal number of columns
         result['<col>_mismatch']=0
         #--debug variable for metric_logger
         count=0
-        #iterate thru rows/inputs
+
+        #iterate thru rows/inputs and append to result
         for row_pred,row_ref in zip(predictions, references):
             #--debug variable for metric_logger
             count+=1
@@ -142,6 +128,7 @@ class ColMatch(datasets.Metric):
             metric_logger.info(f'row_ref: {row_ref}')
             metric_logger.info(f'row_pred: {row_pred}')
 
+            metric_logger.info(f'start result: {result}')
             #row error:
             if ' <ROW> ' not in row_pred: 
                 result['<row>_error']+=1
@@ -151,8 +138,8 @@ class ColMatch(datasets.Metric):
 
             cols_pred=row_pred.split(' <ROW> ')[1].split(' <COL> ')
             cols_ref=row_ref.split(' <ROW> ')[1].split(' <COL> ')
-            metric_logger.info(f"cols_pred: {', '.join(cols_pred)}")
-            metric_logger.info(f"cols_ref: {', '.join(cols_ref)}")
+            metric_logger.info(f"cols_pred: {cols_pred}")
+            metric_logger.info(f"cols_ref: {cols_ref}")
 
             #if length mismatch, log as error
             if len(cols_pred)!=len(cols_ref):
@@ -160,44 +147,66 @@ class ColMatch(datasets.Metric):
                 metric_logger.info('<col>_mismatch detected')
                 metric_logger.info(f'result: {result}')
                 continue
-
-            # now for 1 row, iterate thru the columns
-            for i in range(len(headers)):  
-                metric_logger.info(f'current header: {headers[i]}')
-                if ' <CEL> ' in cols_ref[i]: # use ref to be safe, if ref cell has multiple elements
-                    metric_logger.info('This cell has multi values')
-                    try: #if last column doesn't exist (a consequence of mismatch length of columns)
-                        cel_pred=cols_pred[i].split(' <CEL> ')
-                    except IndexError: 
-                        result['<col>_mismatch']+=1
-                        metric_logger.info('Index Error detected in split by <CEL>, counted as <col>_mismatch_error')
-                        metric_logger.info(f'result: {result}')
-                        continue
-                    cel_ref=cols_ref[i].split(' <CEL> ')
-
-                else: #if cell has only 1 element
-                    metric_logger.info('This cell has 1 value')
-                    
-                    # sets cel_pred/cel_ref as a list of only 1 element of cols_pred[i]/cols_ref[i]
-                    # so now, cel_pred/cel_ref will only have len of 1, which will then be able to conduct the same cel_match calc as with cells with mult values
-                    cel_pred=[cols_pred[i]]
-                    cel_ref=[cols_ref[i]]
-                #call cel_match helper function
-                result=cel_match(mode=mode,curr_header=headers[i],cel_pred=cel_pred,cel_ref=cel_ref,result=result)
+ 
+            for i in range(len(headers)):
+                # print("i: ",i)
+                # print('current header: ',headers[i])
+                # print('pred: ',pred)
+                # print(result)
+                if headers[i]=='ICD9_CODE':
+                    # print('cols_pred: ',cols_pred)
+                    # print('no split pred: ',cols_pred[i])
+                    # print('no split ref: ',cols_ref[i])
+                    # print('ICD9_CODE pred: ',cols_pred[i].split('</s>'))
+                    # print('ICD9_CODE ref: ',cols_ref[i].split('</s>'))
+                    pred_item=cols_pred[i].split('</s>')[0]
+                    ref_item=cols_ref[i].split('</s>')[0]
+                else:
+                    pred_item=cols_pred[i]
+                    ref_item=cols_ref[i]
+                result[headers[i]]['pred'].append(pred_item)
+                result[headers[i]]['ref'].append(ref_item)
                 metric_logger.info(f'result: {result}')
-                
+                    
 
-        #create final dicaiontry to be returned
+        # --debug
+        # export icd_9 results (result[ICD9_CODE]) to folder icd9_debug
+        pred_path='new_pred.pkl'
+        ref_path='new_ref.pkl'
+        debug_path='../metrics/icd9_debug'
+        metric_path='new_metric'
+        # make metric folder
+        print('current path: ',os.getcwd())
+        os.makedirs(os.path.join(debug_path,metric_path),exist_ok=True)
+        # save both pred and ref
+        with open(os.path.join(debug_path,metric_path,pred_path),'wb') as f:
+            pkl.dump(result['ICD9_CODE']['pred'],f)
+        with open(os.path.join(debug_path,metric_path,ref_path),'wb') as f:
+            pkl.dump(result['ICD9_CODE']['pred'],f)
+
+        # Evaluation: calculation of metrics (batch-wise)
         final={}
-        for key,val in result.items(): 
-            #if it's single value: (errors)
-            if isinstance(val, int):
-                final[key]=val
-            else: #that should be dictionary
-                assert(isinstance(val,dict))
-                #if ele_total=0, make it 1 to prevent error
-                if val['ele_match']==0 and val['ele_total']==0: val['ele_total']=1
-                final[key]=val['ele_match']/val['ele_total']*100
+
+        # SEX
+        category_token='SEX'
+        #print('pred type:',type(result[category_token]['pred']))
+        final[category_token]=evaluate.load('../metrics/singlelabel.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'])
+
+        # DOB, ADMITTIME
+        for category_token in ['DOB','ADMITTIME']:
+            final[category_token]=evaluate.load('../metrics/date_metric.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'])
+       
+        # icd9
+        category_token='ICD9_CODE'
+        class_file=os.path.join('../metrics/class_files','diag_icd_classes.pkl')
+        final[category_token]=evaluate.load('../metrics/class_metric.py').compute(predictions=result[category_token]['pred'],references=result[category_token]['ref'],classfile=class_file)
+
         metric_logger.info(f'final: {final}')
         metric_logger.info('\n---------End of evaluation epoch---------')
+        
+        # --debug
+        # save final dictionary
+        with open(os.path.join(debug_path,metric_path,'final.pkl'),'wb') as f:
+            pkl.dump(final,f)
+
         return final
