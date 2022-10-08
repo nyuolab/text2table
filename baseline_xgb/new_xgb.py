@@ -210,6 +210,8 @@ def train(task, tokenizer): # Function to train the model
 
         else: # Multi-task: Combine all columns into one column and each column is separated by <CEL>
             if "DOB" in task: # DOB has format of YYYY-MM-DD, processed it first
+                # add special token before y/m/d
+                y_total=y_total.apply(lambda x:tmp(x))
                 # Replace "-" in DOB with "<CEL>"
                 y_total["DOB"] = y_total["DOB"].str.replace("-", "<CEL>")
 
