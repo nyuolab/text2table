@@ -9,6 +9,7 @@ import os
 from sklearn import metrics
 import argparse
 from sklearn.model_selection import train_test_split
+from get_dates_file import tmp
 
 
 # Code for Training and Testing the baseline model, XGBoost, on the data with entered task
@@ -164,17 +165,17 @@ def train(task, tokenizer): # Function to train the model
     else: # preprocess data
         print("preprocessing data...")
         os.makedirs(baseline_folder_path,exist_ok=True)
-        # load original dataset
+        #load original dataset
         train=pd.read_csv(data_dir+'/train.csv')
         dev=pd.read_csv(data_dir+'/dev.csv')
         test=pd.read_csv(data_dir+'/test.csv')
 
-        # recover the original dataframe
-        total=pd.concat([train, dev])
-        total=pd.concat([total, test])
-        print("total shape: ", total.shape)
-        # get rid of rows with nan in labels
-        # total=total[total['DRG_CODE'].isna()==False]
+        #append dataframe
+        total=pd.concat([train,dev])
+        total=pd.concat([total,test])
+        print("total shape: ",total.shape)
+        #get rid of rows with nan in labels
+        total=total[total[col].isna()==False]
 
         # get X and y based on the task
         X_total=total['TEXT']
@@ -201,12 +202,16 @@ def train(task, tokenizer): # Function to train the model
             if task[0] == "GENDER" or "HOSPITAL_EXPIRE_FLAG	": # Gender and Expire Flag are binary
                 y_total=y_total.squeeze(axis=1).str.get_dummies().to_numpy()
             elif task[0] == "DOB": # DOB has format of YYYY-MM-DD
-                y_total=y_total.squeeze(axis=1).str.get_dummies(sep='-').to_numpy()
+                # add special token before y/m/d
+                y_total=y_total.apply(lambda x:tmp(x))
+                y_total=y_total.str.get_dummies(sep='-').to_numpy()
             else: # other tasks are separated by <CEL>
                 y_total=y_total.squeeze(axis=1).str.get_dummies(sep=' <CEL> ').to_numpy()
 
         else: # Multi-task: Combine all columns into one column and each column is separated by <CEL>
             if "DOB" in task: # DOB has format of YYYY-MM-DD, processed it first
+                # add special token before y/m/d
+                y_total=y_total.apply(lambda x:tmp(x))
                 # Replace "-" in DOB with "<CEL>"
                 y_total["DOB"] = y_total["DOB"].str.replace("-", "<CEL>")
 
