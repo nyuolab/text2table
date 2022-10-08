@@ -84,7 +84,7 @@ class ColMatch(datasets.Metric):
             reference_urls=["http://path.to.reference.url/new_metric"]
         )
         
-    def _compute(self, predictions, references): #predictions, references both in a batch
+    def _compute(self, predictions, references,mode): #predictions, references both in a batch
         """Returns the scores"""
         #log config:
         os.makedirs('eval_logs',exist_ok=True)
@@ -164,10 +164,15 @@ class ColMatch(datasets.Metric):
                 else:
                     pred_item=cols_pred[i]
                     ref_item=cols_ref[i]
+
+                # --test
+                print('pred: ',pred_item)
+                print('ref: ',ref_item)
+
                 result[headers[i]]['pred'].append(pred_item)
                 result[headers[i]]['ref'].append(ref_item)
                 metric_logger.info(f'result: {result}')
-                    
+                
 
         # --debug
         # export icd_9 results (result[ICD9_CODE]) to folder icd9_debug
@@ -182,7 +187,7 @@ class ColMatch(datasets.Metric):
         with open(os.path.join(debug_path,metric_path,pred_path),'wb') as f:
             pkl.dump(result['ICD9_CODE']['pred'],f)
         with open(os.path.join(debug_path,metric_path,ref_path),'wb') as f:
-            pkl.dump(result['ICD9_CODE']['pred'],f)
+            pkl.dump(result['ICD9_CODE']['ref'],f)
 
         # Evaluation: calculation of metrics (batch-wise)
         final={}

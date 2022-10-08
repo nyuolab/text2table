@@ -260,6 +260,8 @@ elif conf.dataset.version == "full" or conf.dataset.version == "dev":
         train_dataset=train_dataset,
         eval_dataset=val_dataset
     )
+# --changed
+val_dataset=val_dataset.select(range(10))
 
     # Start the training
     trainer.train()
