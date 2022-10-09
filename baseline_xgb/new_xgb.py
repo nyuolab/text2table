@@ -1,5 +1,3 @@
-import sys
-from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 import pickle as pkl
 import pandas as pd
@@ -9,14 +7,19 @@ import os
 from sklearn import metrics
 import argparse
 from sklearn.model_selection import train_test_split
+from more_itertools import powerset
+import shutil
 
 
 # Code for Training and Testing the baseline model, XGBoost, on the data with entered task
 #
 # The following is the guide for runing the code
 # To play around with this code, plesase run the following command:
-# python3 new_xgb.py --tokenizer=<...> --mode=<...> --task=<...> --partition=<...>
+# python3 new_xgb.py --all=<...> --tokenizer=<...> --mode=<...> --task=<...> --partition=<...>
 #
+# all and tokenizer are required.
+# If you want to run all combinations of tasks, please enter --all=y
+# if not, please enter --all=n and specify what task you want to run through the rest of arguments
 # For tokenizer, you can choose from 'bag_of_words ' or 'tfidf'
 # For mode, you can choose from 'train' or 'predict_train' or 'predict_test'
 # For task, you can choose a branch of tasks, including "gender", "DOB", "expire_flag", "cpt_cd", "drg_code", "icd9_dia", "icd9_proc"
@@ -25,6 +28,8 @@ from sklearn.model_selection import train_test_split
 # For partition, you can choose from 'dev' or 'test' (note: you can only choose 'dev' or 'test' when mode is 'predict_test')
 #
 # Here is some example input for the code
+# For all experiments
+# python3 new_xgb.py --all=y --tokenizer=bag_of_words
 # For train
 # python3 new_xgb.py --tokenizer=bag_of_words --mode=train --task=gender
 # python3 new_xgb.py --tokenizer=bag_of_words --mode=train --task=gender/icd9_dia/expire_flag
@@ -43,35 +48,77 @@ def predict(X,y): # helper function for predict_train() and predict_test()
     with open(os.path.join(baseline_folder_path,model_path),'rb') as f:
         model=pkl.load(f)
 
+    # load the dictionary that stores length of each task
+    with open(os.path.join(baseline_folder_path, lengths_path), 'rb') as f:
+        lengths = pkl.load(f)
+    
     # predict on X to get the AUC score
     y_pred_proba = model.predict_proba(X)
-    print("y_pred_proba: ", y_pred_proba.shape)
-    print("num class assigned for 1st input: ", y[0].sum())
-    auc_weighted = metrics.roc_auc_score(y, y_pred_proba, average="weighted", multi_class="ovr")
-    auc_micro = metrics.roc_auc_score(y, y_pred_proba, average="micro", multi_class="ovo")
-    auc_macro = metrics.roc_auc_score(y, y_pred_proba, average="macro", multi_class="ovo")
-    auc = {"auc_weighted": auc_weighted, "auc_micro": auc_micro, "auc_macro": auc_macro} # AUC
-    print("auc: ", auc)
 
-    # Predict on X to get the results of remaining metrics
-    y_pred= model.predict(X)
-    f1_micro=metrics.f1_score(y, y_pred, average="micro")
-    f1_macro=metrics.f1_score(y, y_pred, average="macro")
-    f1 = {"f1_micro": f1_micro, "f1_macro": f1_macro} # F1
-    print("f1: ", f1)
-    precision_weight=metrics.precision_score(y, y_pred, average="weighted")
-    precision_micro=metrics.precision_score(y, y_pred, average="micro")
-    precision_macro=metrics.precision_score(y, y_pred, average="macro")
-    precision = {"precision_weight": precision_weight, "precision_micro": precision_micro, "precision_macro": precision_macro} # Precision
-    print("precision: ", precision)
-    recall_weighted=metrics.recall_score(y, y_pred, average="weighted")
-    recall_micro=metrics.recall_score(y, y_pred, average="micro")
-    recall_macro=metrics.recall_score(y, y_pred, average="macro")
-    recall = {"recall_weighted": recall_weighted, "recall_micro": recall_micro, "recall_macro": recall_macro} # Recall
-    print("recall: ", recall)
-    accuracy=metrics.accuracy_score(y, y_pred) # Accuracy
-    print("accuracy: ", accuracy)
+    # stores all the metric numbers for each task
+    results = {}
 
+    # loop through lengths to separate the tasks and get the metric results for each task
+    for k in lengths:
+
+        # stores the results of each metric
+        metric = {}
+
+        # get the part for the task and delete it from the array
+        y_ = y[:, :lengths[k]]
+        y = np.delete(y, np.s_[:lengths[k]], 1)
+        y_pred_proba_ = y_pred_proba[:, :lengths[k]]
+        y_pred_proba = np.delete(y_pred_proba, np.s_[:lengths[k]], 1)
+        # y_pred_ = y_pred[:, :lengths[k]]
+        # y_pred = np.delete(y_pred, np.s_[:lengths[k]], 1)
+
+        # prepare the y_true and y_pred_proba for micro-average roc curve
+        y_flat = y_.ravel()
+        y_pred_proba_flat = y_pred_proba_.ravel()
+
+        # calculate gmeans to find out the optimal threshold
+        fpr, tpr, thresholds = metrics.roc_curve(y_flat, y_pred_proba_flat)
+        gmeans = np.sqrt(tpr * (1-fpr))
+        ix = np.argmax(gmeans)
+        best_threshold = thresholds[ix]
+        print("the best threshold is: ", best_threshold)
+
+        # convert all probabilities into decisions
+        y_pred_ = np.where(y_pred_proba_ >= best_threshold, 1, 0)
+        metric["threshold"] = best_threshold
+
+        # micro and macro auc
+        try:
+            metric["auc_micro"] = metrics.roc_auc_score(y_, y_pred_proba_, average="micro", multi_class="ovo")
+            metric["auc_macro"] = metrics.roc_auc_score(y_, y_pred_proba_, average="macro", multi_class="ovo")
+        except ValueError:
+            print("Only one class present in y_true. ROC AUC score is not defined in that case.")
+            
+        # micro and macro f1
+        metric["f1_micro"] = metrics.f1_score(y_, y_pred_, average="micro")
+        metric["f1_macro"] = metrics.f1_score(y_, y_pred_, average="macro")
+
+        # micro and macro precision
+        metric["precision_micro"] = metrics.precision_score(y_, y_pred_, average="micro")
+        metric["precision_macro"] = metrics.precision_score(y_, y_pred_, average="macro")
+
+        # micro and macro recall
+        metric["recall_micro"] = metrics.recall_score(y_, y_pred_, average="micro")
+        metric["recall_macro"] = metrics.recall_score(y_, y_pred_, average="macro")
+
+        # accuracy
+        metric["accuracy"] = metrics.accuracy_score(y_, y_pred_)
+        
+        # add all the results
+        results[k] = metric
+    
+    # display results and store it into a .pkl file
+    print(results)
+    os.makedirs("results_" + args.tokenizer,exist_ok=True)
+    result_file_name = "_".join([x.replace("_", "-") for x in lengths.keys()]) + ".pkl"
+    with open(os.path.join("results_" + args.tokenizer, result_file_name), 'wb') as f:
+        pkl.dump(results,f)
+        
 
 def predict_train(): # function to predict on train data
 
@@ -172,13 +219,13 @@ def train(task, tokenizer): # Function to train the model
         # recover the original dataframe
         total=pd.concat([train, dev])
         total=pd.concat([total, test])
-        print("total shape: ", total.shape)
-        # get rid of rows with nan in labels
-        # total=total[total['DRG_CODE'].isna()==False]
+        print("The shape of the whole dataset: ", total.shape)
+        # get rid of rows that consist of missing values only
+        total=total.dropna(how='all', subset=task)
 
         # get X and y based on the task
         X_total=total['TEXT']
-        y_total=total[task].astype('string')
+        y_total=total[task].astype('string')     
 
         # Tokenize the text based on the input tokenizer
         if tokenizer=='bag_of_words':
@@ -197,29 +244,50 @@ def train(task, tokenizer): # Function to train the model
 
         # dummify classes
         print("dumification...")
-        if len(task) == 1: # Single task with one column
-            if task[0] == "GENDER" or "HOSPITAL_EXPIRE_FLAG	": # Gender and Expire Flag are binary
-                y_total=y_total.squeeze(axis=1).str.get_dummies().to_numpy()
-            elif task[0] == "DOB": # DOB has format of YYYY-MM-DD
-                y_total=y_total.squeeze(axis=1).str.get_dummies(sep='-').to_numpy()
-            else: # other tasks are separated by <CEL>
-                y_total=y_total.squeeze(axis=1).str.get_dummies(sep=' <CEL> ').to_numpy()
 
-        else: # Multi-task: Combine all columns into one column and each column is separated by <CEL>
-            if "DOB" in task: # DOB has format of YYYY-MM-DD, processed it first
-                # Replace "-" in DOB with "<CEL>"
-                y_total["DOB"] = y_total["DOB"].str.replace("-", "<CEL>")
+        # The list of dummies of tasks
+        dummies = []
 
-            # Combine all columns into one column and each column is separated by <CEL>
-            y_total=y_total.apply(lambda x: ' <CEL> '.join(str(x)), axis=1)
-            y_total=y_total.str.get_dummies(sep=' <CEL> ').to_numpy()
+        # stores the number of labels of each task
+        lengths = {}
+
+        # loop through the list of tasks
+        for t in task:
+
+            # if the task is DOB, labels are dummified with - as separator
+            if "DOB" == t:
+                dummified = y_total[t].str.get_dummies(sep='-').to_numpy()
+            
+            # if not, labels are dummified with <CEL> as separator
+            else:
+                dummified = y_total[t].str.get_dummies(sep=" <CEL> ").to_numpy()
+
+            # print the shape of the task we are dummifying
+            print("the shape of " + t + ": ", dummified.shape)
+
+            # add the dummified labels to the dummy list
+            dummies.append(dummified)
+
+            # add the length of the corresponding task
+            lengths[t] = dummified.shape[1]
+        
+        # concatenate the dummified labels
+        y_total = np.concatenate(dummies, axis=1)
+
+        # print the shape of all tasks concatnated together
+        print("the shape of tasks of interest after concatenation: ", y_total.shape)
+
+        # save the lengths of all the tasks to a file
+        with open(os.path.join(baseline_folder_path, lengths_path),'wb') as f:
+            pkl.dump(lengths,f)   
+        
         print("dumification finished")
 
 
         print("splitting...")
-        # Cross validation split
+        # split
         X_train, X_dev, X_test = split(X_total)
-        y_train, y_dev, y_test = split(y_total)   
+        y_train, y_dev, y_test = split(y_total) 
         print("splitting finished")
         
         print("tokenizing...")
@@ -254,70 +322,88 @@ def train(task, tokenizer): # Function to train the model
 
 
 # ========== main function ============
+if __name__ == "__main__":
+    # parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--all', help='whether run all experiments: y, n', required=True)
+    parser.add_argument('--tokenizer',help='select tokenizers: "bag_of_words", "tfidf" ',required=True)
+    parser.add_argument('--mode',help='select mode: "train", "predict_train","predict_test"',required=False)
+    parser.add_argument('--task', help='select task: "gender", "DOB", "expire_flag", "cpt_cd", "drg_code", "icd9_dia", "icd9_proc"', required=False)
+    parser.add_argument('--partition',help='dev or test',required=False)
+    args = parser.parse_args()
 
-# parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('--tokenizer',help='select tokenizers: "bag_of_words", "tfidf" ',required=True)
-parser.add_argument('--mode',help='select mode: "train", "predict_train","predict_test"',required=True)
-parser.add_argument('--task', help='select task: "gender", "DOB", "expire_flag", "cpt_cd", "drg_code", "icd9_dia", "icd9_proc"', required=True)
-parser.add_argument('--partition',help='dev or test',required=False)
-args = parser.parse_args()
+    # shared path vars across different modes
+    data_dir="/gpfs/data/oermannlab/project_data/text2table/complete_v2/train_test_data/"
+    X_path='matrix_x.npy'
+    y_path='dum_y.npy'
+    tokenizer_save_path='baseline_tokenizer.json'
+    model_path='no_dask_xgb.pkl'
+    lengths_path='lengths.pkl'
 
-# Test the arguments
-# arg_dict = {'tokenizer': args.tokenizer, 'mode': args.mode, 'task': args.task, 'partition':args.partition}
-# print(arg_dict)
+    X_test_path='test_rep.npy'
+    y_test_path='dum_y_test.npy'
 
-# shared path vars across different modes
-data_dir="/gpfs/data/oermannlab/project_data/text2table/complete_v2/train_test_data/"
-X_path='matrix_x.npy'
-y_path='dum_y.npy'
-tokenizer_save_path='baseline_tokenizer.json'
-model_path='no_dask_xgb.pkl'
+    baseline_folder_path='baseline_folder/'+args.tokenizer
+    print("Save results to baseline_folder_path: ", baseline_folder_path)
 
-X_test_path='test_rep.npy'
-y_test_path='dum_y_test.npy'
+    if args.all == "y":
+        # all tasks
+        tasks = ["GENDER", "HOSPITAL_EXPIRE_FLAG", "CPT_CD", "DRG_CODE", "DIAG_ICD9", "PROC_ICD9"]
 
-baseline_folder_path='baseline_folder/'+args.tokenizer
-print("Save results to baseline_folder_path: ", baseline_folder_path)
+        # generate powerset of all tasks
+        tasks_comb = [list(x) for x in list(powerset(tasks))[1:]]
 
+        # run all experiments
+        for task in tasks_comb:
 
-# Identify the task
-task = args.task.split('/')
-# List all the available tasks as a dictionary for easy access
-tasks = {"gender":"GENDER", "DOB":"DOB", "expire_flag":"HOSPITAL_EXPIRE_FLAG", "cpt_cd":"CPT_CD", "drg_code":"DRG_CODE", "icd9_dia":"DIAG_ICD9", "icd9_proc":"PROC_ICD9"}
+            # train xgb
+            args.mode = "train"
+            train(task, args.tokenizer)
 
-# Check if the task is valid
-if len(task) == 1: # if there is only one task
-    task = task[0]
-    # Convert it to the format that is used in the dataset
-    if task in tasks:
-        task = [tasks[task]]
-    else:
-        print("Invalid task. Please choose from the following: gender, DOB, expire_flag, cpt_cd, drg_code, icd9_dia, icd9_proc")
-        exit()
+            # get results on test set
+            args.partition = "test"
+            predict_test("test")
 
-else: # if there are multiple tasks
-    # Convert it to the format that is used in the dataset
-    for i in range(len(task)):
-        if task[i] in tasks:
-            task[i] = tasks[task[i]]
-        else:
-            print("Invalid task. Please choose from gender, DOB, expire_flag, cpt_cd, drg_code, icd9_dia, icd9_proc")
-            exit()
+            # remove the model to prepare for next iteration
+            shutil.rmtree("baseline_folder")
     
-# Check if the mode is valid
-if args.mode=='predict_train': # predict on train data
-    predict_train()
+    else:
+        # Identify the task
+        task = args.task.split('/')
+        # List all the available tasks as a dictionary for easy access
+        tasks = {"gender":"GENDER", "DOB":"DOB", "expire_flag":"HOSPITAL_EXPIRE_FLAG", "cpt_cd":"CPT_CD", "drg_code":"DRG_CODE", "icd9_dia":"DIAG_ICD9", "icd9_proc":"PROC_ICD9"}
 
-elif args.mode=='train': # train the model
-    train(task, args.tokenizer)
+        # Check if the task is valid
+        if len(task) == 1: # if there is only one task
+            task = task[0]
+            # Convert it to the format that is used in the dataset
+            if task in tasks:
+                task = [tasks[task]]
+            else:
+                print("Invalid task. Please choose from the following: gender, DOB, expire_flag, cpt_cd, drg_code, icd9_dia, icd9_proc")
+                exit()
 
-elif args.mode=='predict_test': # predict on test data
-    if args.partition is None: # partition is required here
-        raise ValueError("Please specify 'partition' as 'dev' or 'test', which tells the model which partition of the full dataset you want to perform inference on")
-        exit()
-    predict_test(args.partition)
+        else: # if there are multiple tasks
+            # Convert it to the format that is used in the dataset
+            for i in range(len(task)):
+                if task[i] in tasks:
+                    task[i] = tasks[task[i]]
+                else:
+                    print("Invalid task. Please choose from gender, DOB, expire_flag, cpt_cd, drg_code, icd9_dia, icd9_proc")
+                    exit()
+            
+        # Check if the mode is valid
+        if args.mode=='predict_train': # predict on train data
+            predict_train()
 
-else: # invalid mode
-    print("Invalid mode. Please choose from train, predict_train, predict_test")
-    exit()
+        elif args.mode=='train': # train the model
+            train(task, args.tokenizer)
+
+        elif args.mode=='predict_test': # predict on test data
+            if args.partition is None: # partition is required here
+                raise ValueError("Please specify 'partition' as 'dev' or 'test', which tells the model which partition of the full dataset you want to perform inference on")
+            predict_test(args.partition)
+
+        else: # invalid mode
+            print("Invalid mode. Please choose from train, predict_train, predict_test")
+            exit()

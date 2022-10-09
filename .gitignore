@@ -95,6 +95,7 @@ text2table/data/pretokenized_dev/
 text2table/data/data_test.py
 text2table/data/dev_data.py
 text2table/data/sample_data.py
+baseline_xgb/results_bag_of_words
 
 # Training log & Check points
 /models/

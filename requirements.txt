@@ -28,6 +28,8 @@ xgboost
 evaluate
 accelerate
 python-dateutil
+iterative-stratification
+more-itertools
 
 # Linters and formatters
 autopep8
