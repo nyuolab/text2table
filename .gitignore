@@ -95,7 +95,7 @@ text2table/data/pretokenized_dev/
 text2table/data/data_test.py
 text2table/data/dev_data.py
 text2table/data/sample_data.py
-baseline_xgb/results_bag_of_words
+baseline_xgb/results_*
 
 # Training log & Check points
 /models/
@@ -116,6 +116,7 @@ notebooks/dataset_compilation-Copy1.ipynb
 notebooks/xgboost_baseline.ipynb
 notebooks/drop_na.ipynb
 notebooks/imbalanceness.ipynb
+notebooks/results_graph.ipynb
 
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py

@@ -9,6 +9,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from more_itertools import powerset
 import shutil
+from scipy.stats import entropy
 
 
 # Code for Training and Testing the baseline model, XGBoost, on the data with entered task
@@ -51,9 +52,14 @@ def predict(X,y): # helper function for predict_train() and predict_test()
     # load the dictionary that stores length of each task
     with open(os.path.join(baseline_folder_path, lengths_path), 'rb') as f:
         lengths = pkl.load(f)
+
+    # load the dictionary that stores names of labels
+    with open(os.path.join(baseline_folder_path, names_path), 'rb') as f:
+        names = pkl.load(f)
     
     # predict on X to get the AUC score
     y_pred_proba = model.predict_proba(X)
+    y_pred = model.predict(X)
 
     # stores all the metric numbers for each task
     results = {}
@@ -69,23 +75,51 @@ def predict(X,y): # helper function for predict_train() and predict_test()
         y = np.delete(y, np.s_[:lengths[k]], 1)
         y_pred_proba_ = y_pred_proba[:, :lengths[k]]
         y_pred_proba = np.delete(y_pred_proba, np.s_[:lengths[k]], 1)
-        # y_pred_ = y_pred[:, :lengths[k]]
-        # y_pred = np.delete(y_pred, np.s_[:lengths[k]], 1)
+        y_pred_ = y_pred[:, :lengths[k]]
+        y_pred = np.delete(y_pred, np.s_[:lengths[k]], 1)
 
-        # prepare the y_true and y_pred_proba for micro-average roc curve
-        y_flat = y_.ravel()
-        y_pred_proba_flat = y_pred_proba_.ravel()
+        # the result for each label
+        each_label = {}
 
-        # calculate gmeans to find out the optimal threshold
-        fpr, tpr, thresholds = metrics.roc_curve(y_flat, y_pred_proba_flat)
-        gmeans = np.sqrt(tpr * (1-fpr))
-        ix = np.argmax(gmeans)
-        best_threshold = thresholds[ix]
-        print("the best threshold is: ", best_threshold)
+        # loop through every label in this task
+        for i, name in enumerate(names[k]):
 
-        # convert all probabilities into decisions
-        y_pred_ = np.where(y_pred_proba_ >= best_threshold, 1, 0)
-        metric["threshold"] = best_threshold
+            # store the result
+            each_result = {}
+
+            # get truth and prediction of the label
+            y_one = y_[:, i].ravel()
+            y_pred_proba_one = y_pred_proba_[:, i].ravel()
+
+            # calculate gmeans to find out the optimal threshold
+            fpr, tpr, thresholds = metrics.roc_curve(y_one, y_pred_proba_one)
+            gmeans = np.sqrt(tpr * (1-fpr))
+            ix = np.argmax(gmeans)
+            best_threshold = thresholds[ix]
+
+            # get the prediction using the threshold and calculate metrics
+            y_pred_one = np.where(y_pred_proba_one >= best_threshold, 1, 0)
+            each_result["threshold"] = best_threshold
+            each_result["f1"] = metrics.f1_score(y_one, y_pred_one)
+            each_result["precision"] = metrics.f1_score(y_one, y_pred_one)
+            each_result["recall"] = metrics.f1_score(y_one, y_pred_one)
+
+            # modify the corresponding column in y_pred_
+            y_pred_[:, i] = y_pred_one
+
+            # calculate Shannon Entropy
+            n = len(y_one)
+            c_1 = sum(y_one)
+            c_0 = n - c_1
+            entropy_ = entropy([c_0/n, c_1/n])
+            balance = entropy_ / np.log(2)
+            each_result["balance"] = balance
+
+            # add the result of the label to each_label dict
+            each_label[name] = each_result
+        
+        # add the results of each label to metrics dict
+        metric["each_label"] = each_label
 
         # micro and macro auc
         try:
@@ -93,7 +127,7 @@ def predict(X,y): # helper function for predict_train() and predict_test()
             metric["auc_macro"] = metrics.roc_auc_score(y_, y_pred_proba_, average="macro", multi_class="ovo")
         except ValueError:
             print("Only one class present in y_true. ROC AUC score is not defined in that case.")
-            
+        
         # micro and macro f1
         metric["f1_micro"] = metrics.f1_score(y_, y_pred_, average="micro")
         metric["f1_macro"] = metrics.f1_score(y_, y_pred_, average="macro")
@@ -113,7 +147,6 @@ def predict(X,y): # helper function for predict_train() and predict_test()
         results[k] = metric
     
     # display results and store it into a .pkl file
-    print(results)
     os.makedirs("results_" + args.tokenizer,exist_ok=True)
     result_file_name = "_".join([x.replace("_", "-") for x in lengths.keys()]) + ".pkl"
     with open(os.path.join("results_" + args.tokenizer, result_file_name), 'wb') as f:
@@ -191,14 +224,6 @@ def transform_save(X,y,part,tokenizer): # save the preprocessed data for future 
     return X,y # return X and y for training 
 
 
-def split(final): # Function to split the data into train/val/test sets (70/10/20)
-    random_state = 100
-    train, test = train_test_split(final, test_size=0.2, shuffle=True, random_state=random_state)
-    train, dev = train_test_split(train, test_size=0.125, shuffle=True, random_state=random_state)
-
-    return train,dev,test
-
-
 def train(task, tokenizer): # Function to train the model
     # load data directly if already preprocessed
     if os.path.exists(os.path.join(baseline_folder_path,args.mode,X_path)) and os.path.exists(os.path.join(baseline_folder_path,args.mode,y_path)):
@@ -216,16 +241,18 @@ def train(task, tokenizer): # Function to train the model
         dev=pd.read_csv(data_dir+'/dev.csv')
         test=pd.read_csv(data_dir+'/test.csv')
 
-        # recover the original dataframe
-        total=pd.concat([train, dev])
-        total=pd.concat([total, test])
-        print("The shape of the whole dataset: ", total.shape)
-        # get rid of rows that consist of missing values only
-        total=total.dropna(how='all', subset=task)
+        # drop missing values
+        train=train.dropna(how='all', subset=task)
+        dev=dev.dropna(how='all', subset=task)
+        test=test.dropna(how='all', subset=task)
 
         # get X and y based on the task
-        X_total=total['TEXT']
-        y_total=total[task].astype('string')     
+        X_train=train['TEXT']
+        y_train=train[task].astype('string')
+        X_dev=dev['TEXT']
+        y_dev=dev[task].astype('string')
+        X_test=test['TEXT']
+        y_test=test[task].astype('string')     
 
         # Tokenize the text based on the input tokenizer
         if tokenizer=='bag_of_words':
@@ -245,50 +272,67 @@ def train(task, tokenizer): # Function to train the model
         # dummify classes
         print("dumification...")
 
+        y_list = [y_train, y_dev, y_test]
+
+        # outer join to sync the columns
+        y_total = pd.concat(y_list).reset_index(drop=True)
+
         # The list of dummies of tasks
         dummies = []
 
         # stores the number of labels of each task
         lengths = {}
 
+        # stores the name of labels of each task
+        names = {}
+
         # loop through the list of tasks
         for t in task:
 
             # if the task is DOB, labels are dummified with - as separator
             if "DOB" == t:
-                dummified = y_total[t].str.get_dummies(sep='-').to_numpy()
+                dummified = y_total[t].str.get_dummies(sep='-')
             
             # if not, labels are dummified with <CEL> as separator
             else:
-                dummified = y_total[t].str.get_dummies(sep=" <CEL> ").to_numpy()
+                dummified = y_total[t].str.get_dummies(sep=" <CEL> ")
+
+            # add the names of labels
+            names[t] = dummified.columns
+
+            # add the length of the corresponding task
+            lengths[t] = dummified.shape[1]
 
             # print the shape of the task we are dummifying
             print("the shape of " + t + ": ", dummified.shape)
 
             # add the dummified labels to the dummy list
             dummies.append(dummified)
-
-            # add the length of the corresponding task
-            lengths[t] = dummified.shape[1]
-        
+            
         # concatenate the dummified labels
-        y_total = np.concatenate(dummies, axis=1)
-
-        # print the shape of all tasks concatnated together
-        print("the shape of tasks of interest after concatenation: ", y_total.shape)
+        y_total = pd.concat(dummies, axis=1)
 
         # save the lengths of all the tasks to a file
         with open(os.path.join(baseline_folder_path, lengths_path),'wb') as f:
-            pkl.dump(lengths,f)   
+            pkl.dump(lengths,f)
+
+        # save the names to a file
+        with open(os.path.join(baseline_folder_path, names_path), 'wb') as f:
+            pkl.dump(names,f)
+        
+        for i, y in enumerate(y_list):
+            y_list[i] = y_total[:y.shape[0]].reset_index(drop=True).to_numpy()
+            y_total = y_total.drop(y_total.index[:y.shape[0]])
+        
+        y_train = y_list[0]
+        y_dev = y_list[1]
+        y_test = y_list[2]
+
+        print("the shape of y_train: ", y_train.shape)
+        print("the shape of y_dev: ", y_dev.shape)
+        print("the shape of y_test: ", y_test.shape)    
         
         print("dumification finished")
-
-
-        print("splitting...")
-        # split
-        X_train, X_dev, X_test = split(X_total)
-        y_train, y_dev, y_test = split(y_total) 
-        print("splitting finished")
         
         print("tokenizing...")
         # fit on train data
@@ -311,7 +355,7 @@ def train(task, tokenizer): # Function to train the model
     print(y_train.shape)
 
     # create XGBoost instance with default hyper-parameters
-    xgb_estimator = xgb.XGBClassifier(tree_method='hist',n_jobs=-1,n_estimators=10,verbosity=3)
+    xgb_estimator = xgb.XGBClassifier(tree_method='hist',n_jobs=-1,n_estimators=10,verbosity=3, random_state=42)
 
     # fit the model
     xgb_estimator.fit(X_train, y_train)
@@ -339,6 +383,7 @@ if __name__ == "__main__":
     tokenizer_save_path='baseline_tokenizer.json'
     model_path='no_dask_xgb.pkl'
     lengths_path='lengths.pkl'
+    names_path="names.pkl"
 
     X_test_path='test_rep.npy'
     y_test_path='dum_y_test.npy'

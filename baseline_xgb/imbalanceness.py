@@ -13,7 +13,7 @@ def emp_entropy(series):
     count = unique_combs["count"].astype(float)
     # calculate the entropy
     entropy = (count/count.sum())*np.log2(count/count.sum())
-    return entropy.sum() * -1
+    return (entropy.sum() * -1)/np.log2(unique_combs.shape[0])
 
 # calculate entropies for every column of interest
 dict = {}
