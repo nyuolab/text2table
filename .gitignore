@@ -118,6 +118,7 @@ notebooks/xgboost_baseline.ipynb
 notebooks/drop_na.ipynb
 notebooks/imbalanceness.ipynb
 notebooks/results_graph.ipynb
+training_scratch.ipynb
 
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
