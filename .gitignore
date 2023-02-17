@@ -100,12 +100,14 @@ baseline_xgb/correlation
 
 # Training log & Check points
 /models/
-text2table/models/wandb/
+wandb/
 log/
+*_output/
 
 # Temporary Files
 text2table/models/evaluation.py
 text2table/models/__pycache__
+*_tmp/
 
 #dask worker space
 dask-worker-space/

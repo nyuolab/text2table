@@ -1,5 +1,6 @@
 import pandas as pd
 from datasets import Dataset
+import pickle as pkl
 import os
 
 def loading_dataset(data_dir, task):
@@ -13,11 +14,11 @@ def loading_dataset(data_dir, task):
     test=test.dropna(how='all', subset=task)
 
     # get X and y based on the task
-    X_train=train['TEXT']
+    X_train=train['TEXT'].reset_index(drop=True)
     y_train=train[task].astype('string')
-    X_dev=dev['TEXT']
+    X_dev=dev['TEXT'].reset_index(drop=True)
     y_dev=dev[task].astype('string')
-    X_test=test['TEXT']
+    X_test=test['TEXT'].reset_index(drop=True)
     y_test=test[task].astype('string')     
 
     # dummify classes
@@ -83,8 +84,11 @@ def loading_dataset(data_dir, task):
     y_test = y_list[2]
 
     print("the shape of y_train: ", y_train.shape)
+    print("the shape of X_train: ", X_train.shape)
     print("the shape of y_dev: ", y_dev.shape)
+    print("the shape of X_dev: ", X_dev.shape)
     print("the shape of y_test: ", y_test.shape)
+    print("the shape of X_test: ", X_test.shape)
 
     print("dumification finished")
 
@@ -93,10 +97,18 @@ def loading_dataset(data_dir, task):
     dev_ = pd.concat([X_dev, y_dev], axis=1)
     test_ = pd.concat([X_test, y_test], axis=1)
 
+    print("the shape of train_", train_.shape)
+    print("the shape of dev_", dev_.shape)
+    print("the shape of test_", test_.shape)
+
     # load the dataset from pandas dataframe
-    train_dataset = Dataset.from_pandas(train_)
-    dev_dataset = Dataset.from_pandas(dev_)
-    test_dataset = Dataset.from_pandas(test_)
+    train_dataset = Dataset.from_pandas(train_, preserve_index=False)
+    dev_dataset = Dataset.from_pandas(dev_, preserve_index=False)
+    test_dataset = Dataset.from_pandas(test_, preserve_index=False)
+
+    print("the shape of train_dataset", train_dataset.shape)
+    print("the shape of dev_dataset", dev_dataset.shape)
+    print("the shape of test_dataset", test_dataset.shape)
 
     print("dataset loaded")
 
