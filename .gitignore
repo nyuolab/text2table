@@ -108,6 +108,7 @@ log/
 text2table/models/evaluation.py
 text2table/models/__pycache__
 *_tmp/
+*.pt
 
 #dask worker space
 dask-worker-space/

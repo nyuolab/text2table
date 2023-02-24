@@ -2,16 +2,21 @@ import argparse
 import numpy as np
 from dataset_loading import loading_dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, EvalPrediction
-from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, accuracy_score
+from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, accuracy_score, roc_curve
 import torch
 import datasets
+import wandb
 
 if __name__ == "__main__":
 
     # Parse the arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', type=str, required=True)
+    parser.add_argument('--tuning', action='store_true')
     args = parser.parse_args()
+
+    # initialize wandb
+    wandb.init(project="text2data", entity="olab", name=args.task)
 
     # path
     data_dir="/gpfs/data/oermannlab/project_data/text2table/complete_v2/train_test_data/"
@@ -74,12 +79,26 @@ if __name__ == "__main__":
 
     # define multiple label metrics
     def multi_label_metrics(predictions, labels, threshold=0.5):
+
         # first, apply sigmoid on predictions which are of shape (batch_size, num_labels)
         sigmoid = torch.nn.Sigmoid()
         probs = sigmoid(torch.Tensor(predictions))
+
         # next, use threshold to turn them into integer predictions
+        # if tuning, use the best threshold for each label
         y_pred = np.zeros(probs.shape)
-        y_pred[np.where(probs >= threshold)] = 1
+        if args.tuning:
+            for i in range(y_pred.shape[1]):
+                prob = probs[:,i]
+                label = labels[:,i]
+                fpr, tpr, thresholds = roc_curve(label, prob)
+                gmeans = np.sqrt(tpr * (1-fpr))
+                ix = np.argmax(gmeans)
+                threshold = thresholds[ix]
+                y_pred[np.where(prob >= threshold),i] = 1
+        else:
+            y_pred[np.where(probs >= threshold)] = 1
+        
         # finally, compute metrics
         y_true = labels
         f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='micro')
@@ -87,6 +106,7 @@ if __name__ == "__main__":
         recall_micro_average = recall_score(y_true=y_true, y_pred=y_pred, average='micro')
         roc_auc = roc_auc_score(y_true, y_pred, average = 'micro')
         accuracy = accuracy_score(y_true, y_pred)
+
         # return as dictionary
         metrics = {
             'f1': f1_micro_average,
@@ -95,6 +115,16 @@ if __name__ == "__main__":
             'roc_auc': roc_auc,
             'accuracy': accuracy
             }
+        
+        # compute metrics for each label
+        for idx in range(y_true.shape[1]):
+            l = y_true[:,idx]
+            p = y_pred[:,idx]
+            name = id2label[idx]
+            metrics[name + "_f1"] = f1_score(y_true=l, y_pred=p, zero_division=0)
+            metrics[name + "_precision"] = precision_score(y_true=l, y_pred=p, zero_division=0)
+            metrics[name + "_recall"] = recall_score(y_true=l, y_pred=p, zero_division=0)
+
         return metrics
     
     # wrapper for metric computation
@@ -123,5 +153,14 @@ if __name__ == "__main__":
     # train
     trainer.train()
 
-    # evaluate
-    trainer.evaluate()
+    # evaluate on validation set
+    eval_metrics = trainer.evaluate()
+    print("The evaluation metrics on the validation set are:")
+    print(eval_metrics)
+
+    # evaluate on test set
+    test_tuple = trainer.predict(encoded_dataset["test"])
+    print("The evaluation metrics on the test set are:")
+    print(test_tuple.metrics)
+    torch.save(test_tuple, args.task + "_output/" + "test_tuple.pt")
+    torch.save(labels, args.task + "_output/" + "labels.pt")
