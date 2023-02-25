@@ -131,3 +131,4 @@ baseline_xgb/baseline_folder/
 
 # experiment scripts
 correlation.sh
+BERT/training.sh

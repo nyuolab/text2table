@@ -1,28 +1,33 @@
 import argparse
 import numpy as np
+import pickle as pkl
 from dataset_loading import loading_dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, EvalPrediction
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, accuracy_score, roc_curve
 import torch
 import datasets
 import wandb
+import os
 
 if __name__ == "__main__":
 
     # Parse the arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--task', type=str, required=True)
+    parser.add_argument('--top50', action='store_true')
     parser.add_argument('--tuning', action='store_true')
+    parser.add_argument('--freeze', action='store_true')
     args = parser.parse_args()
 
     # initialize wandb
-    wandb.init(project="text2data", entity="olab", name=args.task)
+    if int(os.environ["LOCAL_RANK"]) == 0:
+        wandb.init(project="text2data", entity="olab", name=args.task + "(top50)" if args.top50 else args.task)
 
     # path
     data_dir="/gpfs/data/oermannlab/project_data/text2table/complete_v2/train_test_data/"
 
     # load the dataset
-    [train, dev, test] = loading_dataset(data_dir, args.task.split('-'))
+    [train, dev, test] = loading_dataset(data_dir, args.task.split('-'), args.top50)
     dataset = datasets.DatasetDict({"train":train,"test":test, "validation":dev})
 
     # get the labels
@@ -65,7 +70,7 @@ if __name__ == "__main__":
     batch_size = 16
     metric_name = "f1"
     training_args = TrainingArguments(
-        args.task + "_output",
+        args.task + "-output(top50)" if args.top50 else args.task + "-output",
         evaluation_strategy = "epoch",
         save_strategy = "epoch",
         learning_rate=2e-5,
@@ -104,7 +109,7 @@ if __name__ == "__main__":
         f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='micro')
         precision_micro_average = precision_score(y_true=y_true, y_pred=y_pred, average='micro')
         recall_micro_average = recall_score(y_true=y_true, y_pred=y_pred, average='micro')
-        roc_auc = roc_auc_score(y_true, y_pred, average = 'micro')
+        roc_auc = roc_auc_score(y_true, probs, average = 'micro')
         accuracy = accuracy_score(y_true, y_pred)
 
         # return as dictionary
@@ -124,6 +129,22 @@ if __name__ == "__main__":
             metrics[name + "_f1"] = f1_score(y_true=l, y_pred=p, zero_division=0)
             metrics[name + "_precision"] = precision_score(y_true=l, y_pred=p, zero_division=0)
             metrics[name + "_recall"] = recall_score(y_true=l, y_pred=p, zero_division=0)
+        
+        # load the lengths of the tasks
+        with open("dataset_tmp/lengths.pkl", 'rb') as f:
+            lengths = pkl.load(f)
+        
+        # compute metrics for each task
+        start = 0
+        for task in lengths:
+            length = lengths[task]
+            l_ = y_true[:, start:start+length]
+            p_ = y_pred[:, start:start+length]
+            metrics["task_" + task + "_f1"] = f1_score(y_true=l_, y_pred=p_, average='micro')
+            metrics["task_" + task + "_precision"] = precision_score(y_true=l_, y_pred=p_, average='micro')
+            metrics["task_" + task + "_recall"] = recall_score(y_true=l_, y_pred=p_, average='micro')
+
+            start += length
 
         return metrics
     
@@ -146,9 +167,10 @@ if __name__ == "__main__":
         compute_metrics=compute_metrics
     )
 
-    # freeze base
-    for param in model.bert.parameters():
-        param.requires_grad = False
+    if args.freeze:
+        # freeze base
+        for param in model.bert.parameters():
+            param.requires_grad = False
     
     # train
     trainer.train()

@@ -3,7 +3,7 @@ from datasets import Dataset
 import pickle as pkl
 import os
 
-def loading_dataset(data_dir, task):
+def loading_dataset(data_dir, task, top50=False):
     train=pd.read_csv(data_dir+'/train.csv')
     dev=pd.read_csv(data_dir+'/dev.csv')
     test=pd.read_csv(data_dir+'/test.csv')
@@ -47,6 +47,15 @@ def loading_dataset(data_dir, task):
         # add the prefix of the task name to the columns
         dummified = dummified.add_prefix(t + "-")
         
+        # keep only the top 50 labels if top50 is True
+        if top50:
+
+            # get the top 50 labels
+            top50_labels = dummified[:y_train.shape[0]].sum().sort_values(ascending=False)[:50].index
+
+            # keep only the top 50 labels
+            dummified = dummified[top50_labels]
+
         # add the names of labels
         names[t] = dummified.columns
 
@@ -91,6 +100,7 @@ def loading_dataset(data_dir, task):
     print("the shape of X_test: ", X_test.shape)
 
     print("dumification finished")
+
 
     # concatenate the dummified labels with the texts
     train_ = pd.concat([X_train, y_train], axis=1)
