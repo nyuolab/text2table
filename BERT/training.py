@@ -2,7 +2,7 @@ import argparse
 import numpy as np
 import pickle as pkl
 from dataset_loading import loading_dataset
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, EvalPrediction
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, EvalPrediction, set_seed
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, accuracy_score, roc_curve
 import torch
 import datasets
@@ -22,6 +22,9 @@ if __name__ == "__main__":
     # initialize wandb
     if int(os.environ["LOCAL_RANK"]) == 0:
         wandb.init(project="text2data", entity="olab", name=args.task + "(top50)" if args.top50 else args.task)
+    
+    # set seed
+    set_seed(42)
 
     # path
     data_dir="/gpfs/data/oermannlab/project_data/text2table/complete_v2/train_test_data/"
@@ -184,5 +187,9 @@ if __name__ == "__main__":
     test_tuple = trainer.predict(encoded_dataset["test"])
     print("The evaluation metrics on the test set are:")
     print(test_tuple.metrics)
-    torch.save(test_tuple, args.task + "_output/" + "test_tuple.pt")
-    torch.save(labels, args.task + "_output/" + "labels.pt")
+    if args.top50:
+        torch.save(test_tuple, args.task + "-output(top50)/" + "test_tuple.pt")
+        torch.save(labels, args.task + "-output(top50)/" + "labels.pt")
+    else:
+        torch.save(test_tuple, args.task + "-output/" + "test_tuple.pt")
+        torch.save(labels, args.task + "-output/" + "labels.pt")
