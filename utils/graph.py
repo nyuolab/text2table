@@ -103,7 +103,7 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     # iterate over the labels and add the the label name, difference of f1, the label balance, and the correlation
     for label in f1_labels:
         l = label.split('-')[-1].split('_')[0]
-        row = pd.DataFrame({"label": [l], "diff": [metrics[label] - metrics_aux[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
+        row = pd.DataFrame({"label": [l], "diff": [metrics_aux[label] - metrics[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
         f1_df = pd.concat([f1_df, row], ignore_index=True)
     
     # create a dataframe for precision
@@ -112,7 +112,7 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     # iterate over the labels and add the the label name, difference of precision, the label balance, and the correlation
     for label in precision_labels:
         l = label.split('-')[-1].split('_')[0]
-        row = pd.DataFrame({"label": [l], "diff": [metrics[label] - metrics_aux[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
+        row = pd.DataFrame({"label": [l], "diff": [metrics_aux[label] - metrics[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
         precision_df = pd.concat([precision_df, row], ignore_index=True)
     
     # create a dataframe for recall
@@ -121,7 +121,7 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     # iterate over the labels and add the the label name, difference of recall, the label balance, and the correlation
     for label in recall_labels:
         l = label.split('-')[-1].split('_')[0]
-        row = pd.DataFrame({"label": [l], "diff": [metrics[label] - metrics_aux[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
+        row = pd.DataFrame({"label": [l], "diff": [metrics_aux[label] - metrics[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
         recall_df = pd.concat([recall_df, row], ignore_index=True)
     
     # plot the results
