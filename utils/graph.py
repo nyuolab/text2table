@@ -97,11 +97,18 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     precision_labels = [label for label in list_intersection if "precision" in label]
     recall_labels = [label for label in list_intersection if "recall" in label]
 
+    # set the upper limit and lower limit of the performance change for top 50
+    upper_limit = 0.2 
+    lower_limit = -0.2
+
     # create a dataframe for f1
     f1_df = pd.DataFrame(columns=["label", "diff", "balance", "correlation"])
 
     # iterate over the labels and add the the label name, difference of f1, the label balance, and the correlation
     for label in f1_labels:
+        if top50:
+            if metrics_aux[label] - metrics[label] > upper_limit or metrics_aux[label] - metrics[label] < lower_limit:
+                continue
         l = label.split('-')[-1].split('_')[0]
         row = pd.DataFrame({"label": [l], "diff": [metrics_aux[label] - metrics[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
         f1_df = pd.concat([f1_df, row], ignore_index=True)
@@ -111,6 +118,9 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
 
     # iterate over the labels and add the the label name, difference of precision, the label balance, and the correlation
     for label in precision_labels:
+        if top50:
+            if metrics_aux[label] - metrics[label] > upper_limit or metrics_aux[label] - metrics[label] < lower_limit:
+                continue
         l = label.split('-')[-1].split('_')[0]
         row = pd.DataFrame({"label": [l], "diff": [metrics_aux[label] - metrics[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
         precision_df = pd.concat([precision_df, row], ignore_index=True)
@@ -120,6 +130,9 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
 
     # iterate over the labels and add the the label name, difference of recall, the label balance, and the correlation
     for label in recall_labels:
+        if top50:
+            if metrics_aux[label] - metrics[label] > upper_limit or metrics_aux[label] - metrics[label] < lower_limit:
+                continue
         l = label.split('-')[-1].split('_')[0]
         row = pd.DataFrame({"label": [l], "diff": [metrics_aux[label] - metrics[label]], "balance": [balances[l]], "correlation": [correlations[l][0]]})
         recall_df = pd.concat([recall_df, row], ignore_index=True)
@@ -134,6 +147,12 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     axes[1].title.set_text("Precision")
     sns.scatterplot(ax = axes[2], data=recall_df, x="balance", y="diff", hue="correlation", size="correlation")
     axes[2].title.set_text("Recall")
+    
+    y_ticks = np.arange(-0.2, 0.21, 0.05) if top50 else np.arange(-1, 1.01, 0.25)
+    top = 0.205 if top50 else 1.05
+    bottom = -0.205 if top50 else -1.05
+    plt.ylim(bottom, top)
+    plt.yticks(y_ticks)
     postfix_ = "(top50)" if top50 else ""
     fig.suptitle("Performance change of each label of " + task + postfix_ + " with " + aux + postfix_, fontsize=15)
     plt.show()
