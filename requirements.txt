@@ -48,3 +48,4 @@ omegaconf
 
 # Utilities
 tqdm
+seaborn

@@ -16,12 +16,17 @@ if __name__ == "__main__":
     parser.add_argument('--task', type=str, required=True)
     parser.add_argument('--top50', action='store_true')
     parser.add_argument('--tuning', action='store_true')
-    parser.add_argument('--freeze', action='store_true')
+    parser.add_argument('--freeze', type=str, required=True)
     args = parser.parse_args()
+
+    # set the model name and wandb group name and model path
+    model_name = 'allenai/longformer-base-4096'
+    group = model_name.split("/")[-1] + "_" + args.freeze
+    model_path = group + "/"
 
     # initialize wandb
     if int(os.environ["LOCAL_RANK"]) == 0:
-        wandb.init(project="text2data", entity="olab", name=args.task + "(top50)" if args.top50 else args.task)
+        wandb.init(project="text2data", entity="olab", group=group, name=args.task + "(top50)" if args.top50 else args.task)
     
     # set seed
     set_seed(42)
@@ -39,14 +44,14 @@ if __name__ == "__main__":
     label2id = {label:idx for idx, label in enumerate(labels)}
     
     # load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained("emilyalsentzer/Bio_Discharge_Summary_BERT")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     # preprocess for training
     def preprocess_data(examples):
         # take a batch of texts
         text = examples["TEXT"]
         # encode them
-        encoding = tokenizer(text, padding="max_length", truncation=True, max_length=512)
+        encoding = tokenizer(text, padding="max_length", truncation=True)
         # add labels
         labels_batch = {k: examples[k] for k in examples.keys() if k in labels}
         # create numpy array of shape (batch_size, num_labels)
@@ -63,17 +68,17 @@ if __name__ == "__main__":
     encoded_dataset.set_format("torch")
 
     # define the model
-    model = AutoModelForSequenceClassification.from_pretrained("emilyalsentzer/Bio_Discharge_Summary_BERT", 
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, 
                                                             problem_type="multi_label_classification", 
                                                             num_labels=len(labels),
                                                             id2label=id2label,
                                                             label2id=label2id)
     
     # set the training argument
-    batch_size = 16
+    batch_size = 8
     metric_name = "f1"
     training_args = TrainingArguments(
-        args.task + "-output(top50)" if args.top50 else args.task + "-output",
+        model_path + args.task + "-output(top50)" if args.top50 else model_path + args.task + "-output",
         evaluation_strategy = "epoch",
         save_strategy = "epoch",
         learning_rate=2e-5,
@@ -170,7 +175,7 @@ if __name__ == "__main__":
         compute_metrics=compute_metrics
     )
 
-    if args.freeze:
+    if args.freeze == 'f':
         # freeze base
         for param in model.bert.parameters():
             param.requires_grad = False
@@ -188,8 +193,8 @@ if __name__ == "__main__":
     print("The evaluation metrics on the test set are:")
     print(test_tuple.metrics)
     if args.top50:
-        torch.save(test_tuple, args.task + "-output(top50)/" + "test_tuple.pt")
-        torch.save(labels, args.task + "-output(top50)/" + "labels.pt")
+        torch.save(test_tuple, model_path + args.task + "-output(top50)/" + "test_tuple.pt")
+        torch.save(labels, model_path + args.task + "-output(top50)/" + "labels.pt")
     else:
-        torch.save(test_tuple, args.task + "-output/" + "test_tuple.pt")
-        torch.save(labels, args.task + "-output/" + "labels.pt")
+        torch.save(test_tuple, model_path + args.task + "-output/" + "test_tuple.pt")
+        torch.save(labels, model_path + args.task + "-output/" + "labels.pt")
