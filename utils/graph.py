@@ -7,7 +7,7 @@ import torch
 import os
 
 # plot the micro performance of the given task
-def micro_performance_plot(dir, task, top50=False):
+def micro_performance_plot(dir, task, m="macro", top50=False):
 
     # get the list of all directories
     dir_list = os.listdir(dir)
@@ -19,11 +19,15 @@ def micro_performance_plot(dir, task, top50=False):
 
     # iterate over all directories
     # and load the results to the dataframe
+    if m == "macro":
+        metrics = ["macro_f1", "macro_precision", "macro_recall"]
+    else:
+        metrics = ["micro_f1", "micro_precision", "micro_recall"]
     for d in dir_list:
         output = torch.load(os.path.join(dir, d, "test_tuple.pt"))
         metrics = output.metrics
-        for metric in ["f1", "precision", "recall"]:
-            row = pd.DataFrame({"task": [' '.join(d.split('-')[:-1])], "metric": [metric], "value": [metrics["test_task_" + task + "_" + metric]]})
+        for metric in metrics:
+            row = pd.DataFrame({"task": [' '.join(d.split('-')[:-1])], "metric": [metric.split("_")[-1]], "value": [metrics["test_task_" + task + "_" + metric]]})
             df = pd.concat([df, row], ignore_index=True)
     
     # plot the results
@@ -35,9 +39,9 @@ def micro_performance_plot(dir, task, top50=False):
     for i in ax.containers:
         ax.bar_label(i, fmt='%.3f', label_type='edge', fontsize=15)
     if top50:
-        plt.title("Micro performance of " + task + " (top50)", fontsize=15)
+        plt.title(m.capitalize() + "performance of " + task + " (top50)", fontsize=15)
     else:
-        plt.title("Micro performance of " + task, fontsize=15)
+        plt.title(m.capitalize() + "performance of " + task, fontsize=15)
     ax.grid(axis='y')
     plt.legend(fontsize=15)
     plt.show()

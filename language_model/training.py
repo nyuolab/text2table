@@ -75,8 +75,8 @@ if __name__ == "__main__":
                                                             label2id=label2id)
     
     # set the training argument
-    batch_size = 8
-    metric_name = "f1"
+    batch_size = 16
+    metric_name = "macro_f1"
     training_args = TrainingArguments(
         model_path + args.task + "-output(top50)" if args.top50 else model_path + args.task + "-output",
         evaluation_strategy = "epoch",
@@ -88,6 +88,7 @@ if __name__ == "__main__":
         weight_decay=0.01,
         load_best_model_at_end=True,
         metric_for_best_model=metric_name,
+        fp16=True,
     )
 
     # define multiple label metrics
@@ -114,18 +115,24 @@ if __name__ == "__main__":
         
         # finally, compute metrics
         y_true = labels
-        f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='micro')
-        precision_micro_average = precision_score(y_true=y_true, y_pred=y_pred, average='micro')
-        recall_micro_average = recall_score(y_true=y_true, y_pred=y_pred, average='micro')
-        roc_auc = roc_auc_score(y_true, probs, average = 'micro')
+        f1_micro_average = f1_score(y_true=y_true, y_pred=y_pred, average='micro', zero_division=0)
+        precision_micro_average = precision_score(y_true=y_true, y_pred=y_pred, average='micro', zero_division=0)
+        recall_micro_average = recall_score(y_true=y_true, y_pred=y_pred, average='micro', zero_division=0)
+        f1_macro_average = f1_score(y_true=y_true, y_pred=y_pred, average='macro', zero_division=0)
+        precision_macro_average = precision_score(y_true=y_true, y_pred=y_pred, average='macro', zero_division=0)
+        recall_macro_average = recall_score(y_true=y_true, y_pred=y_pred, average='macro', zero_division=0)
+        roc_auc_micro_average = roc_auc_score(y_true, probs, average = 'micro')
         accuracy = accuracy_score(y_true, y_pred)
 
         # return as dictionary
         metrics = {
-            'f1': f1_micro_average,
-            'precision': precision_micro_average,
-            'recall': recall_micro_average, 
-            'roc_auc': roc_auc,
+            'micro_f1': f1_micro_average,
+            'micro_precision': precision_micro_average,
+            'micro_recall': recall_micro_average, 
+            'macro_f1': f1_macro_average,
+            'macro_precision': precision_macro_average,
+            'macro_recall': recall_macro_average,
+            'micro_roc_auc': roc_auc_micro_average,
             'accuracy': accuracy
             }
         
@@ -148,9 +155,12 @@ if __name__ == "__main__":
             length = lengths[task]
             l_ = y_true[:, start:start+length]
             p_ = y_pred[:, start:start+length]
-            metrics["task_" + task + "_f1"] = f1_score(y_true=l_, y_pred=p_, average='micro')
-            metrics["task_" + task + "_precision"] = precision_score(y_true=l_, y_pred=p_, average='micro')
-            metrics["task_" + task + "_recall"] = recall_score(y_true=l_, y_pred=p_, average='micro')
+            metrics["task_" + task + "_micro_f1"] = f1_score(y_true=l_, y_pred=p_, average='micro', zero_division=0)
+            metrics["task_" + task + "_micro_precision"] = precision_score(y_true=l_, y_pred=p_, average='micro', zero_division=0)
+            metrics["task_" + task + "_micro_recall"] = recall_score(y_true=l_, y_pred=p_, average='micro', zero_division=0)
+            metrics["task_" + task + "_macro_f1"] = f1_score(y_true=l_, y_pred=p_, average='macro', zero_division=0)
+            metrics["task_" + task + "_macro_precision"] = precision_score(y_true=l_, y_pred=p_, average='macro', zero_division=0)
+            metrics["task_" + task + "_macro_recall"] = recall_score(y_true=l_, y_pred=p_, average='macro', zero_division=0)
 
             start += length
 
@@ -182,11 +192,6 @@ if __name__ == "__main__":
     
     # train
     trainer.train()
-
-    # evaluate on validation set
-    eval_metrics = trainer.evaluate()
-    print("The evaluation metrics on the validation set are:")
-    print(eval_metrics)
 
     # evaluate on test set
     test_tuple = trainer.predict(encoded_dataset["test"])

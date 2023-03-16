@@ -96,7 +96,7 @@ text2table/data/data_test.py
 text2table/data/dev_data.py
 text2table/data/sample_data.py
 baseline_xgb/results_*
-baseline_xgb/correlation
+utils/correlation
 utils/balance/
 
 # Training log & Check points

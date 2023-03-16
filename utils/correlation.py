@@ -23,7 +23,7 @@ def task_corr(main, auxilary, train_df, top50=False):
 
     # if top50 is True, only consider the top 50 labels of the main task and the auxilary task
     if top50:
-        folder_name = '../BERT/' + main + '-' + auxilary + '-output(top50)'
+        folder_name = '../language_model/' + main + '-' + auxilary + '-output(top50)'
         labels = torch.load(folder_name + '/labels.pt')
 
         # get the top 50 labels of the main task
