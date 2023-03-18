@@ -1,28 +1,29 @@
 import torch
-from transformers import BertForSequenceClassification
+from transformers import LongformerForSequenceClassification
 from typing import Optional, Tuple, Union
 from torch.nn import CrossEntropyLoss, MSELoss
-from transformers.modeling_outputs import SequenceClassifierOutput
+from transformers.models.longformer.modeling_longformer import LongformerSequenceClassifierOutput
 from .corrloss import CorrLoss
 
-class BertForSequenceClassification_corrloss(BertForSequenceClassification):
+class LongformerForSequenceClassification_corrloss(LongformerForSequenceClassification):
 
     def __init__(self, config):
         super().__init__(config)
-
+    
     def forward(
         self,
         input_ids: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
+        global_attention_mask: Optional[torch.Tensor] = None,
+        head_mask: Optional[torch.Tensor] = None,
         token_type_ids: Optional[torch.Tensor] = None,
         position_ids: Optional[torch.Tensor] = None,
-        head_mask: Optional[torch.Tensor] = None,
         inputs_embeds: Optional[torch.Tensor] = None,
         labels: Optional[torch.Tensor] = None,
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
-    ) -> Union[Tuple[torch.Tensor], SequenceClassifierOutput]:
+    ) -> Union[Tuple, LongformerSequenceClassifierOutput]:
         r"""
         labels (`torch.LongTensor` of shape `(batch_size,)`, *optional*):
             Labels for computing the sequence classification/regression loss. Indices should be in `[0, ...,
@@ -31,22 +32,25 @@ class BertForSequenceClassification_corrloss(BertForSequenceClassification):
         """
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
-        outputs = self.bert(
+        if global_attention_mask is None:
+            global_attention_mask = torch.zeros_like(input_ids)
+            # global attention on cls token
+            global_attention_mask[:, 0] = 1
+
+        outputs = self.longformer(
             input_ids,
             attention_mask=attention_mask,
+            global_attention_mask=global_attention_mask,
+            head_mask=head_mask,
             token_type_ids=token_type_ids,
             position_ids=position_ids,
-            head_mask=head_mask,
             inputs_embeds=inputs_embeds,
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-
-        pooled_output = outputs[1]
-
-        pooled_output = self.dropout(pooled_output)
-        logits = self.classifier(pooled_output)
+        sequence_output = outputs[0]
+        logits = self.classifier(sequence_output)
 
         loss = None
         if labels is not None:
@@ -75,14 +79,15 @@ class BertForSequenceClassification_corrloss(BertForSequenceClassification):
                     torch.save(labels, 'labels.pt')
                     torch.save(loss, 'loss.pt')
                     exit(1)
-            
+
         if not return_dict:
             output = (logits,) + outputs[2:]
             return ((loss,) + output) if loss is not None else output
 
-        return SequenceClassifierOutput(
+        return LongformerSequenceClassifierOutput(
             loss=loss,
             logits=logits,
             hidden_states=outputs.hidden_states,
             attentions=outputs.attentions,
+            global_attentions=outputs.global_attentions,
         )

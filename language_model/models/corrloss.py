@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from torch.nn import BCEWithLogitsLoss
 
 # The CorrLoss class is a custom loss function that introduces correlations as a regularization term
@@ -23,16 +22,17 @@ class CorrLoss(nn.Module):
         target_ = torch.transpose(target, 0, 1)
 
         # add error terms to input and target for numerical stability
-        p = 0.5
+        input_error = torch.rand(input_.shape, device=input_.device)
+        target_error = torch.rand(target_.shape, device=target_.device)
 
-        input_error = torch.rand(input_.shape)
-        target_error = torch.rand(target_.shape)
+        input_error = input_error * 2
+        target_error = target_error * 2
 
-        input_error[input_error < p] = 1e-6
-        input_error[input_error >= p] = -1e-6
+        input_error = input_error - 1
+        target_error = target_error - 1
 
-        target_error[target_error < p] = 1e-6
-        target_error[target_error >= p] = -1e-6
+        input_error = input_error * 1e-6
+        target_error = target_error * 1e-6
 
         input_ = input_ + input_error
         target_ = target_ + target_error
@@ -67,7 +67,7 @@ class CorrLoss(nn.Module):
         corr_loss = corr_loss / 2
 
         # set the weight of the correlation loss
-        corr_weight = 0.5
+        corr_weight = 0.4
 
         # compute the final loss
         loss = (1 - corr_weight) * bce_loss + corr_weight * corr_loss
