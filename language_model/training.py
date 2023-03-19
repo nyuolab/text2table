@@ -136,11 +136,10 @@ if __name__ == "__main__":
         learning_rate=2e-5,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
-        num_train_epochs=6,
+        num_train_epochs=5,
         weight_decay=0.01,
         load_best_model_at_end=True,
         metric_for_best_model=metric_name,
-        fp16=True,
         gradient_checkpointing=True,
     )
 
@@ -160,8 +159,11 @@ if __name__ == "__main__":
                 label = labels[:,i]
                 precision, recall, thresholds = precision_recall_curve(label, prob)
                 f1 = 2 * (precision * recall) / (precision + recall)
-                ix = np.argmax(f1)
-                threshold = thresholds[ix]
+                if np.isnan(f1).all():
+                    threshold = 0.5
+                else:
+                    ix = np.nanargmax(f1)
+                    threshold = thresholds[ix]
                 y_pred[np.where(prob >= threshold),i] = 1
         else:
             y_pred[np.where(probs >= threshold)] = 1

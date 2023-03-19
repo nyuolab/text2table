@@ -4,7 +4,7 @@ import torch
 def corr_score(input, target):
 
     # convert input and target to torch tensors
-    input = torch.tensor(input)
+    input = input.detach().clone()
     target = torch.tensor(target)
 
     # transpose input and target to fit corrcoef function
