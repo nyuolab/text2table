@@ -23,7 +23,7 @@ def task_corr(main, auxilary, train_df, top50=False):
 
     # if top50 is True, only consider the top 50 labels of the main task and the auxilary task
     if top50:
-        folder_name = '../language_model/' + main + '-' + auxilary + '-output(top50)'
+        folder_name = '../language_model/roberta-base_n/' + main + '-' + auxilary + '-output(top50)'
         labels = torch.load(folder_name + '/labels.pt')
 
         # get the top 50 labels of the main task
@@ -57,7 +57,11 @@ def task_corr(main, auxilary, train_df, top50=False):
 
             # calculate the correlation between the label of the main task and 
             # the label of the auxilary task
-            corr_val = dummy_main[col].corr(dummy_aux[col2])
+            # and take the absolute value of the correlation
+            # we take the absolute value because 
+            # we are only interested in the magnitude of the correlation
+            # and the originla correlation coefficients can cancel out each other
+            corr_val = abs(dummy_main[col].corr(dummy_aux[col2]))
 
             # append the correlation value to the list
             corr_list.append(corr_val)
