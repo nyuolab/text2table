@@ -133,3 +133,6 @@ baseline_xgb/baseline_folder/
 
 # experiment scripts
 *.sh
+
+# plots
+*.pdf

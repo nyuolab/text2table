@@ -158,7 +158,7 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     plt.ylim(bottom, top)
     plt.yticks(y_ticks)
     postfix_ = "(top50)" if top50 else ""
-    fig.suptitle("Performance change of each label of " + task + postfix_ + " with " + aux + postfix_, fontsize=15)
+    fig.suptitle("Performance change on each label of " + task + postfix_ + " with " + aux + postfix_, fontsize=20)
     plt.show()
 
 
