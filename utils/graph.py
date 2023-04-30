@@ -144,13 +144,17 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     # plot the results
     sns.set_theme(style="darkgrid")
     sns.set_context('talk')
-    fig, axes = plt.subplots(1, 3, figsize=(20, 8), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(22, 8), sharey=True)
     sns.scatterplot(ax = axes[0], data=f1_df, x="balance", y="diff", hue="correlation", size="correlation")
-    axes[0].title.set_text("F1")
+    axes[0].set_title("F1")
+    axes[0].set_ylabel("Change")
+    axes[0].set_xlabel("Balance")
     sns.scatterplot(ax = axes[1], data=precision_df, x="balance", y="diff", hue="correlation", size="correlation")
-    axes[1].title.set_text("Precision")
+    axes[1].set_title("Precision")
+    axes[1].set_xlabel("Balance")
     sns.scatterplot(ax = axes[2], data=recall_df, x="balance", y="diff", hue="correlation", size="correlation")
-    axes[2].title.set_text("Recall")
+    axes[2].set_title("Recall")
+    axes[2].set_xlabel("Balance")
     
     y_ticks = np.arange(-0.2, 0.21, 0.05) if top50 else np.arange(-1, 1.01, 0.25)
     top = 0.205 if top50 else 1.05
@@ -158,7 +162,8 @@ def label_performance_change(dir, b_dir, c_dir, task, aux, top50=False):
     plt.ylim(bottom, top)
     plt.yticks(y_ticks)
     postfix_ = "(top50)" if top50 else ""
-    fig.suptitle("Performance change on each label of " + task + postfix_ + " with " + aux + postfix_, fontsize=20)
+    fig.suptitle("Performance change on each label of " + task + postfix_ + " with " + aux + postfix_, fontsize=18)
+    # plt.savefig("performance_change.png", dpi=600)
     plt.show()
 
 

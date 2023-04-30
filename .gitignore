@@ -136,3 +136,4 @@ baseline_xgb/baseline_folder/
 
 # plots
 *.pdf
+*.png
