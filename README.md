@@ -17,10 +17,6 @@ The `utils` folder contains source code for helper functions and utilities used 
 See the `README.md` files in each directory for a full description.
 
 
-## Installation:
-
-placeholder for installation
-
 ## Dependencies
 
 ```yaml
