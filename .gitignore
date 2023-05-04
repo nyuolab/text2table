@@ -96,16 +96,21 @@ text2table/data/data_test.py
 text2table/data/dev_data.py
 text2table/data/sample_data.py
 baseline_xgb/results_*
-baseline_xgb/correlation
+utils/correlation
+utils/balance/
 
 # Training log & Check points
 /models/
-text2table/models/wandb/
+wandb/
 log/
+*_output*/
+*-output*/
 
 # Temporary Files
 text2table/models/evaluation.py
 text2table/models/__pycache__
+*_tmp/
+*.pt
 
 #dask worker space
 dask-worker-space/
@@ -118,6 +123,7 @@ notebooks/xgboost_baseline.ipynb
 notebooks/drop_na.ipynb
 notebooks/imbalanceness.ipynb
 notebooks/results_graph.ipynb
+training_scratch.ipynb
 
 #model copy
 text2table/models/modeling_hierarchical_led_copy.py
@@ -126,4 +132,8 @@ text2table/models/modeling_hierarchical_led_copy.py
 baseline_xgb/baseline_folder/
 
 # experiment scripts
-correlation.sh
+*.sh
+
+# plots
+*.pdf
+*.png
